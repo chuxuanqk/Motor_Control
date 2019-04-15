@@ -108,16 +108,53 @@ int16_t Decode(void)
  * ***********************************/
 void Stamper_Init(void)
 {
-    delay_init();
+  delay_init();
 	NVIC_Configuration();
 
-    uart_init(9600);
-    LED_Init();
+  uart_init(9600);
+  LED_Init();
 	EXTIX_Config();
 	DIR_ENA_GPIO_Config();
 
-	//TIM2_Init(9999, 8);      
+	TIM2_Init(9999, 8);      
 }
+
+
+/********************************************
+* 函数名: Stamper_Ctr
+* 函数功能: 电控主模块
+* 输入: 无
+* 输出: 无
+*********************************************/
+void SimpleTest(void)
+{
+		if(FLAG == Start)
+		{
+				FLAG = 0;
+				printf("Start\r\n");
+			
+				// X轴运动
+				Enable_TIMX_OCXInit(TIM2, TIM_OC2Init);    // 使能TIM2的CH2输出PWM
+				Motor_Move(8000, 6400, 800, X_MOTOR);
+				while(Status != 0);
+				printf("finish:X\r\n");
+				Disable_TIMX_OCXInit(TIM2, TIM_OC2Init); 
+				
+				// Z轴运动
+				Enable_TIMX_OCXInit(TIM2, TIM_OC3Init);
+				Motor_Move(-3200, 6400, 800, Z_MOTOR);
+				while(Status != 0);
+				printf("finish:Z\r\n");
+				Disable_TIMX_OCXInit(TIM2, TIM_OC3Init); 
+			
+				// TP轴运动
+				Enable_TIMX_OCXInit(TIM2, TIM_OC4Init);
+				Motor_Move(800, 6400, 800, TP_MOTOR);
+				while(Status != 0);
+				printf("finish:TP\r\n");
+				Disable_TIMX_OCXInit(TIM2, TIM_OC4Init); 
+		}
+}	
 
 
 /********************************************
@@ -130,13 +167,7 @@ void Stamper_Ctr(void)
 {
 	while(1)
 	{
-		if(FLAG == Start)
-		{
-			printf("Start\r\n");
-            Enable_TIMX_OCXInit(TIM2, TIM_OC2Init);
-			Motor_Move(3200, 6400, 800);
-			FLAG = 0;
-		}
+		SimpleTest();
 	}
 }
 

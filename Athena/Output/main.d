@@ -3,7 +3,7 @@
 .\output\main.o: .\Hardware\sys\sys.h
 .\output\main.o: .\Libraries\stm32f10x.h
 .\output\main.o: .\Libraries\core_cm3.h
-.\output\main.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\main.o: .\Libraries\system_stm32f10x.h
 .\output\main.o: .\User\stm32f10x_conf.h
 .\output\main.o: .\Libraries\inc\stm32f10x_adc.h
@@ -34,6 +34,6 @@
 .\output\main.o: .\Hardware\key\key.h
 .\output\main.o: .\Hardware\delay\delay.h
 .\output\main.o: .\Hardware\usart\usart.h
-.\output\main.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\output\main.o: .\Hardware\Xaxis\X_Setup.h
-.\output\main.o: .\Hardware\TIM2\tim_2.h
+.\output\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\main.o: .\Hardware\Motor\Motor_Setup.h
+.\output\main.o: .\Hardware\TIM\TIM_Config.h

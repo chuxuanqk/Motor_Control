@@ -6,7 +6,7 @@
 #include "key.h"
 #include "delay.h"
 #include "usart.h"
-#include "X_Setup.h"
+#include "Motor_Setup.h"
 
 
 int Power(int base, int32_t exponent);
@@ -20,6 +20,8 @@ void Servo_Config(void);
 
 void paper_skip(void);       // 走纸过程
 void run_Stamp(void);        // 盖章
+
+void SimpleTest(void);       // 测试模块
 
 extern float FRE_MAX;
 extern float FRE_MIN;

@@ -3,7 +3,7 @@
 .\output\led.o: .\Hardware\sys\sys.h
 .\output\led.o: .\Libraries\stm32f10x.h
 .\output\led.o: .\Libraries\core_cm3.h
-.\output\led.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\led.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\led.o: .\Libraries\system_stm32f10x.h
 .\output\led.o: .\User\stm32f10x_conf.h
 .\output\led.o: .\Libraries\inc\stm32f10x_adc.h

@@ -2,7 +2,7 @@
 .\output\tim_2.o: Hardware\TIM2\tim_2.h
 .\output\tim_2.o: .\Libraries\stm32f10x.h
 .\output\tim_2.o: .\Libraries\core_cm3.h
-.\output\tim_2.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\tim_2.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\tim_2.o: .\Libraries\system_stm32f10x.h
 .\output\tim_2.o: .\User\stm32f10x_conf.h
 .\output\tim_2.o: .\Libraries\inc\stm32f10x_adc.h

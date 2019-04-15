@@ -3,7 +3,7 @@
 .\output\x_setup.o: .\Hardware\TIM2\tim_2.h
 .\output\x_setup.o: .\Libraries\stm32f10x.h
 .\output\x_setup.o: .\Libraries\core_cm3.h
-.\output\x_setup.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\x_setup.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\x_setup.o: .\Libraries\system_stm32f10x.h
 .\output\x_setup.o: .\User\stm32f10x_conf.h
 .\output\x_setup.o: .\Libraries\inc\stm32f10x_adc.h
@@ -31,5 +31,5 @@
 .\output\x_setup.o: .\Libraries\inc\stm32f10x_wwdg.h
 .\output\x_setup.o: .\Libraries\inc\misc.h
 .\output\x_setup.o: .\Hardware\usart\usart.h
-.\output\x_setup.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\x_setup.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\x_setup.o: .\Hardware\sys\sys.h

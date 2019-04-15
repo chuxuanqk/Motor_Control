@@ -2,7 +2,7 @@
 .\output\sys.o: Hardware\sys\sys.h
 .\output\sys.o: .\Libraries\stm32f10x.h
 .\output\sys.o: .\Libraries\core_cm3.h
-.\output\sys.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\sys.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\sys.o: .\Libraries\system_stm32f10x.h
 .\output\sys.o: .\User\stm32f10x_conf.h
 .\output\sys.o: .\Libraries\inc\stm32f10x_adc.h

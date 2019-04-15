@@ -2,7 +2,7 @@
 .\output\stm32f10x_exti.o: .\Libraries\inc\stm32f10x_exti.h
 .\output\stm32f10x_exti.o: .\Libraries\stm32f10x.h
 .\output\stm32f10x_exti.o: .\Libraries\core_cm3.h
-.\output\stm32f10x_exti.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\stm32f10x_exti.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\stm32f10x_exti.o: .\Libraries\system_stm32f10x.h
 .\output\stm32f10x_exti.o: .\User\stm32f10x_conf.h
 .\output\stm32f10x_exti.o: .\Libraries\inc\stm32f10x_adc.h

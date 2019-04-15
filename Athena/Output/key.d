@@ -3,7 +3,7 @@
 .\output\key.o: .\Hardware\sys\sys.h
 .\output\key.o: .\Libraries\stm32f10x.h
 .\output\key.o: .\Libraries\core_cm3.h
-.\output\key.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\key.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\key.o: .\Libraries\system_stm32f10x.h
 .\output\key.o: .\User\stm32f10x_conf.h
 .\output\key.o: .\Libraries\inc\stm32f10x_adc.h
@@ -32,7 +32,7 @@
 .\output\key.o: .\Libraries\inc\misc.h
 .\output\key.o: .\Hardware\LED\led.h
 .\output\key.o: .\Hardware\delay\delay.h
-.\output\key.o: .\Hardware\Xaxis\X_Setup.h
-.\output\key.o: .\Hardware\TIM2\tim_2.h
+.\output\key.o: .\Hardware\Motor\Motor_Setup.h
+.\output\key.o: .\Hardware\TIM\TIM_Config.h
 .\output\key.o: .\Hardware\usart\usart.h
-.\output\key.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\key.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

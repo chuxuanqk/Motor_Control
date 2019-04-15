@@ -2,7 +2,7 @@
 .\output\stm32f10x_pwr.o: .\Libraries\inc\stm32f10x_pwr.h
 .\output\stm32f10x_pwr.o: .\Libraries\stm32f10x.h
 .\output\stm32f10x_pwr.o: .\Libraries\core_cm3.h
-.\output\stm32f10x_pwr.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\stm32f10x_pwr.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\stm32f10x_pwr.o: .\Libraries\system_stm32f10x.h
 .\output\stm32f10x_pwr.o: .\User\stm32f10x_conf.h
 .\output\stm32f10x_pwr.o: .\Libraries\inc\stm32f10x_adc.h

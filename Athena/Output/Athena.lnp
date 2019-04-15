@@ -32,8 +32,8 @@
 ".\output\usart.o"
 ".\output\led.o"
 ".\output\key.o"
-".\output\tim_2.o"
-".\output\x_setup.o"
+".\output\tim_config.o"
+".\output\motor_setup.o"
 --library_type=microlib --strict --scatter ".\Output\Athena.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

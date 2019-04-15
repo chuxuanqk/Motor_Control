@@ -2,7 +2,7 @@
 .\output\usart.o: .\Hardware\sys\sys.h
 .\output\usart.o: .\Libraries\stm32f10x.h
 .\output\usart.o: .\Libraries\core_cm3.h
-.\output\usart.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\usart.o: .\Libraries\system_stm32f10x.h
 .\output\usart.o: .\User\stm32f10x_conf.h
 .\output\usart.o: .\Libraries\inc\stm32f10x_adc.h
@@ -30,4 +30,4 @@
 .\output\usart.o: .\Libraries\inc\stm32f10x_wwdg.h
 .\output\usart.o: .\Libraries\inc\misc.h
 .\output\usart.o: Hardware\usart\usart.h
-.\output\usart.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

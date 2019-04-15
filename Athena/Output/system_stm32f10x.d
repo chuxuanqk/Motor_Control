@@ -1,7 +1,7 @@
 .\output\system_stm32f10x.o: Libraries\system_stm32f10x.c
 .\output\system_stm32f10x.o: Libraries\stm32f10x.h
 .\output\system_stm32f10x.o: Libraries\core_cm3.h
-.\output\system_stm32f10x.o: C:\Users\Administrator\work\STM\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\system_stm32f10x.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\system_stm32f10x.o: Libraries\system_stm32f10x.h
 .\output\system_stm32f10x.o: .\User\stm32f10x_conf.h
 .\output\system_stm32f10x.o: .\Libraries\inc\stm32f10x_adc.h
