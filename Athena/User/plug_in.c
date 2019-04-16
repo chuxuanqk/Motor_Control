@@ -108,15 +108,17 @@ int16_t Decode(void)
  * ***********************************/
 void Stamper_Init(void)
 {
-  delay_init();
-	NVIC_Configuration();
+		delay_init();
+		NVIC_Configuration();
 
-  uart_init(9600);
-  LED_Init();
-	EXTIX_Config();
-	DIR_ENA_GPIO_Config();
+		uart_init(9600);
+		LED_Init();
+		EXTIX_Config();
+		DIR_ENA_GPIO_Config();
 
-	TIM2_Init(9999, 8);      
+		TIM2_Init(9999, 8);
+		TIM3_Init(9999, 8);
+		TIM4_Init(9999, 8);	
 }
 
 
@@ -134,40 +136,143 @@ void SimpleTest(void)
 				printf("Start\r\n");
 			
 				// X轴运动
-				Enable_TIMX_OCXInit(TIM2, TIM_OC2Init);    // 使能TIM2的CH2输出PWM
 				Motor_Move(8000, 6400, 800, X_MOTOR);
 				while(Status != 0);
 				printf("finish:X\r\n");
-				Disable_TIMX_OCXInit(TIM2, TIM_OC2Init); 
+//				
+//				// Z轴运动
+//				Enable_TIMX_OCXInit(TIM2, TIM_OC3Init);
+//				Motor_Move(-3200, 6400, 800, Z_MOTOR);
+//				while(Status != 0);
+//				printf("finish:Z\r\n");
+//				Disable_TIMX_OCXInit(TIM2, TIM_OC3Init); 
+//			
+//				// TP轴运动
+//				Enable_TIMX_OCXInit(TIM2, TIM_OC4Init);
+//				Motor_Move(800, 6400, 800, TP_MOTOR);
+//				while(Status != 0);
+//				printf("finish:TP\r\n");
+//				Disable_TIMX_OCXInit(TIM2, TIM_OC4Init); 
 				
-				// Z轴运动
-				Enable_TIMX_OCXInit(TIM2, TIM_OC3Init);
-				Motor_Move(-3200, 6400, 800, Z_MOTOR);
-				while(Status != 0);
-				printf("finish:Z\r\n");
-				Disable_TIMX_OCXInit(TIM2, TIM_OC3Init); 
-			
-				// TP轴运动
-				Enable_TIMX_OCXInit(TIM2, TIM_OC4Init);
-				Motor_Move(800, 6400, 800, TP_MOTOR);
-				while(Status != 0);
-				printf("finish:TP\r\n");
-				Disable_TIMX_OCXInit(TIM2, TIM_OC4Init); 
-		}
+				// Y1和Y2轴运动
+//				Motor_Y1_Init(9999, CCW);
+//				Motor_Y2_Init(4999, CCW);
+//				while(FLAG == 0);
+//				printf("finish:%d\r\n", FLAG);
+				
+		}		
 }	
 
 
 /********************************************
-* 函数名: Stamper_Ctr
-* 函数功能: 电控主模块
-* 输入: 无
-* 输出: 无
+* 函数名: 		Motor_Reset
+* 函数功能: 	X/Z/抓手复位
+* 输入: 			无
+* 输出: 			无
+*********************************************/
+void Motor_Reset(void)
+{
+		int rad = 800*40;
+		// Z轴复位动作
+		Motor_Move(-2400, 3200, 400, Z_MOTOR);
+		while(Status != 0);
+		Motor_Move(2400, 3200, 400, Z_MOTOR);
+		while(Status != 0);
+
+		// X轴复位
+		Motor_Move(3200, 3200, 400, X_MOTOR);
+		while(Status != 0);
+		Motor_Move(-rad, 3200, 400, X_MOTOR);
+		while(Status != 0);
+}	
+
+	
+/********************************************
+* 函数名: 		Paper_Move_1
+* 函数功能: 	走纸第一阶段
+* 输入: 			无	
+* 输出: 			无
+*********************************************/
+void Paper_Move_1(void)
+{
+			Motor_Y1_Init(9999, CCW);
+			Motor_Y2_Init(4999, CCW);
+			while(1)
+			{
+				if(FLAG == PTE2)
+				{
+					FLAG = 0;
+					break;
+				}
+			}
+}
+	
+/********************************************
+* 函数名: 		Paper_Move_2
+* 函数功能: 	走纸第二阶段
+* 输入: 			无	
+* 输出: 			无
+*********************************************/
+void Paper_Move_2(void)
+{
+		FLAG = 0;
+		//Motor_Y1_Init(9999, CCW);
+		Motor_Y2_Init(4999, CCW);
+	
+		delay_s(8);
+		Disable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);
+		//while(FLAG == 0);
+}
+
+/********************************************
+* 函数名: 		Stamped
+* 函数功能: 	盖章模块
+* 输入: 			无
+* 输出: 			无
+*********************************************/
+void Stamped(void)
+{
+		int rad = 800*45;
+		// X轴向右运动
+		delay_ms(1000);
+		Motor_Move(rad, 6200, 800, X_MOTOR);
+		while(Status != 0);
+	
+		delay_ms(2000);
+		// Z轴向下运动
+		Motor_Move(-4800, 3200, 800, Z_MOTOR);
+		while(Status != 0);
+		delay_s(3);
+		// Z轴向上运动
+		Motor_Move(4800, 3200, 800, Z_MOTOR);
+		while(Status != 0);
+	
+		// X轴向左运动
+		Motor_Move(-rad, 6200, 800, X_MOTOR);
+		while(Status != 0);
+}
+
+
+/********************************************
+* 函数名: 		Stamper_Ctr
+* 函数功能: 	电控主模块
+* 输入: 		无
+* 输出: 		无
 *********************************************/
 void Stamper_Ctr(void)
 {
 	while(1)
 	{
-		SimpleTest();
+		//SimpleTest();
+		if(FLAG == Start)
+		{
+				FLAG = 0;
+				Motor_Reset();
+				Paper_Move_1();
+				Stamped();
+				Paper_Move_2();
+				Motor_Reset();
+		}
 	}
 }
 

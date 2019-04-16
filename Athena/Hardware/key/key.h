@@ -3,9 +3,6 @@
 
 #include "sys.h"
 
-// #define S1 GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_4)          //???????S1
-// #define S2 GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_3)          //???????S2
-// #define S3 GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_2)          //???????S3
 
 #define S1 PEin(4)         
 #define S2 PEin(3)         

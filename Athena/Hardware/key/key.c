@@ -141,13 +141,14 @@ void EXTIX_Config(void)
 
 void EXTI2_IRQHandler(void)
 {
-	
 		if(EXTI_GetITStatus(EXTI_Line2)!=RESET)
 		{
 			delay_ms(10);       
 			if(S3 == 0)
 			{
 				FLAG = 11;
+				srd.run_state = STOP;
+				//Disable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);         // 停止Y2电机
 			}
 			EXTI_ClearITPendingBit(EXTI_Line2);
 		}
@@ -162,6 +163,7 @@ void EXTI3_IRQHandler(void)
 		if(S2 == 0)
 		{
 			FLAG = 10;
+			Disable_TIMX_OCXInit(Y1_TIMx, TIM_OC1Init);
 		}
 		EXTI_ClearITPendingBit(EXTI_Line3);
 	}
@@ -194,9 +196,11 @@ void EXTI9_5_IRQHandler()
 		{
 			if(K1==0)
 			{
-				FLAG = PTE1;      // 光电开关
-				LED = ~LED;	
+				FLAG = PTE1;  
+				delay_ms(3000);
+				Disable_TIMX_OCXInit(Y1_TIMx, TIM_OC1Init);
 			}
+			
 			EXTI_ClearITPendingBit(EXTI_Line5);
 		}
 		
@@ -205,16 +209,17 @@ void EXTI9_5_IRQHandler()
 			if(K2==0)
 			{
 				FLAG = PTE2;
-				LED = ~LED;
+				Disable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);
 			}
-			EXTI_ClearITPendingBit(EXTI_Line6);
 			
+			EXTI_ClearITPendingBit(EXTI_Line6);
 		}
 		
 		if(EXTI_GetITStatus(EXTI_Line9)!=RESET)
 		{
 			if(ZD==0)
 			{
+					srd.run_state = STOP;
 					FLAG = Z_DOWN;    // Z下限位
 			}
 			EXTI_ClearITPendingBit(EXTI_Line9);
@@ -226,11 +231,10 @@ void EXTI9_5_IRQHandler()
 
 			if(LX==0)
 			{
-				FLAG = X_Limit;   // X限位
-				//printf("FLAG7:%d\r\n", FLAG);
-				//FLAG = Reset;
+					srd.run_state = STOP;
+					FLAG = X_Limit;   // X限位
 				
-				EXTI_ClearITPendingBit(EXTI_Line7);
+					EXTI_ClearITPendingBit(EXTI_Line7);
 			}
 		}
 
@@ -240,9 +244,10 @@ void EXTI9_5_IRQHandler()
 			
 			if(ZU==0)
 			{
-        FLAG = Z_UP;      // Z上限位
-				//printf("FLAG8:%d\r\n", FLAG);
-				EXTI_ClearITPendingBit(EXTI_Line8);	
+					srd.run_state = STOP;
+					FLAG = Z_UP;      // Z上限位
+
+					EXTI_ClearITPendingBit(EXTI_Line8);	
 			}
 		}
 		

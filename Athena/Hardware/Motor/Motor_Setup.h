@@ -107,15 +107,15 @@
 #define Y1_ENA_CLK       RCC_APB2Periph_GPIOB
 #define Y1_ENA_PIN       GPIO_Pin_0
 #define Y1_ENA_PORT      GPIOB
-#define Y1_ENA_SET       GPIO_SetBits(TP_ENA_PORT, TP_ENA_PIN)
-#define Y1_ENA_RESET     GPIO_ResetBits(TP_ENA_PORT, TP_ENA_PIN)
+#define Y1_ENA_SET       GPIO_SetBits(Y1_ENA_PORT, Y1_ENA_PIN)
+#define Y1_ENA_RESET     GPIO_ResetBits(Y1_ENA_PORT, Y1_ENA_PIN)
 
 // Y1轴DIR
 #define Y1_DIR_CLK       RCC_APB2Periph_GPIOC
 #define Y1_DIR_PIN       GPIO_Pin_4
 #define Y1_DIR_PORT      GPIOC
-#define Y1_DIR_SET       GPIO_SetBits(TP_DIR_PORT, TP_DIR_PIN)
-#define Y1_DIR_RESET     GPIO_ResetBits(TP_DIR_PORT, TP_DIR_PIN)
+#define Y1_DIR_SET       GPIO_SetBits(Y1_DIR_PORT, Y1_DIR_PIN)
+#define Y1_DIR_RESET     GPIO_ResetBits(Y1_DIR_PORT, Y1_DIR_PIN)
 
 // Y1轴定时器脉冲PUL
 #define Y1_TIMx				 					TIM3
@@ -131,21 +131,21 @@
 
 
 /***********************************Y2轴***************************************/
-// Y1轴ENA
+// Y2轴ENA
 #define Y2_ENA_CLK       RCC_APB2Periph_GPIOB
 #define Y2_ENA_PIN       GPIO_Pin_6
 #define Y2_ENA_PORT      GPIOB
-#define Y2_ENA_SET       GPIO_SetBits(TP_ENA_PORT, TP_ENA_PIN)
-#define Y2_ENA_RESET     GPIO_ResetBits(TP_ENA_PORT, TP_ENA_PIN)
+#define Y2_ENA_SET       GPIO_SetBits(Y2_ENA_PORT, Y2_ENA_PIN)
+#define Y2_ENA_RESET     GPIO_ResetBits(Y2_ENA_PORT, Y2_ENA_PIN)
 
-// Y1轴DIR
+// Y2轴DIR
 #define Y2_DIR_CLK       RCC_APB2Periph_GPIOB
 #define Y2_DIR_PIN       GPIO_Pin_5
 #define Y2_DIR_PORT      GPIOB
-#define Y2_DIR_SET       GPIO_SetBits(TP_DIR_PORT, TP_DIR_PIN)
-#define Y2_DIR_RESET     GPIO_ResetBits(TP_DIR_PORT, TP_DIR_PIN)
+#define Y2_DIR_SET       GPIO_SetBits(Y2_DIR_PORT, Y2_DIR_PIN)
+#define Y2_DIR_RESET     GPIO_ResetBits(Y2_DIR_PORT, Y2_DIR_PIN)
 
-// Y1轴定时器脉冲PUL
+// Y2定时器脉冲PUL
 #define Y2_TIMx				 					TIM4
 #define Y2_TIM_SetAutoreload  	TIM_SetAutoreload 
 #define Y2_TIM_SetCompare    		TIM_SetCompare2
@@ -173,6 +173,9 @@ typedef enum{
 	X_MOTOR,		// X轴电机
 	Z_MOTOR,		// Z轴电机
 	TP_MOTOR,	  // 转盘
+	Y1_MOTOR,		// Y1电机
+	Y2_MOTOR,		// Y2 电机
+	Catch_Servo // 抓手舵机 
 }Motor_Status;
 
 
@@ -187,9 +190,9 @@ typedef struct{
 }SpeedRampData;
 
 
-extern uint8_t Status; 					// X是否在运动
-extern uint32_t X_pos;						// 当前位置
-extern SpeedRampData srd;      		// 电机状态记录
+extern uint8_t Status; 									// X是否在运动
+extern uint32_t X_pos;									// 当前位置
+extern SpeedRampData srd;      					// X/Z/抓手电机状态记录
 
 
 static double exp(double x);
@@ -200,9 +203,12 @@ void X_ENA(TIM_TypeDef* MOTOx, FunctionalState NewState);
 
 
 void Motor_Config(SpeedRampData temp);
-void Motor_Speed_Adjust(uint16_t step_count);
+void Motor_Speed_Adjust(TIM_TypeDef * TIM, SpeedRampData *m_srd);
 void Motor_Move(int32_t step, float fre_max, float fre_min, Motor_Status flag);
 void Motor_MoveAbs(int32_t step, float fre_max, float fre_min, Motor_Status flag);
+
+void Motor_Y1_Init(uint16_t arr, Motor_Status Dir);
+void Motor_Y2_Init(uint16_t arr, Motor_Status Dir);
 
 #endif
 

@@ -2,20 +2,24 @@
 #include "usart.h"
 
 SpeedRampData srd; 
-uint8_t Status = 0;             // 是否在运动？ 0：停止， 1：运动
+uint8_t Status = 0;             	// 是否在运动？ 0：停止， 1：运动
 uint32_t X_pos = 0;               // 当前位置
 
 
 static float __FRE[STEP_S] = {0.0};        	// 频率缓冲区
 static uint16_t __ARR[STEP_S] = {0};				// 重装载值缓冲区
 
-//static Motor_Status falg_motor;               // 电机运行状态
+/********************Y1和Y2轴运行频率*********************************/
+static float Y1_fre=0;
+static float Y2_fre=0;
+
+
 
 /********************************************
-* 函数名: exp
-* 函数功能：常数e的n次方
-* 输入: x
-* 输出: x
+* 函数名: 		exp
+* 函数功能：	常数e的n次方
+* 输入: 		x
+* 输出: 		x
 ********************************************/
 static double exp(double x)
 {
@@ -33,9 +37,9 @@ static double exp(double x)
 
 /********************************************
 * 函数名: 		DIR_ENA_GPIO_Config
-* 函数功能：驱动器方向、使能端口初始化
-* 输入: 无
-* 输出: 无
+* 函数功能：	驱动器方向、使能端口初始化
+* 输入: 		无
+* 输出: 		无
 ********************************************/
 void DIR_ENA_GPIO_Config(void)
 {
@@ -118,10 +122,10 @@ void DIR_ENA_GPIO_Config(void)
 
 
 /*******************************************
-* 函数名:	 X_ENA
-*	函数功能: 电机脱机是否使能
-* 输入: MOTOx, NewState
-* 输出: 无
+* 函数名:	 	X_ENA
+*	函数功能: 	电机脱机是否使能
+* 输入: 		MOTOx, NewState
+* 输出: 		无
 *******************************************/
 void X_ENA(TIM_TypeDef* MOTOx, FunctionalState NewState)
 {
@@ -146,10 +150,12 @@ void X_ENA(TIM_TypeDef* MOTOx, FunctionalState NewState)
 
 
 /*******************************************
-* 函数名:	 CalculateSModelLine
+* 函数名:	 	CalculateSModelLine
 *	函数功能: 计算S曲线数组
-* 输入: fre_max(最大频率), fre_min(最小频率), flexible(曲线调整因子)				
-* 输出: 无
+* 输入: 		fre_max(最大频率)
+						fre_min(最小频率) 
+						flexible(曲线调整因子)				
+* 输出: 		无
 *******************************************/
 static void CalculateSModelLine(float fre_max, float fre_min)
 {
@@ -170,46 +176,46 @@ static void CalculateSModelLine(float fre_max, float fre_min)
 
 
 /************************************************
-* 函数名:   Motor_Config
-* 函数功能: 电机状态配置
-* 输入: temp:设置XspeedRampData
-* 输出: 无
+* 函数名:   	Motor_Config
+* 函数功能: 	电机状态配置
+* 输入: 		temp(设置XspeedRampData)
+* 输出: 		无
 *************************************************/
 void Motor_Config(SpeedRampData temp)
 {
-	srd = temp;
-	if(X_MOTOR == srd.MotorX)
-	{
-		if(CW == srd.dir) X_DIR_SET;
-		else if(CCW == srd.dir) X_DIR_RESET; 
-		X_TIM_SetAutoreload(X_TIMx, srd.step_arr);
-    X_TIM_SetCompare(X_TIMx, (srd.step_arr/2));
-	}else if(Z_MOTOR == srd.MotorX){
-		if(CW == srd.dir) Z_DIR_SET;
-		else if(CCW == srd.dir) Z_DIR_RESET; 
-		Z_TIM_SetAutoreload(Z_TIMx, srd.step_arr);
-    Z_TIM_SetCompare(Z_TIMx, (srd.step_arr/2));
-	}else if(TP_MOTOR == srd.MotorX){
-		if(CW == srd.dir) TP_DIR_SET;
-		else if(CCW == srd.dir) TP_DIR_RESET; 
-		TP_TIM_SetAutoreload(TP_TIMx, srd.step_arr);
-    TP_TIM_SetCompare(TP_TIMx, (srd.step_arr/2));
-	}
+		srd = temp;
+	
+		if(X_MOTOR == srd.MotorX)
+		{
+			if(CW == srd.dir) X_DIR_SET;
+			else if(CCW == srd.dir) X_DIR_RESET; 
+			X_TIM_SetAutoreload(X_TIMx, srd.step_arr);
+			X_TIM_SetCompare(X_TIMx, (srd.step_arr/2));
+		}else if(Z_MOTOR == srd.MotorX){
+			if(CW == srd.dir) Z_DIR_SET;
+			else if(CCW == srd.dir) Z_DIR_RESET; 
+			Z_TIM_SetAutoreload(Z_TIMx, srd.step_arr);
+			Z_TIM_SetCompare(Z_TIMx, (srd.step_arr/2));
+		}else if(TP_MOTOR == srd.MotorX){
+			if(CW == srd.dir) TP_DIR_SET;
+			else if(CCW == srd.dir) TP_DIR_RESET; 
+			TP_TIM_SetAutoreload(TP_TIMx, srd.step_arr);
+			TP_TIM_SetCompare(TP_TIMx, (srd.step_arr/2));
+		}
 }
 
 
 /************************************************
-* 函数名:   Motor_Move
-* 函数功能: X轴绝对运动
-* 输入: step(电机运行的步数)
-* 输出: 无
+* 函数名:   	Motor_Move
+* 函数功能: 	X轴绝对运动
+* 输入: 		step(电机运行的步数)
+* 输出: 		无
 *************************************************/
 void Motor_Move(int32_t step, float fre_max, float fre_min, Motor_Status flag)
 {
 		SpeedRampData temp;
 		
 		temp.MotorX = flag;
-	
     CalculateSModelLine(fre_max, fre_min);      // 计算S曲线数组
 		
     // X_ENA(X_TIMx, ENABLE);
@@ -249,19 +255,28 @@ void Motor_Move(int32_t step, float fre_max, float fre_min, Motor_Status flag)
     }
 		Motor_Config(temp);
 
+		
+		// TIM输出通道使能
+		if(X_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC2Init);
+		else if(Z_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC3Init);
+		else if(TP_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC4Init);
     TIM_Cmd(X_TIMx, ENABLE);                    // 定时器使能
 }
 
 
 /************************************************
-* 函数名:   Motor_MoveAbs
-* 函数功能: X轴相对运动
-* 输入: step(电机运行的步数)
-* 输出: 无
+* 函数名:   	Motor_MoveAbs
+* 函数功能: 	X轴相对运动
+* 输入: 		step(电机运行的步数)
+						fre_max(电机运行最大频率)
+						fre_min(电机运行最小频率)
+						flag(电机编号)
+* 输出: 		无
 *************************************************/
 void Motor_MoveAbs(int32_t step, float fre_max, float fre_min, Motor_Status flag)
 {
 		SpeedRampData temp;  
+
 		CalculateSModelLine(fre_max, fre_min);
   
     step = step - X_pos;         // 绝对位移
@@ -306,120 +321,214 @@ void Motor_MoveAbs(int32_t step, float fre_max, float fre_min, Motor_Status flag
     }
 		Motor_Config(temp);						  // 电机配置初始化	
 
+		// TIM输出通道使能
+		if(X_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC2Init);
+		else if(Z_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC3Init);
+		else if(TP_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC4Init);
     TIM_Cmd(X_TIMx, ENABLE);        // 定时器使能
 }
 
 
 
 /************************************************
-* 函数名:   Motor_Speed_Adjust
-* 函数功能: Motor速度调节
-* 输入: step_count(总移步数计数器)
-* 输出: 无
+* 函数名:   	Motor_Speed_Adjust
+* 函数功能: 	Motor速度调节
+* 输入: 		TIM
+	
+* 输出:			无
 *************************************************/
-void Motor_Speed_Adjust(uint16_t step_count)
+void Motor_Speed_Adjust(TIM_TypeDef *TIM, SpeedRampData *m_srd)
 {
-	     switch(srd.run_state)
-        {
-            case STOP:	
-                step_count = 0;
+		static uint16_t step_count = 0;                 // 总移步数计数器
+	
+		switch(m_srd->run_state)
+		{
+				case STOP:	
+						step_count = 0;
+						Status = 0;        // 设置记录状态
+						TIM_Cmd(TIM, DISABLE);
+						//X_ENA_RESET;
+						
+						if(X_MOTOR == srd.MotorX) Disable_TIMX_OCXInit(TIM, TIM_OC2Init);
+						else if(Z_MOTOR == srd.MotorX) Disable_TIMX_OCXInit(TIM, TIM_OC3Init);
+						else if(TP_MOTOR == srd.MotorX) Disable_TIMX_OCXInit(TIM, TIM_OC4Init);
 
-                TIM_Cmd(X_TIMx, DISABLE);
-                X_ENA_RESET;
-                Status = 0;
+						break;
 
-                break;
+				case ACCEL:
+						step_count++;
 
-            case ACCEL:
-                step_count++;
+						if(m_srd->dir==CW)
+						{
+								X_pos++;
+						}else{
+								X_pos--;
+						}
+
+						if(step_count < m_srd->accel_count)
+						{
+								m_srd->step_arr = __ARR[step_count];
+								m_srd->run_state = ACCEL;
 			
-                if(srd.dir==CW)
-                {
-                    X_pos++;
-                }else{
-                    X_pos--;
-                }
+						}else if(step_count >= m_srd->decel_start){                          // 直接进入减速阶段
+								m_srd->step_arr = __ARR[step_count-1];
+								m_srd->run_state = DECEL;
+			
+						}else if(step_count >= STEP_S){    
+								// 进入匀速阶段
+								m_srd->step_arr = __ARR[STEP_S-1];
+								m_srd->run_state = RUN;
+						}
 
-                if(step_count < srd.accel_count)
-                {
-                    srd.step_arr = __ARR[step_count];
-                    srd.run_state = ACCEL;
-					
-                }else if(step_count >= srd.decel_start){                          // 直接进入减速阶段
-                    srd.step_arr = __ARR[step_count-1];
-                    srd.run_state = DECEL;
-					
-                }else if(step_count >= STEP_S){    
-					// 进入匀速阶段
-                    srd.step_arr = __ARR[STEP_S-1];
-                    srd.run_state = RUN;
-                }
+						break;
+
+				case RUN:
+						step_count++;
+
+						if(m_srd->dir==CW)
+						{
+								X_pos++;
+						}else{
+								X_pos--;
+						}
+
+						if(step_count >= m_srd->decel_start)
+						{
+								m_srd->step_arr = __ARR[STEP_S-1];
+								m_srd->run_state = DECEL;
+						}
+						
+						break;
+
+				case DECEL:
+						step_count++;
+
+						if(m_srd->dir==CW)
+						{
+								X_pos++;
+						}else{
+								X_pos--;
+						}
+						
+						if(step_count < m_srd->total_count)
+						{
+								m_srd->step_arr = __ARR[m_srd->total_count-step_count];
+						}else{				
+								m_srd->run_state = STOP;
+						}
+
+						break;
 				
-                break;
-
-            case RUN:
-                step_count++;
-			
-                if(srd.dir==CW)
-                {
-                    X_pos++;
-                }else{
-                    X_pos--;
-                }
-
-                if(step_count >= srd.decel_start)
-                {
-                    srd.step_arr = __ARR[STEP_S-1];
-                    srd.run_state = DECEL;
-                }
-                
-                break;
-
-            case DECEL:
-                step_count++;
-			
-                if(srd.dir==CW)
-                {
-                    X_pos++;
-                }else{
-                    X_pos--;
-                }
-                
-                if(step_count < srd.total_count)
-                {
-                    srd.step_arr = __ARR[srd.total_count-step_count];
-                }else{				
-					srd.run_state = STOP;
-                }
-
-                break;
-            
-            default:
-                break;
-        }
+				default:
+						break;
+		}
 }
 
 
-/***************************************
-* 
-*           TIM2中断处理函数
-* 
-***************************************/
+/************************************************
+* 函数名:	  	Motor_Y1_Init
+* 函数功能:  	初始化Y1电机
+* 输入: 			fre(电机运行频率)
+							Dir(方向:CW顺时针, CCW逆时针)
+* 输出: 			无
+************************************************/
+void Motor_Y1_Init(uint16_t arr, Motor_Status Dir)
+{
+		Y1_fre = arr;
+
+		if(CW == Dir) Y1_DIR_SET;
+		else if(CCW == Dir) Y1_DIR_RESET; 
+		Y1_TIM_SetAutoreload(Y1_TIMx, Y1_fre);
+		Y1_TIM_SetCompare(Y1_TIMx, (Y1_fre/2));
+	
+		Enable_TIMX_OCXInit(Y1_TIMx, TIM_OC1Init);
+	  TIM_Cmd(Y1_TIMx, ENABLE);        // 定时器使能
+}	
+
+
+/************************************************
+* 函数名:	  	Motor_Y1_Init
+* 函数功能:  	初始化Y1电机
+* 输入: 			fre(电机运行频率)
+							Dir(方向:CW顺时针, CCW逆时针)
+* 输出: 			无
+************************************************/
+void Motor_Y2_Init(uint16_t arr, Motor_Status Dir)
+{
+		Y2_fre = arr;
+
+		if(CW == Dir) Y2_DIR_SET;
+		else if(CCW == Dir) Y2_DIR_RESET; 
+		Y2_TIM_SetAutoreload(Y2_TIMx, Y2_fre);
+		Y2_TIM_SetCompare(Y2_TIMx, (Y2_fre/2));
+	
+		Enable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);
+	  TIM_Cmd(Y2_TIMx, ENABLE);        // 定时器使能
+}	
+
+
+
+/************************************************
+* 函数名:	  	TIM2_IRQHandler
+* 函数功能:  	TIM2中断处理, 调节X/Z/抓手电机速度
+* 输入: 			无
+* 输出: 			无
+************************************************/
 void TIM2_IRQHandler(void)
 {
-    static uint16_t step_count = 0;                 // 总移步数计数器
-
     if(TIM_GetITStatus(X_TIMx, TIM_IT_Update) != RESET)
     {
 				TIM_ClearITPendingBit(X_TIMx, TIM_IT_Update);
    
-				Motor_Speed_Adjust(step_count);
-        X_TIM_SetAutoreload(X_TIMx, srd.step_arr);
-				
+				Motor_Speed_Adjust(X_TIMx, &srd);    // 设置srd
+			
+        X_TIM_SetAutoreload(X_TIMx, srd.step_arr);	
 				if(X_MOTOR == srd.MotorX) X_TIM_SetCompare(X_TIMx, (srd.step_arr/2));      		// 设置X轴CCR
 				else if(Z_MOTOR == srd.MotorX) Z_TIM_SetCompare(X_TIMx, (srd.step_arr/2)); 		// 设置Z轴CCR
 				else if(TP_MOTOR == srd.MotorX) TP_TIM_SetCompare(X_TIMx, (srd.step_arr/2)); 	// 设置TP轴CCR
     }
 }
+
+
+
+/************************************************
+* 函数名:	  	TIM3_IRQHandler
+* 函数功能:  	TIM3中断处理, 设置重装载值,Y1
+* 输入: 			无
+* 输出: 			无
+************************************************/
+void TIM3_IRQHandler(void)
+{
+	 if(TIM_GetITStatus(Y1_TIMx, TIM_IT_Update) != RESET)
+	 {
+				TIM_ClearITPendingBit(Y1_TIMx, TIM_IT_Update);
+
+				Y1_TIM_SetAutoreload(Y1_TIMx, Y1_fre);
+				Y1_TIM_SetCompare(Y1_TIMx, (Y1_fre/2));
+	 }
+}
+
+
+/************************************************
+* 函数名:	  	TIM4_IRQHandler
+* 函数功能:  	TIM4中断处理, 设置重装载值
+* 输入: 			无
+* 输出: 			无
+************************************************/
+void TIM4_IRQHandler(void)
+{
+	 if(TIM_GetITStatus(Y2_TIMx, TIM_IT_Update) != RESET)
+	 {
+				TIM_ClearITPendingBit(Y2_TIMx, TIM_IT_Update);
+
+				Y2_TIM_SetAutoreload(Y2_TIMx, Y2_fre);
+				Y2_TIM_SetCompare(Y2_TIMx, (Y2_fre/2));
+	 }
+}
+
+
+
+
+
 
 

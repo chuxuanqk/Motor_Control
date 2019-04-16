@@ -15,13 +15,14 @@ int32_t Recv_Int(void);
 
 void Stamper_Init(void);          
 void Stamper_Ctr(void);
+void SimpleTest(void);       // 测试模块
 
 void Servo_Config(void);
 
-void paper_skip(void);       // 走纸过程
-void run_Stamp(void);        // 盖章
-
-void SimpleTest(void);       // 测试模块
+void Motor_Reset(void);
+void Paper_Move_1(void);
+void Paper_Move_2(void);
+void Stamped(void);
 
 extern float FRE_MAX;
 extern float FRE_MIN;
