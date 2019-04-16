@@ -219,9 +219,9 @@ void Paper_Move_2(void)
 		//Motor_Y1_Init(9999, CCW);
 		Motor_Y2_Init(4999, CCW);
 	
-		delay_s(8);
+		while(K2 == 0);
+		//delay_s(8);
 		Disable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);
-		//while(FLAG == 0);
 }
 
 /********************************************
@@ -269,7 +269,9 @@ void Stamper_Ctr(void)
 				FLAG = 0;
 				Motor_Reset();
 				Paper_Move_1();
+				EXTIX_DISABLE(EXTI9_5_IRQn);
 				Stamped();
+				EXTIX_ENABLE(EXTI9_5_IRQn);
 				Paper_Move_2();
 				Motor_Reset();
 		}

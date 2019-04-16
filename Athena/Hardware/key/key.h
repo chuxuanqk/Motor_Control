@@ -4,6 +4,7 @@
 #include "sys.h"
 
 
+
 #define S1 PEin(4)         
 #define S2 PEin(3)         
 #define S3 PEin(2)        
@@ -12,6 +13,7 @@
 #define LX PEin(7)          // X轴限位开关
 #define ZU PEin(8)          // Z轴上限开关
 #define ZD PEin(9)          // Z轴下限开关
+
 
 void KEY_Init(void);
 
