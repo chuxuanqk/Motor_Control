@@ -735,9 +735,9 @@ I (.\Hardware\key\key.h)(0x5CB5AF05)
 I (.\Hardware\delay\delay.h)(0x5CB3E872)
 I (.\Hardware\usart\usart.h)(0x5CB3E873)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
-I (.\Hardware\Motor\Motor_Setup.h)(0x5CB54CC7)
+I (.\Hardware\Motor\Motor_Setup.h)(0x5CB68338)
 I (.\Hardware\TIM\TIM_Config.h)(0x5CB45B61)
-F (.\User\plug_in.c)(0x5CB5AFEE)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Libraries\inc -I.\Libraries\src -I.\Libraries -I.\Hardware -I.\User -I.\Hardware\delay -I.\Hardware\sys -I.\Hardware\usart -I.\Hardware\LED -I.\Hardware\key -I.\Hardware\TIM -I.\Hardware\Motor-I C:\Users\Administrator\Desktop\盖章机版本\V2\Motor_Control\Athena\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\output\plug_in.o --omf_browse .\output\plug_in.crf --depend .\output\plug_in.d)
+F (.\User\plug_in.c)(0x5CB6912F)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Libraries\inc -I.\Libraries\src -I.\Libraries -I.\Hardware -I.\User -I.\Hardware\delay -I.\Hardware\sys -I.\Hardware\usart -I.\Hardware\LED -I.\Hardware\key -I.\Hardware\TIM -I.\Hardware\Motor-I C:\Users\Administrator\Desktop\盖章机版本\V2\Motor_Control\Athena\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\output\plug_in.o --omf_browse .\output\plug_in.crf --depend .\output\plug_in.d)
 I (User\plug_in.h)(0x5CB59CF5)
 I (.\Hardware\sys\sys.h)(0x5CB3E872)
 I (.\Libraries\stm32f10x.h)(0x5CB3E874)
@@ -773,7 +773,7 @@ I (.\Hardware\key\key.h)(0x5CB5AF05)
 I (.\Hardware\delay\delay.h)(0x5CB3E872)
 I (.\Hardware\usart\usart.h)(0x5CB3E873)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
-I (.\Hardware\Motor\Motor_Setup.h)(0x5CB54CC7)
+I (.\Hardware\Motor\Motor_Setup.h)(0x5CB68338)
 I (.\Hardware\TIM\TIM_Config.h)(0x5CB45B61)
 F (.\Hardware\delay\delay.c)(0x5CB3E872)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Libraries\inc -I.\Libraries\src -I.\Libraries -I.\Hardware -I.\User -I.\Hardware\delay -I.\Hardware\sys -I.\Hardware\usart -I.\Hardware\LED -I.\Hardware\key -I.\Hardware\TIM -I.\Hardware\Motor-I C:\Users\Administrator\Desktop\盖章机版本\V2\Motor_Control\Athena\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\output\delay.o --omf_browse .\output\delay.crf --depend .\output\delay.d)
 I (Hardware\delay\delay.h)(0x5CB3E872)
@@ -899,7 +899,7 @@ I (.\Libraries\inc\stm32f10x_tim.h)(0x5CB3E874)
 I (.\Libraries\inc\stm32f10x_usart.h)(0x5CB3E874)
 I (.\Libraries\inc\stm32f10x_wwdg.h)(0x5CB3E874)
 I (.\Libraries\inc\misc.h)(0x5CB3E873)
-F (.\Hardware\key\key.c)(0x5CB5A905)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Libraries\inc -I.\Libraries\src -I.\Libraries -I.\Hardware -I.\User -I.\Hardware\delay -I.\Hardware\sys -I.\Hardware\usart -I.\Hardware\LED -I.\Hardware\key -I.\Hardware\TIM -I.\Hardware\Motor-I C:\Users\Administrator\Desktop\盖章机版本\V2\Motor_Control\Athena\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\output\key.o --omf_browse .\output\key.crf --depend .\output\key.d)
+F (.\Hardware\key\key.c)(0x5CB68B3D)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Libraries\inc -I.\Libraries\src -I.\Libraries -I.\Hardware -I.\User -I.\Hardware\delay -I.\Hardware\sys -I.\Hardware\usart -I.\Hardware\LED -I.\Hardware\key -I.\Hardware\TIM -I.\Hardware\Motor-I C:\Users\Administrator\Desktop\盖章机版本\V2\Motor_Control\Athena\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\output\key.o --omf_browse .\output\key.crf --depend .\output\key.d)
 I (Hardware\key\key.h)(0x5CB5AF05)
 I (.\Hardware\sys\sys.h)(0x5CB3E872)
 I (.\Libraries\stm32f10x.h)(0x5CB3E874)
@@ -932,7 +932,7 @@ I (.\Libraries\inc\stm32f10x_wwdg.h)(0x5CB3E874)
 I (.\Libraries\inc\misc.h)(0x5CB3E873)
 I (.\Hardware\LED\led.h)(0x5CB3E872)
 I (.\Hardware\delay\delay.h)(0x5CB3E872)
-I (.\Hardware\Motor\Motor_Setup.h)(0x5CB54CC7)
+I (.\Hardware\Motor\Motor_Setup.h)(0x5CB68338)
 I (.\Hardware\TIM\TIM_Config.h)(0x5CB45B61)
 I (.\Hardware\usart\usart.h)(0x5CB3E873)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
@@ -966,8 +966,8 @@ I (.\Libraries\inc\stm32f10x_tim.h)(0x5CB3E874)
 I (.\Libraries\inc\stm32f10x_usart.h)(0x5CB3E874)
 I (.\Libraries\inc\stm32f10x_wwdg.h)(0x5CB3E874)
 I (.\Libraries\inc\misc.h)(0x5CB3E873)
-F (.\Hardware\Motor\Motor_Setup.c)(0x5CB58F42)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Libraries\inc -I.\Libraries\src -I.\Libraries -I.\Hardware -I.\User -I.\Hardware\delay -I.\Hardware\sys -I.\Hardware\usart -I.\Hardware\LED -I.\Hardware\key -I.\Hardware\TIM -I.\Hardware\Motor-I C:\Users\Administrator\Desktop\盖章机版本\V2\Motor_Control\Athena\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\output\motor_setup.o --omf_browse .\output\motor_setup.crf --depend .\output\motor_setup.d)
-I (Hardware\Motor\Motor_Setup.h)(0x5CB54CC7)
+F (.\Hardware\Motor\Motor_Setup.c)(0x5CB682F2)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\Libraries\inc -I.\Libraries\src -I.\Libraries -I.\Hardware -I.\User -I.\Hardware\delay -I.\Hardware\sys -I.\Hardware\usart -I.\Hardware\LED -I.\Hardware\key -I.\Hardware\TIM -I.\Hardware\Motor-I C:\Users\Administrator\Desktop\盖章机版本\V2\Motor_Control\Athena\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o .\output\motor_setup.o --omf_browse .\output\motor_setup.crf --depend .\output\motor_setup.d)
+I (Hardware\Motor\Motor_Setup.h)(0x5CB68338)
 I (.\Hardware\TIM\TIM_Config.h)(0x5CB45B61)
 I (.\Libraries\stm32f10x.h)(0x5CB3E874)
 I (.\Libraries\core_cm3.h)(0x5CB3E873)

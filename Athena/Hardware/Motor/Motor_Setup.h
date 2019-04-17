@@ -156,8 +156,8 @@
 #define T1_FREQ     (SystemCoreClock/(TIM_PRESCALER + 1))     // 定时器频率
 #define SPR         200                                         // 步进电机旋转一圈脉冲数，电机常数
 #define MICRO_STEP  4                                           // 电机驱动器细分数
-#define STEP_S			200                                     		// 加速的步数
-#define FLEXIBLE    4.0																					// S曲线调整因子
+#define STEP_S			400                                     		// 加速的步数
+#define FLEXIBLE    5.0																					// S曲线调整因子
 
 //#define ALPHA       ((float)((2*3.1415*100/SPR)/100))                     // 每个脉冲的弧度，步距角
 //#define A_T         ((float)(ALPHA*T1_FREQ))

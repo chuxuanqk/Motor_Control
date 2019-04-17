@@ -228,13 +228,15 @@ void EXTI9_5_IRQHandler()
 		
 		if(EXTI_GetITStatus(EXTI_Line7)!=RESET)
 		{
-
+			
+			
+			
+			EXTI_ClearITPendingBit(EXTI_Line7);
 			if(LX==0)
 			{
 					srd.run_state = STOP;
 					FLAG = X_Limit;   // X限位
 				
-					EXTI_ClearITPendingBit(EXTI_Line7);
 			}
 		}
 

@@ -255,7 +255,6 @@ void Motor_Move(int32_t step, float fre_max, float fre_min, Motor_Status flag)
     }
 		Motor_Config(temp);
 
-		
 		// TIM输出通道使能
 		if(X_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC2Init);
 		else if(Z_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC3Init);

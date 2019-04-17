@@ -172,17 +172,26 @@ void SimpleTest(void)
 *********************************************/
 void Motor_Reset(void)
 {
-		int rad = 800*40;
+		int32_t x_rad = 800*4;
+		int32_t z_rad = 800*3;
+		int16_t x_maxfre = 800*5;
+		int16_t x_minfre = 800;
+		int16_t z_maxfre = 800*4;
+		int16_t z_minfre = 800;
+	
 		// Z轴复位动作
-		Motor_Move(-2400, 3200, 400, Z_MOTOR);
+		Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
 		while(Status != 0);
-		Motor_Move(2400, 3200, 400, Z_MOTOR);
+		Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
 		while(Status != 0);
 
+		EXTIX_DISABLE(EXTI9_5_IRQn);
 		// X轴复位
-		Motor_Move(3200, 3200, 400, X_MOTOR);
+		Motor_Move(x_rad, x_maxfre, x_minfre, X_MOTOR);
 		while(Status != 0);
-		Motor_Move(-rad, 3200, 400, X_MOTOR);
+		delay_ms(300);
+		Motor_Move(-(8*x_rad), x_maxfre, x_minfre, X_MOTOR);
+		EXTIX_ENABLE(EXTI9_5_IRQn);
 		while(Status != 0);
 }	
 
@@ -195,16 +204,19 @@ void Motor_Reset(void)
 *********************************************/
 void Paper_Move_1(void)
 {
-			Motor_Y1_Init(9999, CCW);
-			Motor_Y2_Init(4999, CCW);
-			while(1)
+		uint16_t Y1_arr = 9999;
+		uint16_t Y2_arr = 4999;
+	
+		Motor_Y1_Init(Y1_arr, CCW);
+		Motor_Y2_Init(Y2_arr, CCW);
+		while(1)
+		{
+			if(FLAG == PTE2)
 			{
-				if(FLAG == PTE2)
-				{
-					FLAG = 0;
-					break;
-				}
+				FLAG = 0;
+				break;
 			}
+		}
 }
 	
 /********************************************
@@ -216,11 +228,10 @@ void Paper_Move_1(void)
 void Paper_Move_2(void)
 {
 		FLAG = 0;
-		//Motor_Y1_Init(9999, CCW);
-		Motor_Y2_Init(4999, CCW);
-	
+		uint16_t Y2_arr = 4999;
+
+		Motor_Y2_Init(Y2_arr, CCW);
 		while(K2 == 0);
-		//delay_s(8);
 		Disable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);
 }
 
@@ -232,23 +243,30 @@ void Paper_Move_2(void)
 *********************************************/
 void Stamped(void)
 {
-		int rad = 800*45;
+		int32_t x_rad = 800*45;
+		int32_t z_rad = 800*10;
+		int16_t x_maxfre = 800*14;
+		int16_t x_minfre = 800;
+		int16_t z_maxfre = 800*4;
+		int16_t z_minfre = 800;
+		
+	
 		// X轴向右运动
 		delay_ms(1000);
-		Motor_Move(rad, 6200, 800, X_MOTOR);
+		Motor_Move(x_rad, x_maxfre, x_minfre, X_MOTOR);
 		while(Status != 0);
 	
 		delay_ms(2000);
 		// Z轴向下运动
-		Motor_Move(-4800, 3200, 800, Z_MOTOR);
+		Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
 		while(Status != 0);
-		delay_s(3);
+		delay_s(2);
 		// Z轴向上运动
-		Motor_Move(4800, 3200, 800, Z_MOTOR);
+		Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
 		while(Status != 0);
 	
 		// X轴向左运动
-		Motor_Move(-rad, 6200, 800, X_MOTOR);
+		Motor_Move(-x_rad, x_maxfre, x_minfre, X_MOTOR);
 		while(Status != 0);
 }
 
@@ -261,19 +279,19 @@ void Stamped(void)
 *********************************************/
 void Stamper_Ctr(void)
 {
+	delay_s(3);
+	Motor_Reset();
 	while(1)
 	{
 		//SimpleTest();
 		if(FLAG == Start)
 		{
 				FLAG = 0;
-				Motor_Reset();
 				Paper_Move_1();
 				EXTIX_DISABLE(EXTI9_5_IRQn);
 				Stamped();
 				EXTIX_ENABLE(EXTI9_5_IRQn);
 				Paper_Move_2();
-				Motor_Reset();
 		}
 	}
 }
