@@ -22,6 +22,9 @@
 #define TIM4_CH2_PORT 		GPIOB
 #define TIM4_CH2_PIN  		GPIO_Pin_7
 
+
+
+
 // 定时器初始化函数
 void TIM2_Init(uint16_t arr, uint16_t psc);
 void TIM3_Init(uint16_t arr, uint16_t psc);

@@ -10,8 +10,10 @@ static float __FRE[STEP_S] = {0.0};        	// 频率缓冲区
 static uint16_t __ARR[STEP_S] = {0};				// 重装载值缓冲区
 
 /********************Y1和Y2轴运行频率*********************************/
-static float Y1_fre=0;
-static float Y2_fre=0;
+static float Y1_ARR	= 0;
+static float Y1_CC	= 0;
+static float Y2_ARR	= 0;
+static float Y2_CC  = 0;
 
 
 
@@ -185,20 +187,27 @@ void Motor_Config(SpeedRampData temp)
 {
 		srd = temp;
 	
+		
 		if(X_MOTOR == srd.MotorX)
 		{
 			if(CW == srd.dir) X_DIR_SET;
 			else if(CCW == srd.dir) X_DIR_RESET; 
+			
+			TIM_PrescalerConfig(X_TIMx, TIM_PRESCALER, TIM_PSCReloadMode_Immediate); 
 			X_TIM_SetAutoreload(X_TIMx, srd.step_arr);
 			X_TIM_SetCompare(X_TIMx, (srd.step_arr/2));
 		}else if(Z_MOTOR == srd.MotorX){
 			if(CW == srd.dir) Z_DIR_SET;
-			else if(CCW == srd.dir) Z_DIR_RESET; 
+			else if(CCW == srd.dir) Z_DIR_RESET;
+
+			TIM_PrescalerConfig(Z_TIMx, TIM_PRESCALER, TIM_PSCReloadMode_Immediate); 
 			Z_TIM_SetAutoreload(Z_TIMx, srd.step_arr);
 			Z_TIM_SetCompare(Z_TIMx, (srd.step_arr/2));
 		}else if(TP_MOTOR == srd.MotorX){
 			if(CW == srd.dir) TP_DIR_SET;
-			else if(CCW == srd.dir) TP_DIR_RESET; 
+			else if(CCW == srd.dir) TP_DIR_RESET;
+
+			TIM_PrescalerConfig(TP_TIMx, TIM_PRESCALER, TIM_PSCReloadMode_Immediate); 			
 			TP_TIM_SetAutoreload(TP_TIMx, srd.step_arr);
 			TP_TIM_SetCompare(TP_TIMx, (srd.step_arr/2));
 		}
@@ -253,12 +262,14 @@ void Motor_Move(int32_t step, float fre_max, float fre_min, Motor_Status flag)
             Status = 1;
         }
     }
+		
 		Motor_Config(temp);
 
 		// TIM输出通道使能
-		if(X_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC2Init);
-		else if(Z_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC3Init);
-		else if(TP_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC4Init);
+		if(X_MOTOR == srd.MotorX) X_TIM_EnableOC;
+		else if(Z_MOTOR == srd.MotorX) Z_TIM_EnableOC;
+		else if(TP_MOTOR == srd.MotorX) TP_TIM_EnableOC;
+		
     TIM_Cmd(X_TIMx, ENABLE);                    // 定时器使能
 }
 
@@ -321,9 +332,10 @@ void Motor_MoveAbs(int32_t step, float fre_max, float fre_min, Motor_Status flag
 		Motor_Config(temp);						  // 电机配置初始化	
 
 		// TIM输出通道使能
-		if(X_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC2Init);
-		else if(Z_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC3Init);
-		else if(TP_MOTOR == srd.MotorX) Enable_TIMX_OCXInit(TIM2, TIM_OC4Init);
+		if(X_MOTOR == srd.MotorX) X_TIM_EnableOC;
+		else if(Z_MOTOR == srd.MotorX) Z_TIM_EnableOC;
+		else if(TP_MOTOR == srd.MotorX) TP_TIM_EnableOC;
+		
     TIM_Cmd(X_TIMx, ENABLE);        // 定时器使能
 }
 
@@ -348,9 +360,9 @@ void Motor_Speed_Adjust(TIM_TypeDef *TIM, SpeedRampData *m_srd)
 						TIM_Cmd(TIM, DISABLE);
 						//X_ENA_RESET;
 						
-						if(X_MOTOR == srd.MotorX) Disable_TIMX_OCXInit(TIM, TIM_OC2Init);
-						else if(Z_MOTOR == srd.MotorX) Disable_TIMX_OCXInit(TIM, TIM_OC3Init);
-						else if(TP_MOTOR == srd.MotorX) Disable_TIMX_OCXInit(TIM, TIM_OC4Init);
+						if(X_MOTOR == srd.MotorX) X_TIM_DisableOC;
+						else if(Z_MOTOR == srd.MotorX) Z_TIM_DisableOC;
+						else if(TP_MOTOR == srd.MotorX) TP_TIM_DisableOC;
 
 						break;
 
@@ -431,16 +443,18 @@ void Motor_Speed_Adjust(TIM_TypeDef *TIM, SpeedRampData *m_srd)
 							Dir(方向:CW顺时针, CCW逆时针)
 * 输出: 			无
 ************************************************/
-void Motor_Y1_Init(uint16_t arr, Motor_Status Dir)
+void Motor_Y1_Init(uint16_t arr, uint16_t ccr, Motor_Status Dir)
 {
-		Y1_fre = arr;
+		Y1_ARR = arr;
+		Y1_CC  = ccr; 
 
 		if(CW == Dir) Y1_DIR_SET;
 		else if(CCW == Dir) Y1_DIR_RESET; 
-		Y1_TIM_SetAutoreload(Y1_TIMx, Y1_fre);
-		Y1_TIM_SetCompare(Y1_TIMx, (Y1_fre/2));
 	
-		Enable_TIMX_OCXInit(Y1_TIMx, TIM_OC1Init);
+		Y1_TIM_SetAutoreload(Y1_TIMx, Y1_ARR);
+		Y1_TIM_SetCompare(Y1_TIMx, Y1_CC);
+	
+		Y1_TIM_EnableOC;								 // 使能Y1定时器通道
 	  TIM_Cmd(Y1_TIMx, ENABLE);        // 定时器使能
 }	
 
@@ -452,16 +466,18 @@ void Motor_Y1_Init(uint16_t arr, Motor_Status Dir)
 							Dir(方向:CW顺时针, CCW逆时针)
 * 输出: 			无
 ************************************************/
-void Motor_Y2_Init(uint16_t arr, Motor_Status Dir)
+void Motor_Y2_Init(uint16_t arr, uint16_t ccr, Motor_Status Dir)
 {
-		Y2_fre = arr;
+		Y2_ARR = arr;
+		Y2_CC	 = ccr;
 
 		if(CW == Dir) Y2_DIR_SET;
 		else if(CCW == Dir) Y2_DIR_RESET; 
-		Y2_TIM_SetAutoreload(Y2_TIMx, Y2_fre);
-		Y2_TIM_SetCompare(Y2_TIMx, (Y2_fre/2));
 	
-		Enable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);
+		Y2_TIM_SetAutoreload(Y2_TIMx, Y2_ARR);
+		Y2_TIM_SetCompare(Y2_TIMx, Y2_CC);
+	
+		Y2_TIM_EnableOC;								 // 使能Y2时器通道
 	  TIM_Cmd(Y2_TIMx, ENABLE);        // 定时器使能
 }	
 
@@ -502,8 +518,8 @@ void TIM3_IRQHandler(void)
 	 {
 				TIM_ClearITPendingBit(Y1_TIMx, TIM_IT_Update);
 
-				Y1_TIM_SetAutoreload(Y1_TIMx, Y1_fre);
-				Y1_TIM_SetCompare(Y1_TIMx, (Y1_fre/2));
+				Y1_TIM_SetAutoreload(Y1_TIMx, Y1_ARR);
+				Y1_TIM_SetCompare(Y1_TIMx, Y1_CC);
 	 }
 }
 
@@ -520,8 +536,8 @@ void TIM4_IRQHandler(void)
 	 {
 				TIM_ClearITPendingBit(Y2_TIMx, TIM_IT_Update);
 
-				Y2_TIM_SetAutoreload(Y2_TIMx, Y2_fre);
-				Y2_TIM_SetCompare(Y2_TIMx, (Y2_fre/2));
+				Y2_TIM_SetAutoreload(Y2_TIMx, Y2_ARR);
+				Y2_TIM_SetCompare(Y2_TIMx, Y2_CC);
 	 }
 }
 

@@ -25,18 +25,26 @@ void KEY_Init(void)
 }
 
 
-
 void EXTIX_Init(void)
 {
-	EXTI_InitTypeDef EXTI_InitStructure;
+		EXTI_InitTypeDef EXTI_InitStructure;
 
-    EXTI_InitStructure.EXTI_Line = EXTI_Line9|EXTI_Line8|EXTI_Line7|EXTI_Line6|EXTI_Line5|EXTI_Line4|EXTI_Line3|EXTI_Line2;
+    EXTI_InitStructure.EXTI_Line = EXTI_Line9|EXTI_Line8|EXTI_Line7|EXTI_Line5|EXTI_Line4|EXTI_Line3|EXTI_Line2;
     EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
     EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;
 
     EXTI_Init(&EXTI_InitStructure);
-}
+	
+		EXTI_InitStructure.EXTI_Line = EXTI_Line6;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling ;     // 双边沿触发
+    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+
+    EXTI_Init(&EXTI_InitStructure);
+	
+		
+} 
 
 
 void NVIC2_Init(void)
@@ -44,9 +52,9 @@ void NVIC2_Init(void)
     NVIC_InitTypeDef NVIC_InitStructure;
 
     NVIC_InitStructure.NVIC_IRQChannel = EXTI2_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01;   //��ռ���ȼ�2
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;          //�����ȼ�
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                //ʹ���ⲿ�ж�ͨ��
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01;   
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;          
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                
 
     NVIC_Init(&NVIC_InitStructure);
 }
@@ -57,9 +65,9 @@ void NVIC3_Init(void)
     NVIC_InitTypeDef NVIC_InitStructure;
 
     NVIC_InitStructure.NVIC_IRQChannel = EXTI3_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01;   //��ռ���ȼ�2
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;          //�����ȼ�
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                //ʹ���ⲿ�ж�ͨ��
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01;   
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;          
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                
 
     NVIC_Init(&NVIC_InitStructure);
 }
@@ -70,9 +78,9 @@ void NVIC4_Init(void)
     NVIC_InitTypeDef NVIC_InitStructure;
 
     NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01;   //��ռ���ȼ�2
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;          //�����ȼ�
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                //ʹ���ⲿ�ж�ͨ��
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01;   
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x01;          
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                
     NVIC_Init(&NVIC_InitStructure);
 }
 
@@ -105,7 +113,7 @@ void EXTIX_DISABLE(uint32_t EL)
 
 void EXTIX_ENABLE(uint32_t EL)
 {
-	NVIC_InitTypeDef NVIC_InitStructure;
+		NVIC_InitTypeDef NVIC_InitStructure;
 
     NVIC_InitStructure.NVIC_IRQChannel = EL;               
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x01;   
@@ -135,7 +143,7 @@ void EXTIX_Config(void)
     NVIC5_Init();
 
     // 外部中断初始化
-	EXTIX_Init();
+		EXTIX_Init();
 }
 
 
@@ -143,14 +151,21 @@ void EXTI2_IRQHandler(void)
 {
 		if(EXTI_GetITStatus(EXTI_Line2)!=RESET)
 		{
-			delay_ms(10);       
-			if(S3 == 0)
-			{
-				FLAG = 11;
-				srd.run_state = STOP;
-				//Disable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);         // 停止Y2电机
-			}
 			EXTI_ClearITPendingBit(EXTI_Line2);
+			delay_ms(10);       
+//			if(S3 == 0)
+//			{
+//				FLAG = 11;
+//				srd.run_state = STOP;
+//				EXTIX_ENABLE(EXTI9_5_IRQn);
+//			}
+			
+				if(ZU==0)
+				{
+						srd.run_state = STOP;			// 停止运动
+						FLAG = Z_UP;      				// Z上限位
+						printf("Z_UP\r\n");
+				}
 		}
 }
 
@@ -159,13 +174,13 @@ void EXTI3_IRQHandler(void)
 {	
 	if(EXTI_GetITStatus(EXTI_Line3)!=RESET)
 	{
+		EXTI_ClearITPendingBit(EXTI_Line3);
 		delay_ms(10);       
 		if(S2 == 0)
 		{
-			FLAG = 10;
-			Disable_TIMX_OCXInit(Y1_TIMx, TIM_OC1Init);
+				FLAG = 10;
+				Disable_TIMX_OCXInit(Y1_TIMx, TIM_OC1Init);
 		}
-		EXTI_ClearITPendingBit(EXTI_Line3);
 	}
 }
 
@@ -175,13 +190,14 @@ void EXTI4_IRQHandler(void)
 {
 	if(EXTI_GetITStatus(EXTI_Line4)!=RESET)
 	{
+		EXTI_ClearITPendingBit(EXTI_Line4);
 		delay_ms(10);       
 		if(S1 == 0)
 		{
 			LED = ~LED;
 			FLAG = Start;     // 启动
 		}
-		EXTI_ClearITPendingBit(EXTI_Line4);
+
 	}
 }
 
@@ -191,66 +207,63 @@ void EXTI9_5_IRQHandler()
 {
 		delay_ms(10);       //软件消抖
 	
-		// printf("FLAG:%d\r\n", FLAG);
 		if(EXTI_GetITStatus(EXTI_Line5)!=RESET)
 		{
 			if(K1==0)
 			{
+				EXTI_ClearITPendingBit(EXTI_Line5);
 				FLAG = PTE1;  
-				delay_ms(3000);
-				Disable_TIMX_OCXInit(Y1_TIMx, TIM_OC1Init);
+				//delay_ms(3000);
+				//Y1_TIM_DisableOC;
+				//Disable_TIMX_OCXInit(Y1_TIMx, TIM_OC1Init);
 			}
-			
-			EXTI_ClearITPendingBit(EXTI_Line5);
 		}
 		
 		if(EXTI_GetITStatus(EXTI_Line6)!=RESET)
 		{
-			if(K2==0)
-			{
-				FLAG = PTE2;
-				Disable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);
-			}
+				EXTI_ClearITPendingBit(EXTI_Line6);
+				if(K2==0)
+				{
+						FLAG = PTE2;
+						Y2_TIM_DisableOC;															// 停止Y2电机
+						printf("EXTI_Y2\r\n");
+						//Disable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);
+				}
 			
-			EXTI_ClearITPendingBit(EXTI_Line6);
 		}
-		
-		if(EXTI_GetITStatus(EXTI_Line9)!=RESET)
-		{
-			if(ZD==0)
-			{
-					srd.run_state = STOP;
-					FLAG = Z_DOWN;    // Z下限位
-			}
-			EXTI_ClearITPendingBit(EXTI_Line9);
-		}
-		
 		
 		if(EXTI_GetITStatus(EXTI_Line7)!=RESET)
 		{
-			
-			
-			
-			EXTI_ClearITPendingBit(EXTI_Line7);
-			if(LX==0)
-			{
-					srd.run_state = STOP;
-					FLAG = X_Limit;   // X限位
-				
-			}
+				EXTI_ClearITPendingBit(EXTI_Line7);
+				if(LX==0)
+				{
+						srd.run_state = STOP;
+						FLAG = X_Limit;   // X限位
+						printf("LX\r\n");
+					
+				}
 		}
 
 	
 		if(EXTI_GetITStatus(EXTI_Line8)!=RESET)
 		{
-			
-			if(ZU==0)
-			{
-					srd.run_state = STOP;
-					FLAG = Z_UP;      // Z上限位
-
-					EXTI_ClearITPendingBit(EXTI_Line8);	
-			}
+				EXTI_ClearITPendingBit(EXTI_Line8);	
+//				if(ZU==0)
+//				{
+//						srd.run_state = STOP;			// 停止运动
+//						FLAG = Z_UP;      				// Z上限位
+//						printf("Z_UP\r\n");
+//				}
+		}
+		
+		if(EXTI_GetITStatus(EXTI_Line9)!=RESET)
+		{
+				EXTI_ClearITPendingBit(EXTI_Line9);
+				if(ZD==0)
+				{
+						srd.run_state = STOP;
+						FLAG = Z_DOWN;    // Z下限位
+				}
 		}
 		
 }

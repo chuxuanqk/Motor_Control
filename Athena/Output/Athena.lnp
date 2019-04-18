@@ -30,9 +30,9 @@
 ".\output\delay.o"
 ".\output\sys.o"
 ".\output\usart.o"
-".\output\led.o"
 ".\output\key.o"
 ".\output\tim_config.o"
+".\output\led.o"
 ".\output\motor_setup.o"
 --library_type=microlib --strict --scatter ".\Output\Athena.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols

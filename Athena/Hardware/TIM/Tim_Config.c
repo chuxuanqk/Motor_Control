@@ -13,10 +13,10 @@ void Enable_TIMX_OCXInit(TIM_TypeDef* TIMX, void(*TIM_OCXInit)(TIM_TypeDef*,TIM_
 {
 	TIM_OCInitTypeDef TIM_OCInitStructure;
 	// 输出比较结构体初始化
-	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;								// 配置为PWM模式2
-	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;					// 输出使能
+	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;										// 配置为PWM模式2
+	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;				// 输出使能
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;						// 输出通道电平极性配置
-	TIM_OCXInit(TIMX, &TIM_OCInitStructure);   										// 初始化TIMX的CHX为PWN输出
+	TIM_OCXInit(TIMX, &TIM_OCInitStructure);   													// 初始化TIMX的CHX为PWN输出
 }
 
 
@@ -31,7 +31,7 @@ void Disable_TIMX_OCXInit(TIM_TypeDef* TIMX, void(*TIM_OCXInit)(TIM_TypeDef*,TIM
 {
 	TIM_OCInitTypeDef TIM_OCInitStructure;
 	// 输出比较结构体初始化
-	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;								// 配置为PWM模式2
+	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;										// 配置为PWM模式2
 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Disable;					// 输出使能
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;						// 输出通道电平极性配置
 	TIM_OCXInit(TIMX, &TIM_OCInitStructure);   										// 初始化TIMX的CHX为PWN输出

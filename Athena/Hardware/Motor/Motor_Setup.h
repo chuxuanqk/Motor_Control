@@ -58,7 +58,9 @@
 #define X_TIMx				 					TIM2
 #define X_TIM_SetAutoreload  		TIM_SetAutoreload 
 #define X_TIM_SetCompare    		TIM_SetCompare2
-
+#define X_OCInit								TIM_OC2Init
+#define X_TIM_EnableOC					Enable_TIMX_OCXInit(X_TIMx, X_OCInit)
+#define X_TIM_DisableOC					Disable_TIMX_OCXInit(X_TIMx, X_OCInit)
 
 /***********************************Z轴***************************************/
 // Z轴DIR
@@ -79,6 +81,9 @@
 #define Z_TIMx				 					TIM2
 #define Z_TIM_SetAutoreload  		TIM_SetAutoreload 
 #define Z_TIM_SetCompare    		TIM_SetCompare3	
+#define Z_OCInit								TIM_OC3Init
+#define Z_TIM_EnableOC					Enable_TIMX_OCXInit(Z_TIMx, Z_OCInit)
+#define Z_TIM_DisableOC					Disable_TIMX_OCXInit(Z_TIMx, Z_OCInit)
 
 
 /***********************************TP轴***************************************/
@@ -99,7 +104,10 @@
 // TP轴定时器脉冲PUL
 #define TP_TIMx				 					TIM2
 #define TP_TIM_SetAutoreload  	TIM_SetAutoreload 
-#define TP_TIM_SetCompare    		TIM_SetCompare4	
+#define TP_TIM_SetCompare    		TIM_SetCompare4
+#define TP_OCInit								TIM_OC4Init
+#define TP_TIM_EnableOC					Enable_TIMX_OCXInit(TP_TIMx, TP_OCInit)
+#define TP_TIM_DisableOC				Disable_TIMX_OCXInit(TP_TIMx, TP_OCInit)
 
 
 /***********************************Y1轴***************************************/
@@ -121,13 +129,19 @@
 #define Y1_TIMx				 					TIM3
 #define Y1_TIM_SetAutoreload  	TIM_SetAutoreload 
 #define Y1_TIM_SetCompare    		TIM_SetCompare1
+#define Y1_OCInit								TIM_OC1Init
+#define Y1_TIM_EnableOC					Enable_TIMX_OCXInit(Y1_TIMx, Y1_OCInit)
+#define Y1_TIM_DisableOC				Disable_TIMX_OCXInit(Y1_TIMx, Y1_OCInit)
 
 
 /***********************************Servo轴***************************************/
 // Servo抓手PWM
-#define Servo_PWM 									TIM3
+#define Servo_TIMx 									TIM3
 #define Servo_TIM_SetAutoreload  		TIM_SetAutoreload 
 #define Servo_TIM_SetCompare    		TIM_SetCompare2
+#define Servo_OCInit								TIM_OC2Init
+#define Servo_TIM_EnableOC					Enable_TIMX_OCXInit(Servo_TIMx, Servo_OCInit)
+#define Servo_TIM_DisableOC					Disable_TIMX_OCXInit(Servo_TIMx, Servo_OCInit)
 
 
 /***********************************Y2轴***************************************/
@@ -149,15 +163,22 @@
 #define Y2_TIMx				 					TIM4
 #define Y2_TIM_SetAutoreload  	TIM_SetAutoreload 
 #define Y2_TIM_SetCompare    		TIM_SetCompare2
+#define Y2_OCInit								TIM_OC2Init
+#define Y2_TIM_EnableOC					Enable_TIMX_OCXInit(Y2_TIMx, Y2_OCInit)
+#define Y2_TIM_DisableOC				Disable_TIMX_OCXInit(Y2_TIMx, Y2_OCInit)
 
+#define SERVO_PRESCALER			71																// 舵机定时器预分频
+#define SERVO_PRELOAD				19999															// 舵机定时器预加载值
+#define SERVO_FREQ	(SystemCoreClock/(SERVO_PRESCALER + 1))   // 舵机定时器频率
 
+#define TIM_PRESCALER       8                                 // 步进电机定时器预分频
+#define TIM_PRELOAD					9999															// 步进电机定时器预加载值
+#define T1_FREQ     (SystemCoreClock/(TIM_PRESCALER + 1))     // 步进电机定时器频率
+#define SPR         200                                       // 步进电机旋转一圈脉冲数，电机常数
+#define MICRO_STEP  4                                         // 电机驱动器细分数
+#define STEP_S			400                                     	// 加速的步数
+#define FLEXIBLE    5.0																			  // S曲线调整因子
 
-#define TIM_PRESCALER       8                                 // 定时器预分频
-#define T1_FREQ     (SystemCoreClock/(TIM_PRESCALER + 1))     // 定时器频率
-#define SPR         200                                         // 步进电机旋转一圈脉冲数，电机常数
-#define MICRO_STEP  4                                           // 电机驱动器细分数
-#define STEP_S			400                                     		// 加速的步数
-#define FLEXIBLE    5.0																					// S曲线调整因子
 
 //#define ALPHA       ((float)((2*3.1415*100/SPR)/100))                     // 每个脉冲的弧度，步距角
 //#define A_T         ((float)(ALPHA*T1_FREQ))
@@ -207,8 +228,8 @@ void Motor_Speed_Adjust(TIM_TypeDef * TIM, SpeedRampData *m_srd);
 void Motor_Move(int32_t step, float fre_max, float fre_min, Motor_Status flag);
 void Motor_MoveAbs(int32_t step, float fre_max, float fre_min, Motor_Status flag);
 
-void Motor_Y1_Init(uint16_t arr, Motor_Status Dir);
-void Motor_Y2_Init(uint16_t arr, Motor_Status Dir);
+void Motor_Y1_Init(uint16_t arr, uint16_t ccr, Motor_Status Dir);
+void Motor_Y2_Init(uint16_t arr, uint16_t ccr,Motor_Status Dir);
 
 #endif
 

@@ -584,11 +584,6 @@
               <FilePath>.\Hardware\usart\usart.c</FilePath>
             </File>
             <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\LED\led.c</FilePath>
-            </File>
-            <File>
               <FileName>key.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\key\key.c</FilePath>
@@ -597,6 +592,11 @@
               <FileName>Tim_Config.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\TIM\Tim_Config.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\LED\led.c</FilePath>
             </File>
             <File>
               <FileName>Motor_Setup.c</FileName>
