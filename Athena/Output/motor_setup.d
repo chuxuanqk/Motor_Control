@@ -33,3 +33,4 @@
 .\output\motor_setup.o: .\Hardware\usart\usart.h
 .\output\motor_setup.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\motor_setup.o: .\Hardware\sys\sys.h
+.\output\motor_setup.o: .\Hardware\LED\led.h

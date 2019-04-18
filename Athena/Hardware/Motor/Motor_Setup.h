@@ -215,7 +215,6 @@ extern uint8_t Status; 									// X是否在运动
 extern uint32_t X_pos;									// 当前位置
 extern SpeedRampData srd;      					// X/Z/抓手电机状态记录
 
-
 static double exp(double x);
 
 void DIR_ENA_GPIO_Config(void);
@@ -230,6 +229,8 @@ void Motor_MoveAbs(int32_t step, float fre_max, float fre_min, Motor_Status flag
 
 void Motor_Y1_Init(uint16_t arr, uint16_t ccr, Motor_Status Dir);
 void Motor_Y2_Init(uint16_t arr, uint16_t ccr,Motor_Status Dir);
+void Servo_Config(void);     	// 舵机抓手设置
+void Set_TIM3_CC(float Compare);				// 设置TIM3CC值
 
 #endif
 

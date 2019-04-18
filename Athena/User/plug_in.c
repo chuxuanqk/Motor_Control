@@ -65,7 +65,7 @@ int32_t Recv_Int(void)
             temp = (USART_RX_BUF[i] - 48)*Power(10, i);
             Value += temp;
         }
-		USART_RX_STA=0;
+				USART_RX_STA=0;
     }
     
     return Value;
@@ -118,6 +118,7 @@ void Stamper_Init(void)
 
 		TIM2_Init(TIM_PRELOAD, TIM_PRESCALER);
 		TIM3_Init(TIM_PRELOAD, TIM_PRESCALER);
+		//TIM3_Init(SERVO_PRELOAD, SERVO_PRESCALER);
 		TIM4_Init(TIM_PRELOAD, TIM_PRESCALER);	
 }
 
@@ -129,18 +130,27 @@ void Stamper_Init(void)
 * 输出: 无
 *********************************************/
 void SimpleTest(void)
-{
-		if(FLAG == Start)
+{	
+		int16_t Servo_cc=5;
+	
+		while(1)
 		{
-				FLAG = 0;
-				printf("Start\r\n");
+			if(FLAG == Start)
+			{
+					FLAG = 0;
+					printf("Start\r\n");
+					Servo_Config();
+			}		
 			
-				// X轴运动
-				Motor_Move(8000, 6400, 800, X_MOTOR);
-				while(Status != 0);
-				printf("finish:X\r\n");
-				
-		}		
+		if(USART_RX_STA&0x8000)
+    {
+
+				Servo_cc =  (USART_RX_BUF[0]-48)*10+(USART_RX_BUF[1]-48);
+				Set_TIM3_CC(Servo_cc);
+				printf("CC:%d\r\n", Servo_cc);
+        USART_RX_STA=0;
+    }
+		}
 }	
 
 
@@ -262,7 +272,6 @@ void Stamper_Ctr(void)
 		Motor_Reset();
 		while(1)
 		{
-				//SimpleTest();
 				if(FLAG == Start)
 				{
 						FLAG = 0;
@@ -272,25 +281,10 @@ void Stamper_Ctr(void)
 						EXTIX_ENABLE(EXTI9_5_IRQn);
 						Paper_Move_2();
 						printf("finish\r\n");
-					
 				}
 		}
 }
 
-
-/********************************************
-* 函数名: 	Servo_Config
-* 函数功能: 舵机控制抓手
-* 输入: 		无
-* 输出: 		无
-*********************************************/
-void Servo_Config(void)
-{
-		TIM_PrescalerConfig(Servo_TIMx, SERVO_PRESCALER, TIM_PSCReloadMode_Immediate);       // 重新设置定时器预分频系数
-		Servo_TIM_SetAutoreload(Servo_TIMx , SERVO_PRELOAD);
-		Servo_TIM_SetCompare(Servo_TIMx, SERVO_PRELOAD/40);																	 // 初始化角度为0
-		TIM_Cmd(Servo_TIMx, ENABLE);
-}
 
 
 

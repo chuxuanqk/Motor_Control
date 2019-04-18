@@ -1,5 +1,6 @@
 #include "Motor_Setup.h"
 #include "usart.h"
+#include "led.h"
 
 SpeedRampData srd; 
 uint8_t Status = 0;             	// 是否在运动？ 0：停止， 1：运动
@@ -10,8 +11,8 @@ static float __FRE[STEP_S] = {0.0};        	// 频率缓冲区
 static uint16_t __ARR[STEP_S] = {0};				// 重装载值缓冲区
 
 /********************Y1和Y2轴运行频率*********************************/
-static float Y1_ARR	= 0;
-static float Y1_CC	= 0;
+static float TIM3_ARR	= 0;
+static float TIM3_CC	= 0;
 static float Y2_ARR	= 0;
 static float Y2_CC  = 0;
 
@@ -445,14 +446,15 @@ void Motor_Speed_Adjust(TIM_TypeDef *TIM, SpeedRampData *m_srd)
 ************************************************/
 void Motor_Y1_Init(uint16_t arr, uint16_t ccr, Motor_Status Dir)
 {
-		Y1_ARR = arr;
-		Y1_CC  = ccr; 
+		TIM3_ARR = arr;
+		TIM3_CC  = ccr; 
 
+		srd.MotorX = Y1_MOTOR;                           // 设置电机型号
 		if(CW == Dir) Y1_DIR_SET;
 		else if(CCW == Dir) Y1_DIR_RESET; 
 	
-		Y1_TIM_SetAutoreload(Y1_TIMx, Y1_ARR);
-		Y1_TIM_SetCompare(Y1_TIMx, Y1_CC);
+		Y1_TIM_SetAutoreload(Y1_TIMx, TIM3_ARR);
+		Y1_TIM_SetCompare(Y1_TIMx, TIM3_CC);
 	
 		Y1_TIM_EnableOC;								 // 使能Y1定时器通道
 	  TIM_Cmd(Y1_TIMx, ENABLE);        // 定时器使能
@@ -481,6 +483,42 @@ void Motor_Y2_Init(uint16_t arr, uint16_t ccr, Motor_Status Dir)
 	  TIM_Cmd(Y2_TIMx, ENABLE);        // 定时器使能
 }	
 
+
+/********************************************
+* 函数名: 	Servo_Config
+* 函数功能: 舵机控制抓手
+* 输入: 		无
+* 输出: 		无
+*********************************************/
+void Servo_Config(void)
+{
+		
+		TIM3_ARR = SERVO_PRELOAD;
+		TIM3_CC  = (SERVO_PRELOAD/200)*11;      // 16
+		//TIM3_CC  = (SERVO_PRELOAD/200)*5;
+	
+		srd.MotorX = Catch_Servo;                           // 设置电机型号
+		
+		TIM_PrescalerConfig(Servo_TIMx, SERVO_PRESCALER, TIM_PSCReloadMode_Immediate);       // 重新设置定时器预分频系数
+		
+		Servo_TIM_SetAutoreload(Servo_TIMx , TIM3_ARR);
+		Servo_TIM_SetCompare(Servo_TIMx, TIM3_CC);																	 // 初始化角度为0
+		
+		Servo_TIM_EnableOC;											// 使能舵机通道
+		TIM_Cmd(Servo_TIMx, ENABLE);
+}
+
+
+/************************************************
+* 函数名:	  	Set_TIM3_CC
+* 函数功能:  	设置TIM3比较值
+* 输入: 			无
+* 输出: 			无
+************************************************/
+void Set_TIM3_CC(float Compare)
+{
+		TIM3_CC = (SERVO_PRELOAD/400)*Compare;
+}
 
 
 /************************************************
@@ -517,9 +555,17 @@ void TIM3_IRQHandler(void)
 	 if(TIM_GetITStatus(Y1_TIMx, TIM_IT_Update) != RESET)
 	 {
 				TIM_ClearITPendingBit(Y1_TIMx, TIM_IT_Update);
-
-				Y1_TIM_SetAutoreload(Y1_TIMx, Y1_ARR);
-				Y1_TIM_SetCompare(Y1_TIMx, Y1_CC);
+				
+				if(srd.MotorX == Y1_MOTOR)
+				{
+						Y1_TIM_SetAutoreload(Y1_TIMx, TIM3_ARR);
+						Y1_TIM_SetCompare(Y1_TIMx, TIM3_CC);
+				}else if(srd.MotorX == Catch_Servo)
+				{
+						LED = ~LED;
+						Servo_TIM_SetAutoreload(Servo_TIMx, TIM3_ARR);
+						Servo_TIM_SetCompare(Servo_TIMx, TIM3_CC);
+				}
 	 }
 }
 

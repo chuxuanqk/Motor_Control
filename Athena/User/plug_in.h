@@ -17,7 +17,7 @@ void Stamper_Init(void);     // 设备初始化设置
 void Stamper_Ctr(void);			 // 主控制
 void SimpleTest(void);       // 测试模块
 
-void Servo_Config(void);     // 舵机抓手设置
+
 
 void Motor_Reset(void);			 // 电机初始化
 void Paper_Move_1(void);		 // 走纸第一阶段
