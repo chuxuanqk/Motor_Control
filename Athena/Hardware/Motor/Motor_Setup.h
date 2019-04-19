@@ -178,7 +178,7 @@
 #define MICRO_STEP  4                                         // 电机驱动器细分数
 #define STEP_S			400                                     	// 加速的步数
 #define FLEXIBLE    5.0																			  // S曲线调整因子
-
+#define MM2Step(mm)				(((SPR*MICRO_STEP)/4)*mm)						// 行程(mm)转换为脉冲数
 
 //#define ALPHA       ((float)((2*3.1415*100/SPR)/100))                     // 每个脉冲的弧度，步距角
 //#define A_T         ((float)(ALPHA*T1_FREQ))
@@ -229,8 +229,12 @@ void Motor_MoveAbs(int32_t step, float fre_max, float fre_min, Motor_Status flag
 
 void Motor_Y1_Init(uint16_t arr, uint16_t ccr, Motor_Status Dir);
 void Motor_Y2_Init(uint16_t arr, uint16_t ccr,Motor_Status Dir);
-void Servo_Config(void);     	// 舵机抓手设置
+
+void Servo_Config(void);     						// 舵机抓手设置
 void Set_TIM3_CC(float Compare);				// 设置TIM3CC值
+void Servo_Close(void);											// 抓手闭合
+void Servo_Open(void);											// 抓手张开
+
 
 #endif
 

@@ -7,6 +7,6 @@
 // #define LED_OFF  GPIO_SetBits(GPIOB, GPIO_Pin_5)
 #define LED PBout(5)
 
-void LED_Init(void);  //åˆå?‹åŒ–
+void LED_Init(void);
 
 #endif

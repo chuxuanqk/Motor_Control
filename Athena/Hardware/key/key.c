@@ -178,7 +178,7 @@ void EXTI3_IRQHandler(void)
 		delay_ms(10);       
 		if(S2 == 0)
 		{
-				FLAG = 10;
+				FLAG = S2_KEY;
 				Disable_TIMX_OCXInit(Y1_TIMx, TIM_OC1Init);
 		}
 	}
@@ -209,14 +209,12 @@ void EXTI9_5_IRQHandler()
 	
 		if(EXTI_GetITStatus(EXTI_Line5)!=RESET)
 		{
-			if(K1==0)
-			{
-				EXTI_ClearITPendingBit(EXTI_Line5);
-				FLAG = PTE1;  
-				//delay_ms(3000);
-				//Y1_TIM_DisableOC;
-				//Disable_TIMX_OCXInit(Y1_TIMx, TIM_OC1Init);
-			}
+//			if(K1==0)
+//			{
+//					EXTI_ClearITPendingBit(EXTI_Line5);
+//					FLAG = PTE1;
+//					printf("K1\r\n");
+//			}
 		}
 		
 		if(EXTI_GetITStatus(EXTI_Line6)!=RESET)
@@ -259,10 +257,11 @@ void EXTI9_5_IRQHandler()
 		if(EXTI_GetITStatus(EXTI_Line9)!=RESET)
 		{
 				EXTI_ClearITPendingBit(EXTI_Line9);
-				if(ZD==0)
+				if(K1==0)
 				{
-						srd.run_state = STOP;
-						FLAG = Z_DOWN;    // Z下限位
+						EXTI_ClearITPendingBit(EXTI_Line5);
+						FLAG = PTE1;
+						printf("K1\r\n");
 				}
 		}
 		

@@ -18,14 +18,12 @@ void Stamper_Ctr(void);			 // 主控制
 void SimpleTest(void);       // 测试模块
 
 
-
-void Motor_Reset(void);			 // 电机初始化
-void Paper_Move_1(void);		 // 走纸第一阶段
-void Paper_Move_2(void);		 // 走纸第二阶段
-void Cover_Seal(void);			 // 盖章
-void Exchange_Seal(void);    // 换章
-
-
+void Motor_Reset(void);							 								// 电机初始化
+void Paper_Move_In(void);		 												// 进纸
+void Paper_Move_Out(void);		 											// 出纸
+void Cover_Seal(int32_t X_mm, int32_t Z_mm);			 	// 盖章
+void Exchange_Seal(int32_t Z_mm, int32_t Seal_id);  // 换章
+void Reset_Seal(int32_t Z_mm, int32_t Seal_id);
 
 extern float FRE_MAX;
 extern float FRE_MIN;
@@ -41,6 +39,7 @@ typedef struct Command{
 }Command; 
 
 
+static int32_t SEAL_ID[4] = {0, 200, 400, 600};
 
 
 #endif

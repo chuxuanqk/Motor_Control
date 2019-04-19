@@ -5,9 +5,9 @@
 int main(void)
 {
 	Stamper_Init();
-	//Stamper_Ctr();
+	Stamper_Ctr();
 	
-	SimpleTest();
+	//SimpleTest();
 
 }
 

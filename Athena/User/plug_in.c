@@ -28,11 +28,13 @@ int Power(int base, int32_t exponent)
 }
 
 
+
 /**********************************
- * 
- *      计算usart发送的信息size
- * 
- * *******************************/
+* 函数名:		Usart_Size
+* 函数功能:	计算usart的信息size
+* 输入:			*buf:uart的缓存区
+*	输出:			count:计算值
+**********************************/
 int32_t Usart_Size(u8 *buf)
 {
     int count=0;
@@ -47,10 +49,11 @@ int32_t Usart_Size(u8 *buf)
 
 
 /****************************************
- * 
- *       串口接收值转为INT
- * 
- **************************************/
+* 函数名:		Recv_Int
+*	函数功能: 	串口接收值转为INT
+* 输入:			无
+* 输出:			Value:
+**************************************/
 int32_t Recv_Int(void)
 {
     int32_t Value=0;
@@ -72,9 +75,10 @@ int32_t Recv_Int(void)
 }
 
 /****************************************
- * 
- *       解析串口传输的命令
- * 
+* 函数名:		Decode
+* 函数功能:	解析串口传输的命令
+* 输入:			无
+* 输出:			无
  **************************************/
 int16_t Decode(void)
 {
@@ -101,11 +105,11 @@ int16_t Decode(void)
 
 
 /*************************************
- * 函数名:Stamper_Init
- * 函数功能:印章机配置初始化
- * 输入:无
- * 输出:无
- * ***********************************/
+* 函数名:		Stamper_Init
+* 函数功能:	印章机配置初始化
+* 输入:			无
+* 输出:			无
+* ***********************************/
 void Stamper_Init(void)
 {
 		delay_init();
@@ -124,39 +128,38 @@ void Stamper_Init(void)
 
 
 /********************************************
-* 函数名: Stamper_Ctr
-* 函数功能: 电控主模块
-* 输入: 无
-* 输出: 无
+* 函数名: 		SimpleTest
+* 函数功能: 	电控测试模块
+* 输入: 		无
+* 输出: 		无
 *********************************************/
 void SimpleTest(void)
 {	
 		int16_t Servo_cc=5;
-	
+		Servo_Config();
 		while(1)
 		{
 			if(FLAG == Start)
 			{
 					FLAG = 0;
 					printf("Start\r\n");
-					Servo_Config();
+					Servo_Open();
 			}		
 			
-		if(USART_RX_STA&0x8000)
-    {
-
-				Servo_cc =  (USART_RX_BUF[0]-48)*10+(USART_RX_BUF[1]-48);
-				Set_TIM3_CC(Servo_cc);
-				printf("CC:%d\r\n", Servo_cc);
-        USART_RX_STA=0;
-    }
+			if(USART_RX_STA&0x8000)
+			{
+					Servo_cc =  (USART_RX_BUF[0]-48)*10+(USART_RX_BUF[1]-48);
+					Set_TIM3_CC(Servo_cc);
+					printf("CC:%d\r\n", Servo_cc);
+					USART_RX_STA=0;
+			}
 		}
 }	
 
 
 /********************************************
-* 函数名: 		Motor_Reset
-* 函数功能: 	X/Z/抓手复位
+* 函数名: 			Motor_Reset
+* 函数功能: 		X/Z/抓手复位
 * 输入: 			无
 * 输出: 			无
 *********************************************/
@@ -168,41 +171,52 @@ void Motor_Reset(void)
 		int16_t x_minfre = 800;
 		int16_t z_maxfre = 800*4;
 		int16_t z_minfre = 800;
-               
+        
+
 		// X轴复位
 		EXTIX_DISABLE(EXTI2_IRQn);
-		Motor_Move(x_rad, x_maxfre, x_minfre, X_MOTOR);
+		Motor_Move(-x_rad, x_maxfre, x_minfre, X_MOTOR);       	// X向左运动
 		while(Status != 0);
-		Motor_Move(-(8*x_rad), x_maxfre, x_minfre, X_MOTOR);  // 开启9_5外部中断
+	
+		Motor_Move((8*x_rad), x_maxfre, x_minfre, X_MOTOR);     // X向右运动
 		while(Status != 0);
 		EXTIX_ENABLE(EXTI2_IRQn);
+	
 		// Z轴复位动作
-		Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
+		Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);				
 		while(Status != 0);
 		Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
 		while(Status != 0);
-	
+
+		// 舵机抓手复位
+		Servo_Config();
+		delay_s(1);
+		
+		TIM_Cmd(Servo_TIMx, DISABLE);
+		Servo_TIM_DisableOC;
 }	
 
 	
 /********************************************
-* 函数名: 		Paper_Move_1
-* 函数功能: 	走纸第一阶段
+* 函数名: 			Paper_Move_In
+* 函数功能: 		走纸第一阶段
 * 输入: 			无	
 * 输出: 			无
 *********************************************/
-void Paper_Move_1(void)
+void Paper_Move_In(void)
 {
-		uint16_t Y1_arr = 9999;
+		uint16_t Y1_arr = 4999;     // 9999
 		uint16_t Y2_arr = 4999;
 	
 		Motor_Y1_Init(Y1_arr, (Y1_arr/2), CCW);
 		Motor_Y2_Init(Y2_arr, (Y2_arr/2), CCW);
 	
 		while(K1==1);
-		if(K1 == 0)
+		if(FLAG == PTE1)
 		{
-				delay_s(3);
+				FLAG = 0;
+				delay_s(4);
+				printf("Y1停止\r\n");
 				Y1_TIM_DisableOC;
 		}
 		while(K2==1);
@@ -211,12 +225,12 @@ void Paper_Move_1(void)
 	
 
 /********************************************
-* 函数名: 		Paper_Move_2
-* 函数功能: 	走纸第二阶段
+* 函数名: 			Paper_Move_Out
+* 函数功能: 		走纸第二阶段
 * 输入: 			无	
 * 输出: 			无
 *********************************************/
-void Paper_Move_2(void)
+void Paper_Move_Out(void)
 {
 		uint16_t Y2_arr = 4999;
 		FLAG = 0;
@@ -225,16 +239,21 @@ void Paper_Move_2(void)
 		Y2_TIM_DisableOC;
 }
 
+
 /********************************************
-* 函数名: 		Cover_Seal
-* 函数功能: 	盖章模块
-* 输入: 			无
+* 函数名: 			Cover_Seal
+* 函数功能: 		盖章模块
+* 输入: 			X_mm:X轴坐标, Z_mm:Z轴坐标
 * 输出: 			无
 *********************************************/
-void Cover_Seal(void)
+void Cover_Seal(int32_t X_mm, int32_t Z_mm)
 {
-		int32_t x_rad = 800*45;
-		int32_t z_rad = 800*10;
+//		int32_t x_rad = 800*45;      // 180mm
+//		int32_t z_rad = 800*10;      // 40mm
+		int32_t x_rad = MM2Step(X_mm);
+		int32_t z_rad = MM2Step(Z_mm);
+	
+		// 电机速度参数
 		int16_t x_maxfre = 800*14;
 		int16_t x_minfre = 800;
 		int16_t z_maxfre = 800*4;
@@ -242,9 +261,8 @@ void Cover_Seal(void)
 		
 		// X轴向右运动
 		delay_ms(1000);
-		Motor_Move(x_rad, x_maxfre, x_minfre, X_MOTOR);
+		Motor_Move(-x_rad, x_maxfre, x_minfre, X_MOTOR);
 		while(Status != 0);
-	
 		delay_ms(2000);
 		// Z轴向下运动
 		Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
@@ -253,11 +271,78 @@ void Cover_Seal(void)
 		// Z轴向上运动
 		Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
 		while(Status != 0);
-	
 		// X轴向左运动
-		Motor_Move(-x_rad, x_maxfre, x_minfre, X_MOTOR);
+		Motor_Move(x_rad, x_maxfre, x_minfre, X_MOTOR);
 		while(Status != 0);
 }
+
+
+/***********************************************
+* 函数名: 		Exchange_Seal
+* 函数功能:	更换印章
+* 输入:			Z_mm:Z轴坐标
+* 输出:			无
+************************************************/
+void Exchange_Seal(int32_t Z_mm, int32_t Seal_id)
+{
+		int32_t z_rad = MM2Step(Z_mm);
+	
+		// 电机速度参数
+		int16_t z_maxfre = 800*4;
+		int16_t z_minfre = 800;
+		int16_t tp_maxfre = 800*4;
+		int16_t tp_minfre = 800;
+
+	
+		// 更换印章
+		Motor_Move(Seal_id, tp_maxfre, tp_minfre, TP_MOTOR);
+		while(Status != 0);
+	
+
+		Servo_Open();
+	
+		printf("向下运动\r\n");
+		// Z轴向下运动
+		Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
+		while(Status != 0);
+
+		Servo_Close();
+	
+		
+		printf("向上运动\r\n");
+		// Z轴向上运动
+		Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
+		while(Status != 0);	
+}
+
+
+void Reset_Seal(int32_t Z_mm, int32_t Seal_id)
+{
+		int32_t z_rad = MM2Step(Z_mm);
+	
+		// 电机速度参数
+		int16_t z_maxfre = 800*4;
+		int16_t z_minfre = 800;
+		int16_t tp_maxfre = 800*4;
+		int16_t tp_minfre = 800;
+	
+		// Z轴向下运动
+		Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
+		while(Status != 0);
+
+		Servo_Open();
+		
+		// Z轴向上运动
+		Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
+		while(Status != 0);	
+	
+		Servo_Close();
+	
+		// 复位印章位置
+		Motor_Move(-Seal_id, tp_maxfre, tp_minfre, TP_MOTOR);
+		while(Status != 0);
+}	
+
 
 
 /********************************************
@@ -267,20 +352,60 @@ void Cover_Seal(void)
 * 输出: 		无
 *********************************************/
 void Stamper_Ctr(void)
-{
-		delay_s(2);
-		Motor_Reset();
+{	
+		int32_t z_mm = 22;
+		int32_t seal_id = SEAL_ID[2];
+		
+		//delay_s(2);
+
+		// 1.电机复位初始化
+		Motor_Reset(); 
+	
+		//Servo_Config();
+
 		while(1)
 		{
+			\
+			
+			
+			
+				// 1.开启盖章
 				if(FLAG == Start)
 				{
 						FLAG = 0;
-						Paper_Move_1();
+					
+						// 1.1 进纸
+						Paper_Move_In();
+					
 						EXTIX_DISABLE(EXTI9_5_IRQn);
-						Cover_Seal();
+					
+						// 1.2 选取印章
+						Exchange_Seal(z_mm, seal_id);	
+						// 1.3 设置盖章坐标
+						Cover_Seal(190, 40);   
+						// 1.4 印章复位
+						Reset_Seal(z_mm, seal_id);
+					
 						EXTIX_ENABLE(EXTI9_5_IRQn);
-						Paper_Move_2();
+					
+						// 1.5 出纸
+						Paper_Move_Out();
 						printf("finish\r\n");
+				}
+				
+				// 2. 更换印章 
+				if(FLAG == S2_KEY)
+				{
+						FLAG = 0;
+					
+						EXTIX_DISABLE(EXTI9_5_IRQn);
+						// 1.2 选取印章
+						Exchange_Seal(z_mm, seal_id);	
+						// 1.4 印章复位
+						Reset_Seal(z_mm, seal_id);
+						EXTIX_ENABLE(EXTI9_5_IRQn);
+						Paper_Move_In();
+						FLAG = 0;
 				}
 		}
 }

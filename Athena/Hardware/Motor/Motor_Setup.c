@@ -1,6 +1,7 @@
 #include "Motor_Setup.h"
 #include "usart.h"
 #include "led.h"
+#include "delay.h"
 
 SpeedRampData srd; 
 uint8_t Status = 0;             	// 是否在运动？ 0：停止， 1：运动
@@ -169,7 +170,7 @@ static void CalculateSModelLine(float fre_max, float fre_min)
 	
     for(; i<STEP_S; i++)
     {
-        x = FLEXIBLE*(i-(STEP_S/2))/(STEP_S/2);                 //归一化
+        x = FLEXIBLE*(i-(STEP_S/2))/(STEP_S/2);           //归一化
         y = 1.0/(1+exp(-x));
 		
         __FRE[i] = D_value*y + fre_min;
@@ -456,8 +457,8 @@ void Motor_Y1_Init(uint16_t arr, uint16_t ccr, Motor_Status Dir)
 		Y1_TIM_SetAutoreload(Y1_TIMx, TIM3_ARR);
 		Y1_TIM_SetCompare(Y1_TIMx, TIM3_CC);
 	
-		Y1_TIM_EnableOC;								 // 使能Y1定时器通道
-	  TIM_Cmd(Y1_TIMx, ENABLE);        // 定时器使能
+		Y1_TIM_EnableOC;								 								// 使能Y1定时器通道
+	  TIM_Cmd(Y1_TIMx, ENABLE);        								// 定时器使能
 }	
 
 
@@ -485,39 +486,92 @@ void Motor_Y2_Init(uint16_t arr, uint16_t ccr, Motor_Status Dir)
 
 
 /********************************************
-* 函数名: 	Servo_Config
-* 函数功能: 舵机控制抓手
+* 函数名: 		Servo_Config
+* 函数功能: 	舵机控制抓手初始化
 * 输入: 		无
 * 输出: 		无
 *********************************************/
 void Servo_Config(void)
 {
-		
-		TIM3_ARR = SERVO_PRELOAD;
-		TIM3_CC  = (SERVO_PRELOAD/200)*11;      // 16
-		//TIM3_CC  = (SERVO_PRELOAD/200)*5;
-	
-		srd.MotorX = Catch_Servo;                           // 设置电机型号
-		
-		TIM_PrescalerConfig(Servo_TIMx, SERVO_PRESCALER, TIM_PSCReloadMode_Immediate);       // 重新设置定时器预分频系数
+		Servo_Close();
+		srd.MotorX = Catch_Servo;                           														// 设置电机型号
+		TIM_PrescalerConfig(Servo_TIMx, SERVO_PRESCALER, TIM_PSCReloadMode_Immediate);  // 重新设置定时器预分频系数
 		
 		Servo_TIM_SetAutoreload(Servo_TIMx , TIM3_ARR);
-		Servo_TIM_SetCompare(Servo_TIMx, TIM3_CC);																	 // 初始化角度为0
+		Servo_TIM_SetCompare(Servo_TIMx, TIM3_CC);																	 		// 初始化角度为0
 		
-		Servo_TIM_EnableOC;											// 使能舵机通道
+		Servo_TIM_EnableOC;																															// 使能舵机通道
 		TIM_Cmd(Servo_TIMx, ENABLE);
+	
+		delay_ms(1000);
+		TIM_Cmd(Servo_TIMx, DISABLE);
+		Servo_TIM_DisableOC;
 }
 
 
 /************************************************
 * 函数名:	  	Set_TIM3_CC
 * 函数功能:  	设置TIM3比较值
-* 输入: 			无
+* 输入: 			Compare: 10~
 * 输出: 			无
 ************************************************/
 void Set_TIM3_CC(float Compare)
 {
 		TIM3_CC = (SERVO_PRELOAD/400)*Compare;
+}
+
+
+/*******************************************************
+* 函数名:			Servo_Close
+* 函数功能:		抓手闭合,(((20000/200)*11)/2000)*160 = 198° 
+* 输入:				无
+* 输出:				无
+********************************************************/
+void Servo_Close(void)
+{
+		delay_ms(500);
+		TIM3_ARR = SERVO_PRELOAD;
+		TIM3_CC  = (SERVO_PRELOAD/400)*25;   
+	
+		srd.MotorX = Catch_Servo;                           														// 设置电机型号
+		TIM_PrescalerConfig(Servo_TIMx, SERVO_PRESCALER, TIM_PSCReloadMode_Immediate);  // 重新设置定时器预分频系数
+		
+		Servo_TIM_SetAutoreload(Servo_TIMx , TIM3_ARR);
+		Servo_TIM_SetCompare(Servo_TIMx, TIM3_CC);																	 		// 初始化角度为0
+		
+		Servo_TIM_EnableOC;																															// 使能舵机通道
+		TIM_Cmd(Servo_TIMx, ENABLE);
+		
+		delay_ms(500);
+		TIM_Cmd(Servo_TIMx, DISABLE);
+		Servo_TIM_DisableOC;
+}
+
+
+/*******************************************************
+* 函数名:			Servo_Open
+* 函数功能:		抓手张开, 0°
+* 输入:				无
+* 输出:				无
+********************************************************/
+void Servo_Open(void)
+{	
+		delay_ms(500);
+		TIM3_ARR = SERVO_PRELOAD;
+		TIM3_CC  = (SERVO_PRELOAD/400)*10; 
+
+		srd.MotorX = Catch_Servo;                           														// 设置电机型号
+		TIM_PrescalerConfig(Servo_TIMx, SERVO_PRESCALER, TIM_PSCReloadMode_Immediate);  // 重新设置定时器预分频系数
+		
+		Servo_TIM_SetAutoreload(Servo_TIMx , TIM3_ARR);
+		Servo_TIM_SetCompare(Servo_TIMx, TIM3_CC);																	 		// 初始化角度为0
+		
+		Servo_TIM_EnableOC;																															// 使能舵机通道
+		TIM_Cmd(Servo_TIMx, ENABLE);
+
+		delay_ms(800);
+		TIM_Cmd(Servo_TIMx, DISABLE);
+		Servo_TIM_DisableOC;	
 }
 
 
@@ -533,7 +587,7 @@ void TIM2_IRQHandler(void)
     {
 				TIM_ClearITPendingBit(X_TIMx, TIM_IT_Update);
    
-				Motor_Speed_Adjust(X_TIMx, &srd);    // 设置srd
+				Motor_Speed_Adjust(X_TIMx, &srd);    																					// 设置srd
 			
         X_TIM_SetAutoreload(X_TIMx, srd.step_arr);	
 				if(X_MOTOR == srd.MotorX) X_TIM_SetCompare(X_TIMx, (srd.step_arr/2));      		// 设置X轴CCR
@@ -541,7 +595,6 @@ void TIM2_IRQHandler(void)
 				else if(TP_MOTOR == srd.MotorX) TP_TIM_SetCompare(X_TIMx, (srd.step_arr/2)); 	// 设置TP轴CCR
     }
 }
-
 
 
 /************************************************
@@ -562,7 +615,7 @@ void TIM3_IRQHandler(void)
 						Y1_TIM_SetCompare(Y1_TIMx, TIM3_CC);
 				}else if(srd.MotorX == Catch_Servo)
 				{
-						LED = ~LED;
+						//LED = ~LED;
 						Servo_TIM_SetAutoreload(Servo_TIMx, TIM3_ARR);
 						Servo_TIM_SetCompare(Servo_TIMx, TIM3_CC);
 				}
