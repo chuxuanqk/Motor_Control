@@ -365,10 +365,6 @@ void Stamper_Ctr(void)
 
 		while(1)
 		{
-			\
-			
-			
-			
 				// 1.¿ªÆô¸ÇÕÂ
 				if(FLAG == Start)
 				{

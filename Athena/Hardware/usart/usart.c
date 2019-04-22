@@ -141,26 +141,26 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			
 			if((USART_RX_STA&0x8000)==0)
 			{
-				if(USART_RX_STA&0x4000)  //接收到0x0d			
+				if(USART_RX_STA&0x4000)  							//接收到0x0d			
 				{
-					if(Res!= 0x0a)
+					if(Res!= 0x0a)											//接收到0x0a
 					{	
-						USART_RX_STA = 0;     //接收错误，重新开始
+						USART_RX_STA = 0;     						//接收错误，重新开始
 					}else
 					{
-						USART_RX_STA |= 0x8000;      //接收到0x0a
+						USART_RX_STA |= 0x8000;     			// 设置状态位
 					}
 				}else
 				{
-					if(Res == 0x0d)
+					if(Res == 0x0d)											//接收到0x0d
 					{
-						USART_RX_STA |= 0x4000;     //接收到0x0d
+							USART_RX_STA |= 0x4000;     		// 设置状态位
 					}else{
-						USART_RX_BUF[USART_RX_STA&0x3FFF] = Res;
-						USART_RX_STA++;
+							USART_RX_BUF[USART_RX_STA&0x3FFF] = Res;
+							USART_RX_STA++;									// 增加计数	
 						if(USART_RX_STA > (USART_REC_LEN-1))
 						{
-							USART_RX_STA = 0;            //重新开始接收
+								USART_RX_STA = 0;            //重新开始接收
 						}
 					}
 				}
