@@ -1,0 +1,47 @@
+#face{
+    border-image:url(./Resource/img/背景2.png);
+}
+
+#back_btn{
+    border-image:url(./Resource/Pic/face_rc/取消2.png)；
+}
+
+#back_btn:pressed{
+    border-image:url(./Resource/Pic/历史盖章记录/btn_down.png);
+}
+
+#start_btn{
+    border-image:url(./Resource/Pic/face_rc/开始识别框2.png);
+    font-weight:Regular;
+    font-family:SourceHanSansCN-Regular;
+    font-size:36px;
+    text-align:center;
+    color:#FDFCFC;
+}
+
+#start_btn:pressed{
+    border-image:url(./Resource/Pic/face_rc/开始识别框.png);
+    font-size:32px;
+}
+
+
+
+#face_label{
+    border-image:url(./Resource/Pic/face_rc/主标2.png);
+}
+
+
+#scan_label{
+    border-image:url(./Resource/Pic/face_rc/face_lab.png);
+}
+
+
+#input_edit{
+    background-color: rgba(0, 0, 0, 0);
+    border-image:url(./Resource/img/input.png);
+    font-weight:Regular;
+    font-family:SourceHanSansCN-Regular;
+    font-size:24px;
+    color:#FFFFFF;
+}
+
