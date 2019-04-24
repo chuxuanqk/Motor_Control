@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QDialog, QStyleOption, QStyle
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtGui import QPainter
 
-from .UI_Wait_Form import Ui_shadow, Ui_Wait
+from .UI_Wait_Form import Ui_shadow, Ui_Wait, Ui_seal
 
 
 class Shadow_Form(QDialog, Ui_shadow):
@@ -50,3 +50,31 @@ class Wait_Form(QDialog, Ui_Wait):
         # 反锯齿
         painter.setRenderHint(QPainter.Antialiasing)
         self.style().drawPrimitive(QStyle.PE_Widget, opt, painter, self)
+
+
+class Seal_Form(QDialog, Ui_seal):
+    """
+    印章选择
+    """
+    def __init__(self, parent=None):
+        super(Seal_Form, self).__init__(parent=parent)
+        self.setupUi(self)
+        self.hide()
+
+    def show_self(self):
+        self.show()
+
+    def paintEvent(self, event):
+        """
+        重写paintEvent 否则不能使用样式表定义外观
+        :param evt:
+        :return:
+        """
+        opt = QStyleOption()
+        opt.initFrom(self)
+        painter = QPainter(self)
+        # 反锯齿
+        painter.setRenderHint(QPainter.Antialiasing)
+        self.style().drawPrimitive(QStyle.PE_Widget, opt, painter, self)
+
+

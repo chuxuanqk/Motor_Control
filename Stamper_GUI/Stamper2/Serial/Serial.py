@@ -3,10 +3,16 @@ __author__ = 'Saber'
 __date__ = '21/4/19 下午7:07'
 
 import sys
-from PyQt5.QtWidgets import QWidget, QApplication, QPushButton
-from PyQt5.QtCore import QRect
+import cv2
+from PyQt5.QtWidgets import QWidget, QStyle, QApplication, QStyleOption, QPushButton
+from PyQt5.QtCore import QRect, pyqtSignal, QThread, QObject, QTimer
+from PyQt5.QtGui import QPainter, QPixmap, QImage
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
-from PyQt5.QtCore import pyqtSignal, QThread, QObject, QTimer
+
+from .UI_Serial import Ui_Serial
+from Common.utils import Timer
+from setting import face_camera
+from Stamper2.Wait_Form.Wait_Form import Wait_Form
 
 
 class SerialWork(QObject):
@@ -14,9 +20,10 @@ class SerialWork(QObject):
     串口数据处理
     """
     def __init__(self):
-        super().__init__()
+        super(SerialWork, self).__init__()
 
     def init(self):
+        self.serianame = ''
         self.com = QSerialPort()
         self.cominfo = QSerialPortInfo()
         self.infos = self.cominfo.availablePorts()
@@ -71,13 +78,150 @@ class SerialWork(QObject):
             # self.com.writeData(bytes('helloworld\r\n', encoding='utf8'))
             self.com.writeData(self.sendData)
 
+    def SerialClsoe(self):
+        """
+        关闭串口
+        :return:
+        """
+        if self.com.isOpen():
+            self.com.close()
+
+
+class Serial_Form(QWidget, Ui_Serial):
+    """
+    盖章文件显示及控制
+    """
+
+    cap_signal = pyqtSignal()
+
+    def __init__(self, parent=None):
+        super(Serial_Form, self).__init__()
+
+        self.setupUi(self)
+
+        self.image = QImage()
+        self.playTimer = Timer()
+        self.playTimer.Camer.connect(self.showCamer)
+
+        self.cap_signal.connect(self.cap_shuted)
+
+    def show_self(self):
+        """
+        显示页面
+        :return:
+        """
+        try:
+            self.device = cv2.VideoCapture(face_camera)
+            # 设置摄像头获得的像素大小, CV的宽高和正常显示是反的
+            self.device.set(cv2.CAP_PROP_FRAME_HEIGHT, 1960)
+            self.device.set(cv2.CAP_PROP_FRAME_WIDTH, 1372)
+
+            self.playTimer.start()
+        except:
+            self.cap_signal.emit()
+
+        self.show()
+
+    def close_self(self):
+        """
+        关闭当前界面，返回欢迎界面
+        :return:
+        """
+        try:
+            self.playTimer.stop()
+            self.device.release()
+            # 发送退出信号
+            self.close_signal.emit()
+        except Exception as e:
+            print("返回页面:{}".format(str(e)))
+
+    def Device_Release(self):
+        """
+        识别成功后，释放资源
+        :return:
+        """
+        try:
+            self.wait.close_self()
+            self.shadow.close()
+            self.device.release()
+            self.timer.stop()
+        except:
+            print("重复释放资源")
+
+    def cap_shuted(self):
+        """
+        摄像头未打开处理
+        :return:
+        """
+        cap_message = Wait_Form(self)
+        cap_message.raise_()
+        cap_message.wait_lab.setText("摄像头未打开")
+        cap_message.open()         # 修改，.exec_()
+        self.timer.singleShot(2000, cap_message.close_self)
+
+    def showCamer(self):
+        """
+        # 读摄像头
+        :return:
+        """
+        if self.device.isOpened():
+            ret, frame = self.device.read()
+            frame.resize()
+            cv2.flip(frame, 90)
+
+        else:
+            ret = False
+
+        # 当关掉摄像头的信号发出后，还有5个左右的定时任务在执行，所以会抛出异常
+        try:
+            """
+            # 提取中心图片178*2
+            r = 178     # 设置图片
+            height, width, bytesPerComponent = frame.shape
+            center = (int(height / 2), int(width / 2))
+            left_angle = (center[0] - r, center[1] - r)
+            right_angle = (center[0] + r, center[1] + r)
+            frame2 = frame[left_angle[0]:right_angle[0], left_angle[1]:right_angle[1]]
+            """
+
+            height, width, bytesPerComponent = frame.shape
+            frame1 = frame.copy()
+            height1, width1, bytesPerComponent1 = frame1.shape
+            bytesPerLine = bytesPerComponent * width1
+
+            # 变换彩色空间顺序
+            cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB, frame1)
+
+            # 转为QImage对象
+            self.image = QImage(frame1.data, width1, height1, bytesPerLine, QImage.Format_RGB888)
+            self.preview_lab.setPixmap(QPixmap.fromImage(self.image))
+            # self.face_label1.raise_()
+            self.image = frame
+
+            self.update()
+        except Exception as e:
+            print("退出")
+
+    def paintEvent(self, event):
+        """
+        重写paintEvent 否则不能使用样式表定义外观
+        :param evt:
+        :return:
+        """
+        opt = QStyleOption()
+        opt.initFrom(self)
+        painter = QPainter(self)
+        # 反锯齿
+        painter.setRenderHint(QPainter.Antialiasing)
+        self.style().drawPrimitive(QStyle.PE_Widget, opt, painter, self)
+
 
 class PyQt_Serial(QWidget):
     """
     串口测试模块
     """
     def __init__(self):
-        super().__init__()
+        super(PyQt_Serial, self).__init__()
 
         self.btn = QPushButton(self)
         self.btn.setObjectName('btn')

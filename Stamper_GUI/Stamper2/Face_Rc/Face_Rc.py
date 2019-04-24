@@ -10,7 +10,6 @@ from PyQt5.QtWidgets import QWidget, QStyleOption, QStyle
 from PyQt5.QtGui import QPainter, QPixmap, QImage
 from PyQt5.QtCore import pyqtSignal, QTimer
 
-
 from .UI_Face_Rc import Ui_Face
 from Stamper2.Wait_Form.Wait_Form import Shadow_Form, Wait_Form
 from Common.utils import Timer
@@ -225,6 +224,8 @@ class Rc_Form(QWidget, Ui_Face):
 
             # 变换彩色空间顺序
             cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB, frame1)
+
+            print("width, height:", width1, height1)
 
             # 转为QImage对象
             self.image = QImage(frame1.data, width1, height1, bytesPerLine, QImage.Format_RGB888)

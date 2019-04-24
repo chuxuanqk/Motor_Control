@@ -2,8 +2,9 @@
 __author__ = 'Saber'
 __date__ = '26/3/19 下午5:23'
 
+from enum import Enum
 from PyQt5.QtCore import Qt, QRect, QMetaObject, QCoreApplication
-from PyQt5.QtWidgets import QApplication, QLabel
+from PyQt5.QtWidgets import QApplication, QLabel, QPushButton, QComboBox
 
 from setting import back_img, wait_img
 
@@ -72,4 +73,71 @@ class Ui_Wait(object):
 
     def retranslateUi(self, Form):
         _translate = QCoreApplication.translate
+
+
+
+class Ui_seal(object):
+    """
+    印章选择界面
+    """
+    def __init__(self):
+        self.Seal_enum = {"Seal_1":0,
+                          "Seal_2":1,
+                          "Seal_3":2,
+                          "Seal_4":3
+                          }
+
+    def setupUi(self, Form):
+        Form.setObjectName("seal")
+        Form.resize(314, 188)
+        Form.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)  # 设置无边框、置顶
+        Form.setWindowOpacity(0.9)  # 设置透明度
+        Form.raise_()
+        Form.setStyleSheet("#seal{\
+                              background-color: rgba(0, 0, 0, 0);\
+                              border-image:url(./Resource/Pic/入纸确认/背景1.png);}")
+
+        self.Seal_type = QComboBox(Form)
+        self.Seal_type.setObjectName("seal_type")
+        self.Seal_type.setGeometry(QRect(70, 46, 160, 30))
+        self.Seal_type.addItem("Seal_1", self.Seal_enum['Seal_1'])
+        self.Seal_type.addItem("Seal_2", self.Seal_enum['Seal_2'])
+        self.Seal_type.addItem("Seal_3", self.Seal_enum['Seal_3'])
+        self.Seal_type.addItem("Seal_4", self.Seal_enum['Seal_4'])
+        self.Seal_type.adjustSize()
+
+        self.verify_btn = QPushButton(Form)
+        self.verify_btn.setObjectName("verify_btn")
+        self.verify_btn.setGeometry(QRect(10, 120, 140, 60))
+        self.verify_btn.setStyleSheet("#verify_btn{\
+                                          border-image:url(./Resource/Pic/入纸确认/btn_up.png);\
+                                          text-align:center;\
+                                          font-weight:Regular; \
+                                          font-family:SourceHanSansCN-Regular;\
+                                          font-size:18px;\
+                                          color:#7B7B7B;}")
+        self.verify_btn.setText("确认")
+
+        self.cancel_btn = QPushButton(Form)
+        self.cancel_btn.setObjectName("cancel_btn")
+        self.cancel_btn.setGeometry(QRect(160, 120, 140, 60))
+        self.cancel_btn.setStyleSheet("#cancel_btn{\
+                                          border-image:url(./Resource/Pic/入纸确认/btn_up.png);\
+                                          text-align:center;\
+                                          font-weight:Regular; \
+                                          font-family:SourceHanSansCN-Regular;\
+                                          font-size:18px;\
+                                          color:#7B7B7B;}")
+        self.cancel_btn.setText("取消")
+
+        self.retranslateUi(Form)
+        QMetaObject.connectSlotsByName(Form)
+
+    def retranslateUi(self, Form):
+        _translate = QCoreApplication.translate
+
+
+
+
+
 

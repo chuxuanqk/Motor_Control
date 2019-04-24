@@ -1,0 +1,36 @@
+#preview{
+    border-image:url(./Resource/img/背景2.png);
+}
+
+QPushButton{
+    border-image:url(./Resource/img/btn1_up.png);
+    text-align:center;
+    font-weight:Regular;
+    font-family:SourceHanSansCN-Regular;
+    font-size:20px;
+    color:#3E9FD2;
+}
+
+
+QPushButton:pressed{
+    border-image:url(./Resource/img/btn1_down.png);
+    text-align:center;
+    font-weight:Regular;
+    font-family:SourceHanSansCN-Regular;
+    font-size:20px;
+    color:#3E9FD2;
+}
+
+
+#title_lab{
+    text-align:center;
+    font-weight:Regular;
+    font-family:SourceHanSansCN-Regular;
+    font-size:29px;
+    color:#FFFFFF;
+}
+
+
+#preview_lab{
+    border-image:url(./Resource/img/LOGO.jpg);
+}

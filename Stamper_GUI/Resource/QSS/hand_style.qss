@@ -1,0 +1,36 @@
+#hand_movement{
+    background-color:rgba(0,0,0,0);
+    border-image:url(./Resource/Pic/入纸确认/矩形背景2.png);
+}
+
+
+QPushButton{
+    background-color:rgba(0,0,0,0);
+    border-image:url(./Resource/img/btn1_up.png);
+    font-family:SourceHanSansCN-Regular;
+    font-weight:Regular;
+    text-align:center;
+    color:#FFFFFF;
+    font-size:20px;
+}
+
+
+QPushButton:pressed{
+    border-image:url(./Resource/img/btn1_down.png);
+}
+
+#title_lab{
+    background-color:rgba(0,0,0,0);
+    font-family:SourceHanSansCN-Regular;
+    font-weight:Regular;
+    text-align:center;
+    color:#FFFFFF;
+    font-size:30px;
+}
+
+
+#show_lab{
+    background-color:rgba(0,0,0,0);
+    /*border-image:url(./Resource/img/LOGO.jpg);  */
+}
+
