@@ -23,7 +23,7 @@ class Preview_Form(QWidget, Ui_preview):
     show_stamper_signal = pyqtSignal(QWidget)
     show_hand_signal = pyqtSignal()
     back_signal = pyqtSignal()
-
+    close_signal = pyqtSignal()
     cap_signal = pyqtSignal()
 
     def __init__(self, parent=None):
@@ -33,10 +33,22 @@ class Preview_Form(QWidget, Ui_preview):
         self.image = QImage()
         self.playTimer = Timer()
 
+
         self.preview_lab.setStyleSheet("#preview_lab{border-image:url(" + contract_path + ");}")
 
         self.playTimer.Camer.connect(self.showCamer)
         self.cap_signal.connect(self.cap_shuted)
+
+        self.Seal_type.activated[str].connect(self.OnActivated)   # 当改变QComboBox的信号
+
+    def OnActivated(self, text):
+        """
+        获取印章编号信息
+        :return:
+        """
+        pass
+        # print("Seal:", text)
+        # print("Seal_value:", self.Seal_type.currentData())
 
     def show_Repaint(self):
         """
@@ -44,7 +56,6 @@ class Preview_Form(QWidget, Ui_preview):
         """
         self.preview_lab.setStyleSheet("#preview_lab{border-image:url(" + contract_path + ");}")
         self.show()
-
 
     def show_self(self):
         """
@@ -73,6 +84,7 @@ class Preview_Form(QWidget, Ui_preview):
             self.device.release()
             # 发送退出信号
             self.close_signal.emit()
+            self.close()
         except Exception as e:
             print("返回页面:{}".format(str(e)))
 
@@ -82,12 +94,14 @@ class Preview_Form(QWidget, Ui_preview):
         :return:
         """
         try:
-            self.wait.close_self()
-            self.shadow.close()
+            # self.wait.close_self()
+            # self.shadow.close()
+            self.playTimer.stop()
             self.device.release()
-            self.timer.stop()
-        except:
-            print("重复释放资源")
+            # self.timer.stop()
+
+        except Exception as e:
+            print("重复释放资源:", e)
 
     def cap_shuted(self):
         """
@@ -110,27 +124,28 @@ class Preview_Form(QWidget, Ui_preview):
             frame = get_frame(frame, 370, 522)
             cv2.flip(frame, 90)
 
+            # 当关掉摄像头的信号发出后，还有5个左右的定时任务在执行，所以会抛出异常
+            try:
+                height, width, bytesPerComponent = frame.shape
+                frame1 = frame.copy()
+                height1, width1, bytesPerComponent1 = frame1.shape
+                bytesPerLine = bytesPerComponent * width1
+
+                # 变换彩色空间顺序
+                cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB, frame1)
+
+                # 转为QImage对象
+                self.image = QImage(frame1.data, width1, height1, bytesPerLine, QImage.Format_RGB888)
+                self.preview_lab.setPixmap(QPixmap.fromImage(self.image))
+                self.image = frame
+
+                self.update()
+            except Exception as e:
+                print("退出:", e)
+
         else:
             ret = False
 
-        # 当关掉摄像头的信号发出后，还有5个左右的定时任务在执行，所以会抛出异常
-        try:
-            height, width, bytesPerComponent = frame.shape
-            frame1 = frame.copy()
-            height1, width1, bytesPerComponent1 = frame1.shape
-            bytesPerLine = bytesPerComponent * width1
-
-            # 变换彩色空间顺序
-            cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB, frame1)
-
-            # 转为QImage对象
-            self.image = QImage(frame1.data, width1, height1, bytesPerLine, QImage.Format_RGB888)
-            self.preview_lab.setPixmap(QPixmap.fromImage(self.image))
-            self.image = frame
-
-            self.update()
-        except Exception as e:
-            print("退出")
 
     def paintEvent(self, event):
         """
@@ -144,3 +159,6 @@ class Preview_Form(QWidget, Ui_preview):
         # 反锯齿
         painter.setRenderHint(QPainter.Antialiasing)
         self.style().drawPrimitive(QStyle.PE_Widget, opt, painter, self)
+
+
+

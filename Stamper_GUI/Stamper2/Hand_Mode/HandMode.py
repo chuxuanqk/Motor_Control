@@ -10,7 +10,7 @@ from PyQt5.QtGui import QCursor
 
 from .UI_HnadMode import Ui_hand_movement
 from setting import contract_path, drawn_img_path
-
+from Common.new_contract import offset_of_image_and_a4
 
 class Hand_movement_Form(QDialog, Ui_hand_movement):
     """
@@ -33,7 +33,6 @@ class Hand_movement_Form(QDialog, Ui_hand_movement):
 
         self.cancel_btn.clicked.connect(self.cancel_btn_released)
         self.ensure_btn.clicked.connect(self.ensure_btn_released)
-
 
     def show_self(self):
         """
@@ -70,10 +69,15 @@ class Hand_movement_Form(QDialog, Ui_hand_movement):
         # y = int(pos['y']*(1960/600))
         x = int(pos['x'])
         y = int(pos['y'])
-        print("x:{}, y:{}".format(x, y))
+        # print("x:{}, y:{}".format(x, y))
         pos_tuple = tuple((x, y))
 
         center = self.draw_img(pos_tuple)
+
+        drawn_img = cv2.imread(drawn_img_path)
+        center2 = offset_of_image_and_a4(drawn_img, pos_tuple)
+        print("Center2:", center2)
+
         self.img_info['center'] = [center[0], center[1]]
         self.label.setStyleSheet("#show_lab{border-image:url("+drawn_img_path+");}")
         self.repaint()

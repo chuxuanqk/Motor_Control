@@ -12,7 +12,7 @@ class Ui_Main(object):
     def setupUi(self, Form):
         Form.resize(1024, 768)
         Form.move(0, 0)
-        Form.setWindowFlags(Qt.FramelessWindowHint)
+        # Form.setWindowFlags(Qt.FramelessWindowHint)
 
         self.retranslateUi(Form)
         QMetaObject.connectSlotsByName(Form)

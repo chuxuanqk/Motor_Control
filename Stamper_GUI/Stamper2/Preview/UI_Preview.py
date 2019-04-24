@@ -4,22 +4,25 @@ __date__ = '22/4/19 下午5:34'
 
 
 from PyQt5.QtCore import Qt, QRect, QMetaObject, QCoreApplication, QObject
-from PyQt5.QtWidgets import QPushButton, QLabel, QLineEdit, QApplication, QWidget, QStyleOption, QStyle
+from PyQt5.QtWidgets import QPushButton, QLabel, QComboBox, QWidget, QStyleOption, QStyle
 from PyQt5.QtGui import QPainter
 
 from Common.utils import CommonHelper
-from setting import Preview_QSS
+from setting import Preview_QSS, Seal_enum
 
 
 class Ui_preview(object):
     """
     盖章文件预览
     """
+    def __init__(self):
+        pass
+
     def setupUi(self, Form):
         Form.move(0, 0)
         Form.resize(1024, 768)
         Form.setObjectName('preview')
-        Form.setWindowFlags(Qt.FramelessWindowHint)
+        # Form.setWindowFlags(Qt.FramelessWindowHint)
 
         # 加载QSS样式
         self.styleFile =Preview_QSS
@@ -33,6 +36,19 @@ class Ui_preview(object):
         self.ensure_btn = QPushButton(Form)
         self.ensure_btn.setGeometry(QRect(900, 25, 100, 40))
         self.ensure_btn.setObjectName("ensure_btn")
+
+        self.Seal_type = QComboBox(Form)
+        self.Seal_type.setGeometry(QRect(810, 480, 100, 100))
+        self.Seal_type.setObjectName("seal_type")
+        self.Seal_type.addItem("Seal_1", Seal_enum['Seal_1'])
+        self.Seal_type.addItem("Seal_2", Seal_enum['Seal_2'])
+        self.Seal_type.addItem("Seal_3", Seal_enum['Seal_3'])
+        self.Seal_type.addItem("Seal_4", Seal_enum['Seal_4'])
+        self.Seal_type.setMaximumHeight(100)
+
+        self.Seal_label = QLabel(Form)
+        self.Seal_label.setGeometry(QRect(920, 480, 100, 100))
+        self.Seal_label.setObjectName("Seal_label")
 
         self.Rc_btn = QPushButton(Form)
         self.Rc_btn.setGeometry(QRect(800, 560, 146, 47))
@@ -65,6 +81,7 @@ class Ui_preview(object):
         self.title_lab.setText(_translate("Form", "文件预览"))
         self.Rc_btn.setText(_translate("Form", "识别盖章"))
         self.Hand_btn.setText(_translate("Form", "手动盖章"))
+        self.Seal_label.setText(_translate("Form", "选择印章"))
 
 
 class Test_Form(QWidget, Ui_preview):

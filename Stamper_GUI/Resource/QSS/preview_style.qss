@@ -21,6 +21,13 @@ QPushButton:pressed{
     color:#3E9FD2;
 }
 
+#Seal_label{
+    text-align:center;
+    font-weight:Regular;
+    font-family:SourceHanSansCN-Regular;
+    font-size:16px;
+    color:#FFFFFF;
+}
 
 #title_lab{
     text-align:center;

@@ -26,6 +26,23 @@ drawn_img_path = './Resource/Temp_img/drawn_img.jpg'
 face_camera = 0
 camera = 0
 
+# 全局变量
+Seal_enum = {"Seal_1": 0,
+             "Seal_2": 1,
+             "Seal_3": 2,
+             "Seal_4": 3
+             }
 
 # 数据库
 # Database
+
+# import cv2
+#
+# if __name__ == "__main__":
+#     cap = cv2.VideoCapture(1)
+#     while(cap.isOpened()):
+#         ret, frame = cap.read()
+#         print(frame)
+#         cv2.namedWindow("frame", cv2.WINDOW_NORMAL)
+#         cv2.imshow("frame", frame)
+#         cv2.waitKey(0)

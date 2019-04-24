@@ -370,6 +370,7 @@ def offset_of_image_and_a4(img, center):
 
 
 def get_frame(frame, width, height):
+    # frame1 = frame
     frame1 = cv2.resize(frame, (width, height))
     return frame1
 

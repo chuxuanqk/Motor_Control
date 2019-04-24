@@ -75,7 +75,6 @@ class Ui_Wait(object):
         _translate = QCoreApplication.translate
 
 
-
 class Ui_seal(object):
     """
     印章选择界面
