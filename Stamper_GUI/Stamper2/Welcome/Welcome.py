@@ -14,8 +14,8 @@ from Stamper2.Wait_Form.Wait_Form import Shadow_Form, Wait_Form
 from Stamper2.Hand_Mode.HandMode import Hand_movement_Form
 from Stamper2.Serial.Serial import SerialWork
 
-from setting import welcome, drawn_img_path
-
+from setting import welcome, drawn_img_path, contract_path
+from Common.new_contract import contract_detacting
 
 # 主控制界面
 class MainForm(QMainWindow, Ui_Main):
@@ -32,9 +32,10 @@ class MainForm(QMainWindow, Ui_Main):
         self.setupUi(self)
 
         self.Preview = Preview_Form()
-        self.Preview.cancel_btn.clicked.connect(self.show_self)
+        self.Preview.Rc_btn.clicked.connect(self.RcMode)
         self.Preview.Hand_btn.clicked.connect(self.HandMode)
         self.Preview.ensure_btn.clicked.connect(self.SerialMode)
+        self.Preview.cancel_btn.clicked.connect(self.show_self)
 
         self.Hand = Hand_movement_Form(self.Preview)
         self.Hand.img_signal.connect(self.HandData)
@@ -59,6 +60,7 @@ class MainForm(QMainWindow, Ui_Main):
         显示文件预览页面
         :return:
         """
+
         # self.Preview.show_Repaint()
         self.Preview.show_self()
         self.hide()
@@ -70,17 +72,26 @@ class MainForm(QMainWindow, Ui_Main):
         """
         Seal_num = self.Preview.Seal_type.currentData()
         print("Seal_num:", Seal_num)
-        # self.serialthread = QThread()
-        # self.serialwork = SerialWork()
-        # self.serialwork.moveToThread(self.serialthread)
-        # self.serialthread.started.connect(self.serialwork.init)
-        # self.serialthread.start()
+        self.serialthread = QThread()
+        self.serialwork = SerialWork()
+        self.serialwork.moveToThread(self.serialthread)
+        self.serialthread.started.connect(self.serialwork.init)
+        self.serialthread.start()
+
+    def RcMode(self):
+        """
+        自动识别盖章
+        :return:
+        """
+        self.coord_dict = contract_detacting(contract_path, drawn_img_path)
+        self.Hand.show_self()
 
     def HandMode(self):
         """
         手动设置盖章位置
         :return:
         """
+        self.Preview.Currentframe_Save(contract_path)
         self.Hand.show_self()
 
     def HandData(self, info):
@@ -99,7 +110,9 @@ class MainForm(QMainWindow, Ui_Main):
         # self.Preview.repaint()
 
     def Set_preview_lab(self):
-
+        """
+        设置预览图片
+        """
         pixmap = QPixmap(drawn_img_path)
 
         self.Preview.preview_lab.setScaledContents(True)

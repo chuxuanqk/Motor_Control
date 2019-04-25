@@ -2,19 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="54771e0b-3841-491e-a152-c8ec9dbd6035" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/Resource/Temp_img/WechatIMG94.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Common/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/new_contract.py" beforeDir="false" afterPath="$PROJECT_DIR$/Common/new_contract.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resource/QSS/preview_style.qss" beforeDir="false" afterPath="$PROJECT_DIR$/Resource/QSS/preview_style.qss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Resource/Temp_img/contract.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Resource/Temp_img/contract.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Resource/Temp_img/drawn_img.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Resource/Temp_img/drawn_img.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Stamper2/Hand_Mode/HandMode.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper2/Hand_Mode/HandMode.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Stamper2/Preview/Preview.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper2/Preview/Preview.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stamper2/Preview/UI_Preview.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper2/Preview/UI_Preview.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stamper2/Wait_Form/UI_Wait_Form.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper2/Wait_Form/UI_Wait_Form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stamper2/Welcome/UI_Welcome.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper2/Welcome/UI_Welcome.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Stamper2/Welcome/Welcome.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper2/Welcome/Welcome.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/setting.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,12 +23,13 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Stamper_2$run.coverage" NAME="run Coverage Results" MODIFIED="1555850168432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Stamper_GUI$setting.coverage" NAME="setting Coverage Results" MODIFIED="1556096019942" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Stamper_GUI$Preview.coverage" NAME="Preview Coverage Results" MODIFIED="1556095809979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stamper2/Preview" />
+    <SUITE FILE_PATH="coverage/Stamper_GUI$Preview.coverage" NAME="Preview Coverage Results" MODIFIED="1556158508718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stamper2/Preview" />
     <SUITE FILE_PATH="coverage/Stamper_GUI$Serial.coverage" NAME="Serial Coverage Results" MODIFIED="1556013569367" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stamper2/Serial" />
+    <SUITE FILE_PATH="coverage/Stamper_GUI$test.coverage" NAME="test Coverage Results" MODIFIED="1556111943757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Stamper_2$Serial.coverage" NAME="Serial Coverage Results" MODIFIED="1555850733222" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stamper2/Serial" />
     <SUITE FILE_PATH="coverage/Stamper_2$Face_Rc.coverage" NAME="Face_Rc Coverage Results" MODIFIED="1553651303181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stamper2/Face_Rc" />
     <SUITE FILE_PATH="coverage/Stamper_GUI$UI_Preview.coverage" NAME="UI_Preview Coverage Results" MODIFIED="1555989012572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Stamper2/Preview" />
-    <SUITE FILE_PATH="coverage/Stamper_GUI$run.coverage" NAME="run Coverage Results" MODIFIED="1556099371481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Stamper_GUI$run.coverage" NAME="run Coverage Results" MODIFIED="1556159237282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="1903892316">
@@ -67,14 +65,17 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.38232794">
+    <splitter split-orientation="horizontal" split-proportion="0.45054945">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="run.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/run.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="72">
-                  <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+                <state relative-caret-position="180">
+                  <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+                  <folding>
+                    <element signature="e#0#10#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -82,26 +83,29 @@
           <file leaf-file-name="setting.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/setting.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="408">
-                  <caret line="38" selection-start-line="38" selection-end-line="47" selection-end-column="24" />
+                <state relative-caret-position="120">
+                  <caret line="22" column="42" lean-forward="true" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Common/utils.py">
+          <file leaf-file-name="UI_Preview.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Stamper2/Preview/UI_Preview.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1302">
-                  <caret line="4" column="8" lean-forward="true" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+                <state relative-caret-position="367">
+                  <caret line="65" column="37" lean-forward="true" selection-start-line="65" selection-start-column="37" selection-end-line="65" selection-end-column="37" />
+                  <folding>
+                    <element signature="e#74#148#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Welcome.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Welcome.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Stamper2/Welcome/Welcome.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-377">
-                  <caret line="39" column="23" lean-forward="true" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
+                <state relative-caret-position="307">
+                  <caret line="91" column="16" lean-forward="true" selection-start-line="91" selection-start-column="16" selection-end-line="91" selection-end-column="16" />
                   <folding>
                     <element signature="e#74#113#0" expanded="true" />
                   </folding>
@@ -109,11 +113,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="HandMode.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="HandMode.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Stamper2/Hand_Mode/HandMode.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="281">
-                  <caret line="75" selection-start-line="75" selection-end-line="75" />
+                <state relative-caret-position="256">
+                  <caret line="91" selection-start-line="91" selection-end-line="91" />
                   <folding>
                     <element signature="e#74#84#0" expanded="true" />
                   </folding>
@@ -121,11 +125,14 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="UI_Welcome.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Stamper2/Welcome/UI_Welcome.py">
+          <file leaf-file-name="UI_HnadMode.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Stamper2/Hand_Mode/UI_HnadMode.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
-                  <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+                <state relative-caret-position="182">
+                  <caret line="31" column="59" lean-forward="true" selection-start-line="31" selection-start-column="59" selection-end-line="31" selection-end-column="59" />
+                  <folding>
+                    <element signature="e#73#147#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -137,10 +144,22 @@
           <file leaf-file-name="new_contract.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Common/new_contract.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="144">
-                  <caret line="350" lean-forward="true" selection-start-line="350" selection-end-line="350" />
+                <state relative-caret-position="239">
+                  <caret line="415" column="15" lean-forward="true" selection-start-line="415" selection-start-column="15" selection-end-line="415" selection-end-column="15" />
                   <folding>
                     <element signature="e#25#34#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Preview.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Stamper2/Preview/Preview.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="306">
+                  <caret line="123" column="24" selection-start-line="123" selection-start-column="24" selection-end-line="123" selection-end-column="24" />
+                  <folding>
+                    <element signature="e#74#84#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -194,11 +213,12 @@
         <option value="$PROJECT_DIR$/run.py" />
         <option value="$PROJECT_DIR$/Stamper2/Welcome/UI_Welcome.py" />
         <option value="$PROJECT_DIR$/Stamper2/Preview/UI_Preview.py" />
-        <option value="$PROJECT_DIR$/Common/new_contract.py" />
         <option value="$PROJECT_DIR$/setting.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/Stamper2/Hand_Mode/HandMode.py" />
         <option value="$PROJECT_DIR$/Stamper2/Preview/Preview.py" />
         <option value="$PROJECT_DIR$/Stamper2/Welcome/Welcome.py" />
-        <option value="$PROJECT_DIR$/Stamper2/Hand_Mode/HandMode.py" />
+        <option value="$PROJECT_DIR$/Common/new_contract.py" />
       </list>
     </option>
   </component>
@@ -211,11 +231,11 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="10" />
-    <option name="y" value="621" />
-    <option name="width" value="1338" />
-    <option name="height" value="756" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="x" value="528" />
+    <option name="y" value="23" />
+    <option name="width" value="1019" />
+    <option name="height" value="675" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -255,13 +275,13 @@
               <item name="Stamper_GUI" type="b2602c69:ProjectViewProjectNode" />
               <item name="Stamper_GUI" type="462c0819:PsiDirectoryNode" />
               <item name="Stamper2" type="462c0819:PsiDirectoryNode" />
-              <item name="Face_Rc" type="462c0819:PsiDirectoryNode" />
+              <item name="Hand_Mode" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Stamper_GUI" type="b2602c69:ProjectViewProjectNode" />
               <item name="Stamper_GUI" type="462c0819:PsiDirectoryNode" />
               <item name="Stamper2" type="462c0819:PsiDirectoryNode" />
-              <item name="Wait_Form" type="462c0819:PsiDirectoryNode" />
+              <item name="Preview" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -342,25 +362,6 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="UI_Preview" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Stamper_2" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Stamper2/Preview" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Stamper2/Preview/UI_Preview.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
     <configuration name="run" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Stamper_2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -399,20 +400,39 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Stamper_2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <list>
       <item itemvalue="Python.run" />
-      <item itemvalue="Python.UI_Preview" />
       <item itemvalue="Python.setting" />
       <item itemvalue="Python.Serial" />
       <item itemvalue="Python.Preview" />
+      <item itemvalue="Python.test" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.run" />
-        <item itemvalue="Python.setting" />
         <item itemvalue="Python.Preview" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.setting" />
         <item itemvalue="Python.Serial" />
-        <item itemvalue="Python.UI_Preview" />
       </list>
     </recent_temporary>
   </component>
@@ -430,7 +450,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="10" y="621" width="1338" height="756" extended-state="0" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -438,14 +458,13 @@
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="11" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32920793" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.25948405" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.23172414" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.1737931" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.091820985" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11793215" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Concurrent Activities Diagram" weight="0.32965517" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -455,29 +474,30 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Concurrent Activities Diagram" order="13" weight="0.32965517" />
     </layout>
     <layout-to-restore>
-      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2647059" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.2175857" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2647059" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32920793" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32965517" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32920793" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -488,10 +508,30 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="7" />
+      <option name="time" value="8" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Stamper2/Hand_Mode/HandMode.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1224">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
+          <folding>
+            <element signature="e#74#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Common/new_contract.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6174">
+          <caret line="350" lean-forward="true" selection-start-line="350" selection-end-line="350" />
+          <folding>
+            <element signature="e#25#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Stamper2/Preview/Preview.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
@@ -513,9 +553,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1026">
           <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
-          <folding>
-            <element signature="e#156#175#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -630,9 +667,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -691,13 +725,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper2/Hand_Mode/UI_HnadMode.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="5" column="47" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/python_stubs/569532243/PyQt5/QtCore/QThread.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1998">
@@ -712,19 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper2/Serial/Serial.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="229" column="12" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="12" />
-          <folding>
-            <element signature="e#73#83#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Resource/img/wait_lab.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/Stamper2/Face_Rc/Face_Rc.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -738,25 +752,9 @@
     <entry file="file://$PROJECT_DIR$/Stamper2/Welcome/UI_Welcome.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper2/Preview/UI_Preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="e#74#148#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Resource/Temp_img/contract.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Resource/Temp_img/drawn_img.jpg">
-      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Stamper2/Wait_Form/UI_Wait_Form.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -768,23 +766,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/run.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3/time.pyi">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/python_stubs/569532243/PyQt5/QtCore/QTimer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
           <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
-          <folding>
-            <element signature="e#156#175#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -792,23 +777,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="79">
           <caret line="9206" column="4" selection-start-line="9206" selection-start-column="4" selection-end-line="9206" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="38" selection-start-line="38" selection-end-line="47" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper2/Preview/Preview.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
-          <folding>
-            <element signature="e#74#84#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -829,27 +797,89 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper2/Welcome/Welcome.py">
+    <entry file="file://$PROJECT_DIR$/Stamper2/Serial/Serial.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-377">
-          <caret line="39" column="23" lean-forward="true" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
+        <state relative-caret-position="223">
+          <caret line="229" column="12" selection-start-line="229" selection-start-column="12" selection-end-line="229" selection-end-column="12" />
           <folding>
-            <element signature="e#74#113#0" expanded="true" />
+            <element signature="e#73#83#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Common/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1302">
-          <caret line="4" column="8" lean-forward="true" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+        <state relative-caret-position="18">
+          <caret line="4" column="8" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/anaconda3/lib/python3.6/site-packages/PyQt5/QtMultimediaWidgets.pyi">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1141" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="19" column="2" selection-start-line="19" selection-start-column="2" selection-end-line="19" selection-end-column="2" />
+          <folding>
+            <element signature="e#73#83#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setting.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="22" column="42" lean-forward="true" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Stamper2/Hand_Mode/UI_HnadMode.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="31" column="59" lean-forward="true" selection-start-line="31" selection-start-column="59" selection-end-line="31" selection-end-column="59" />
+          <folding>
+            <element signature="e#73#147#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Stamper2/Preview/UI_Preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="65" column="37" lean-forward="true" selection-start-line="65" selection-start-column="37" selection-end-line="65" selection-end-column="37" />
+          <folding>
+            <element signature="e#74#148#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Stamper2/Hand_Mode/HandMode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="75" selection-start-line="75" selection-end-line="75" />
+        <state relative-caret-position="256">
+          <caret line="91" selection-start-line="91" selection-end-line="91" />
+          <folding>
+            <element signature="e#74#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Stamper2/Preview/Preview.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="123" column="24" selection-start-line="123" selection-start-column="24" selection-end-line="123" selection-end-column="24" />
           <folding>
             <element signature="e#74#84#0" expanded="true" />
           </folding>
@@ -858,10 +888,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Common/new_contract.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="350" lean-forward="true" selection-start-line="350" selection-end-line="350" />
+        <state relative-caret-position="239">
+          <caret line="415" column="15" lean-forward="true" selection-start-line="415" selection-start-column="15" selection-end-line="415" selection-end-column="15" />
           <folding>
             <element signature="e#25#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Stamper2/Welcome/Welcome.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="91" column="16" lean-forward="true" selection-start-line="91" selection-start-column="16" selection-end-line="91" selection-end-column="16" />
+          <folding>
+            <element signature="e#74#113#0" expanded="true" />
           </folding>
         </state>
       </provider>

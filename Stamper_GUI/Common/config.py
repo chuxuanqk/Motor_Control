@@ -17,4 +17,5 @@ class Config:
     IMAGE_REAL_SIZE = [242, 157]
     DISTANCE_TO_ORIGIN = 246
     REGION_WIDTH = 59
+    CLICK_WINDOW = [600, 420]
     KEY_LIST = ['借款方', '贷款方', '出借方', '甲方', '借款人', '盖章']

@@ -7,7 +7,7 @@ from math import *
 import logging
 import numpy as np
 import pytesseract
-from .config import Config
+from config import Config
 
 class RaiseError:
 
@@ -162,8 +162,9 @@ class Correct_Image:
 
 class Recognition:
 
-    def __init__(self, img):
+    def __init__(self, img, save_path):
         self.img = img
+        self.save_path = save_path
         self.key_lsit = Config.KEY_LIST
 
     @staticmethod
@@ -258,10 +259,10 @@ class Recognition:
         img_gray = cv2.cvtColor(self.img, cv2.COLOR_RGB2GRAY)
         result = pytesseract.image_to_data(img_gray, lang='chi_sim', config='--psm 3',
                                            nice=0, output_type=pytesseract.Output.DICT)
-        result1 = pytesseract.image_to_data(img_gray, lang='chi_sim', config='--psm 3 --oem 3')
-                                           # nice=0, output_type=pytesseract.Output.STRING)
-
-        print("result:", result1)
+        # result1 = pytesseract.image_to_data(img_gray, lang='chi_sim', config='--psm 3 --oem 3',
+        #                                    nice=0, output_type=pytesseract.Output.STRING)
+        #
+        # print("result:", result1)
         return result
 
     def get_key_words(self):
@@ -308,8 +309,11 @@ class Recognition:
         index_str = []
         key_list = self.key_lsit
         indexes, strings, location = self.get_key_words()
+        # print("strings:", strings)
         for key in key_list:
             index_keys = strings.find(key)
+            # print("key:", key)
+            # print("index_keys:", index_keys)
             if index_keys >= 0:
                 # key_word = key
                 index_str.append(index_keys)
@@ -327,6 +331,7 @@ class Recognition:
         """
         h, w, _ = self.img.shape
         index_str, indexes, location = self.locate_key_words()
+        # print("index_str:", index_str)
         index_list = min(index_str)
         temp_index = indexes[index_list]
         x1 = location['Left'][temp_index]
@@ -339,10 +344,11 @@ class Recognition:
             ratio = (center[0]/w, center[1]/h)
         else:
             pass
-        # cv2.circle(self.img, center, 150, (255, 0, 0), thickness=5)
-        # cv2.namedWindow('img', cv2.WINDOW_NORMAL)
-        # cv2.imshow('img', self.img)
-        # cv2.waitKey(0)
+        cv2.circle(self.img, center, 150, (255, 0, 0), thickness=5)
+        cv2.imwrite(self.save_path, self.img)
+        cv2.namedWindow('img', cv2.WINDOW_NORMAL)
+        cv2.imshow('img', self.img)
+        cv2.waitKey(0)
         return center, ratio
 
     def __repr__(self):
@@ -352,14 +358,16 @@ class Recognition:
 def offset_of_image_and_a4(img, center):
     ih = img.shape[0]
     iw = img.shape[1]
+    print("ih", ih)
+    print("iw", iw)
     a4 = Config.A4
     # key_list = Config.KEY_LIST
     deltas = [Config.DELTAS_HEIGHT, Config.DELTAS_WIDTH]
     isize = Config.IMAGE_REAL_SIZE
     dis_origin = Config.DISTANCE_TO_ORIGIN
     # center, _ = Recognition(img).calculate_center()
-    y_ = int((center[0] / ih) * isize[0] + deltas[0])
-    x = int((center[1] / iw) * isize[1] + deltas[1])
+    y_ = int((center[1] / ih) * isize[0] + deltas[0])
+    x = int((center[0] / iw) * isize[1] + deltas[1])
     y = a4[0] - y_
     real_center = (int(dis_origin - x), y)
     region_width = Config.REGION_WIDTH
@@ -369,47 +377,60 @@ def offset_of_image_and_a4(img, center):
     return real_center, region_
 
 
+def draw_img(center, contract_path, draw_image_path):
+    """
+    绘制盖章图
+    return:
+    """
+    x_click = Config.CLICK_WINDOW[0]
+    y_click = Config.CLICK_WINDOW[1]
+    img = cv2.imread(contract_path)
+    print('img:', img.shape)
+    # _, center1 = capture_image(camera, filename, img_name)
+    if img.shape[0] == 0 or img.shape[1] == 0:
+        raise IOError("Please put image!")
+    else:
+        #######################
+        center = (int(center[0] / (x_click / img.shape[1])), int(center[1] / (y_click / img.shape[0])))
+    #######################
+    cv2.circle(img, center, radius=250, color=(255, 0, 0), thickness=5)
+    cv2.imwrite(draw_image_path, img)
+    # cv2.namedWindow('img', cv2.WINDOW_NORMAL)
+    # cv2.imshow('img', img)
+    # cv2.waitKey(0)
+    center = center  # + tuple(center1)
+
+    return center
+
+
 def get_frame(frame, width, height):
-    # frame1 = frame
     frame1 = cv2.resize(frame, (width, height))
     return frame1
 
 
-def contract_detacting(path):
+def contract_detacting(path, save_path):
     img = cv2.imread(path)
+    print("img_shape:", img.shape)
     degree = Correct_Image(img).calc_degree()
     rotate = Correct_Image(img).rotate_image(degree)
-    center, _ = Recognition(img).calculate_center()
-    final_center, region = offset_of_image_and_a4(rotate, center)
+    print("rotate_shape:", rotate.shape)
+    cv2.namedWindow("rotate_image:", cv2.WINDOW_NORMAL)
+    cv2.imshow("rotate_image:", rotate)
+    cv2.waitKey(0)
+
+    center, _ = Recognition(img, save_path).calculate_center()
+    print('center_shape[0]:', center[0])
+    print('center_shape[1]:', center[1])
+    final_center, region = offset_of_image_and_a4(img, center)
+    # final_center, region = offset_of_image_and_a4(rotate, center)
     coordinate_and_region = {"final_center": final_center, "region": region}
     return coordinate_and_region
 
 
 if __name__ == "__main__":
     # camera = 2
-    path = "/home/devin/Documents/qianhai_devin/stamp_machinery/ocr/jpg/credit_loan/4.jpg"
-    # key_list = ['借款方', '贷款方', '出借方', '甲方:', '借款人', '盖章']
-    # GetAndRotateImage().warm_camera(camera=camera)
-    # img = GetAndRotateImage().rotate_image(camera, 90)
-    # img = cv2.imread("/home/devin/Documents/qianhai_devin/stamp_machinery/ocr/jpg/credit_loan/4.jpg")
-    # img = cv2.imread('/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/contract_r.jpg')
-    # print('image shape:', img.shape)
-    # width = 538
-    # height = 768
-    # img1 = get_frame(img, width, height)
-    # print('resize_img_shape:', img1.shape)
-    # cv2.namedWindow("resize_img:", cv2.WINDOW_NORMAL)
-    # cv2.imshow("resize_img:", img1)
-    # cv2.waitKey(0)
-
-    # center, _ = Recognition(img).calculate_center()
-    # degree = Correct_Image(img).calc_degree()
-    # rotate = Correct_Image(img).rotate_image(degree)
-    # cv2.namedWindow("rotate_image:", cv2.WINDOW_NORMAL)
-    # cv2.imshow("rotate_image:", rotate)
-    # cv2.waitKey(0)
-    # final_center, region = offset_of_image_and_a4(rotate)
-    # print("center:", final_center)
-    # print("region:", region)
-    location = contract_detacting(path)
+    # path = "/home/devin/Documents/qianhai_devin/stamp_machinery/ocr/jpg/loan/3.jpg"
+    # save_path = "/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/save.jpg"
+    
+    location = contract_detacting(path, save_path)
     print("location:", location)

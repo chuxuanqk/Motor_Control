@@ -33,7 +33,6 @@ class Preview_Form(QWidget, Ui_preview):
         self.image = QImage()
         self.playTimer = Timer()
 
-
         self.preview_lab.setStyleSheet("#preview_lab{border-image:url(" + contract_path + ");}")
 
         self.playTimer.Camer.connect(self.showCamer)
@@ -121,7 +120,7 @@ class Preview_Form(QWidget, Ui_preview):
         """
         if self.device.isOpened():
             ret, frame = self.device.read()
-            frame = get_frame(frame, 370, 522)
+            # frame = get_frame(frame, 420, 600)
             cv2.flip(frame, 90)
 
             # 当关掉摄像头的信号发出后，还有5个左右的定时任务在执行，所以会抛出异常
@@ -136,16 +135,22 @@ class Preview_Form(QWidget, Ui_preview):
 
                 # 转为QImage对象
                 self.image = QImage(frame1.data, width1, height1, bytesPerLine, QImage.Format_RGB888)
+                self.preview_lab.setScaledContents(True)
                 self.preview_lab.setPixmap(QPixmap.fromImage(self.image))
-                self.image = frame
+                self.image_frame = frame
 
                 self.update()
             except Exception as e:
                 print("退出:", e)
-
         else:
             ret = False
 
+    def Currentframe_Save(self, path):
+        """
+        保存当前frame图片
+        :return:
+        """
+        cv2.imwrite(path, self.image_frame)
 
     def paintEvent(self, event):
         """
