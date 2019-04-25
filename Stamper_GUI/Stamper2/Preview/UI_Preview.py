@@ -38,7 +38,7 @@ class Ui_preview(object):
         self.ensure_btn.setObjectName("ensure_btn")
 
         self.Seal_type = QComboBox(Form)
-        self.Seal_type.setGeometry(QRect(810, 480, 100, 100))
+        self.Seal_type.setGeometry(QRect(810, 480, 100, 40))
         self.Seal_type.setObjectName("seal_type")
         self.Seal_type.addItem("Seal_1", Seal_enum['Seal_1'])
         self.Seal_type.addItem("Seal_2", Seal_enum['Seal_2'])

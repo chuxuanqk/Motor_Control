@@ -83,7 +83,7 @@ class MainForm(QMainWindow, Ui_Main):
         自动识别盖章
         :return:
         """
-        self.coord_dict = contract_detacting(contract_path, drawn_img_path)
+        self.coord_dict = contract_detacting(contract_path, contract_path)
         self.Hand.show_self()
 
     def HandMode(self):

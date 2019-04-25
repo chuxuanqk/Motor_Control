@@ -7,7 +7,7 @@ from math import *
 import logging
 import numpy as np
 import pytesseract
-from config import Config
+from .config import Config
 
 class RaiseError:
 
@@ -36,80 +36,75 @@ class GetAndRotateImage:
         self.degree = None
         self.frame = None
 
-    def warm_camera(self, camera):
-        """
-        摄像头自己调整对焦
-        param camera: d对应摄像头id
-        """
-        cap = cv2.VideoCapture(camera)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1960)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1372)
-        fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-        output = cv2.VideoWriter('person.avi', fourcc, 10.0, (480, 640))
-        try:
-            while (cap.isOpened()):
-                ret, frame = cap.read()
-                if ret:
-                    time.sleep(1.5)
-                    break
-                else:
-                    break
-            cap.release()
-            output.release()
-            cv2.destroyAllWindows()
-        except Exception as e:
-            RaiseError().logger()
-            logging.exception(e)
+    # def warm_camera(self, camera):
+    #     """
+    #     摄像头自己调整对焦
+    #     param camera: d对应摄像头id
+    #     """
+    #     cap = cv2.VideoCapture(camera)
+    #     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1960)
+    #     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1372)
+    #     fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+    #     output = cv2.VideoWriter('person.avi', fourcc, 10.0, (480, 640))
+    #     try:
+    #         while (cap.isOpened()):
+    #             ret, frame = cap.read()
+    #             if ret:
+    #                 time.sleep(1.5)
+    #                 break
+    #             else:
+    #                 break
+    #         cap.release()
+    #         output.release()
+    #         cv2.destroyAllWindows()
+    #     except Exception as e:
+    #         RaiseError().logger()
+    #         logging.exception(e)
 
-    def take_picture(self, camera):
-        """
-        对盖章台上的合同拍照
-        param camera: 对应摄像头id
-        return: 经过旋转之后的图片的array
-        """
-        self.camera = camera
-        cap = cv2.VideoCapture(camera)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1372)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1960)
+    # def take_picture(self, camera):
+    #     """
+    #     对盖章台上的合同拍照
+    #     param camera: 对应摄像头id
+    #     return: 经过旋转之后的图片的array
+    #     """
+    #     self.camera = camera
+    #     cap = cv2.VideoCapture(camera)
+    #     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1372)
+    #     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1960)
+    # 
+    #     try:
+    #         if cap.isOpened():
+    #             while (1):
+    #                 ret, frame = cap.read()
+    #                 break
+    #     except Exception as e:
+    #         RaiseError().logger()
+    #         logging.exception(e)
+    #     cv2.namedWindow('img', cv2.WINDOW_NORMAL)
+    #     # cv2.imwrite('images/test.jpg', frame)
+    #     cv2.imshow('img', frame)
+    #     cv2.waitKey(0)
+    # 
+    #     return frame
 
-        try:
-            if cap.isOpened():
-                while (1):
-                    ret, frame = cap.read()
-                    break
-        except Exception as e:
-            RaiseError().logger()
-            logging.exception(e)
-        cv2.namedWindow('img', cv2.WINDOW_NORMAL)
-        # cv2.imwrite('images/test.jpg', frame)
-        cv2.imshow('img', frame)
-        cv2.waitKey(0)
-
-        return frame
-
-    def rotate_image(self, camera, degree):
+    def rotate_image(self, frame1):
         """
         对拍照获取的合同图片进行旋转
         param frame: 拍照获得的图片的矩阵信息
         param degree: 旋转角度
         return: 旋转之后图片的矩阵信息
         """
-        self.degree = degree
-        # degree = -90
-        frame = self.take_picture(camera)
+        self.degree = Config.DEGREE
+        frame = frame1
         height, width = frame.shape[:2]
-        height_rotating = int(width * fabs(sin(radians(degree))) + height * fabs(cos(radians(degree))))
-        width_rotating = int(height * fabs(sin(radians(degree))) + width * fabs(cos(radians(degree))))
-        Rotation = cv2.getRotationMatrix2D((width / 2, height / 2), degree, 1)
+        height_rotating = int(width * fabs(sin(radians(self.degree))) + height * fabs(cos(radians(self.degree))))
+        width_rotating = int(height * fabs(sin(radians(self.degree))) + width * fabs(cos(radians(self.degree))))
+        Rotation = cv2.getRotationMatrix2D((width / 2, height / 2), self.degree, 1)
         Rotation[0, 2] += (width_rotating - width) / 2
         Rotation[1, 2] += (height_rotating - height) / 2
         imgRotation = cv2.warpAffine(frame, Rotation, (width_rotating, height_rotating), borderValue=(255, 255, 255))
 
         cv2.imwrite('/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/contract_r.jpg', imgRotation)
-        print('img_shape:', imgRotation.shape)
-        cv2.namedWindow('img', cv2.WINDOW_NORMAL)
-        cv2.imshow('img', imgRotation)
-        cv2.waitKey(0)
 
         return imgRotation
 
@@ -153,9 +148,6 @@ class Correct_Image:
                 sum += theta
 
             cv2.line(line_image, (x1, y1), (x2, y2), (0, 0, 255), 1, cv2.LINE_AA)
-            # cv2.namedWindow("imagelines:", cv2.WINDOW_NORMAL)
-            # cv2.imshow('imagelines:', line_image)
-            # cv2.waitKey(0)
         average = sum / len(lines)
         angle = self.degree_trans(average) - 90
         return angle
@@ -259,10 +251,7 @@ class Recognition:
         img_gray = cv2.cvtColor(self.img, cv2.COLOR_RGB2GRAY)
         result = pytesseract.image_to_data(img_gray, lang='chi_sim', config='--psm 3',
                                            nice=0, output_type=pytesseract.Output.DICT)
-        # result1 = pytesseract.image_to_data(img_gray, lang='chi_sim', config='--psm 3 --oem 3',
-        #                                    nice=0, output_type=pytesseract.Output.STRING)
-        #
-        # print("result:", result1)
+
         return result
 
     def get_key_words(self):
@@ -305,17 +294,12 @@ class Recognition:
                 indexes: the index of every needed word
                 location: the dict of words' location
         """
-        # key_word = ''
         index_str = []
         key_list = self.key_lsit
         indexes, strings, location = self.get_key_words()
-        # print("strings:", strings)
         for key in key_list:
             index_keys = strings.find(key)
-            # print("key:", key)
-            # print("index_keys:", index_keys)
             if index_keys >= 0:
-                # key_word = key
                 index_str.append(index_keys)
             else:
                 pass
@@ -331,7 +315,6 @@ class Recognition:
         """
         h, w, _ = self.img.shape
         index_str, indexes, location = self.locate_key_words()
-        # print("index_str:", index_str)
         index_list = min(index_str)
         temp_index = indexes[index_list]
         x1 = location['Left'][temp_index]
@@ -346,9 +329,6 @@ class Recognition:
             pass
         cv2.circle(self.img, center, 150, (255, 0, 0), thickness=5)
         cv2.imwrite(self.save_path, self.img)
-        cv2.namedWindow('img', cv2.WINDOW_NORMAL)
-        cv2.imshow('img', self.img)
-        cv2.waitKey(0)
         return center, ratio
 
     def __repr__(self):
@@ -358,14 +338,10 @@ class Recognition:
 def offset_of_image_and_a4(img, center):
     ih = img.shape[0]
     iw = img.shape[1]
-    print("ih", ih)
-    print("iw", iw)
     a4 = Config.A4
-    # key_list = Config.KEY_LIST
     deltas = [Config.DELTAS_HEIGHT, Config.DELTAS_WIDTH]
     isize = Config.IMAGE_REAL_SIZE
     dis_origin = Config.DISTANCE_TO_ORIGIN
-    # center, _ = Recognition(img).calculate_center()
     y_ = int((center[1] / ih) * isize[0] + deltas[0])
     x = int((center[0] / iw) * isize[1] + deltas[1])
     y = a4[0] - y_
@@ -385,20 +361,13 @@ def draw_img(center, contract_path, draw_image_path):
     x_click = Config.CLICK_WINDOW[0]
     y_click = Config.CLICK_WINDOW[1]
     img = cv2.imread(contract_path)
-    print('img:', img.shape)
-    # _, center1 = capture_image(camera, filename, img_name)
     if img.shape[0] == 0 or img.shape[1] == 0:
         raise IOError("Please put image!")
     else:
-        #######################
         center = (int(center[0] / (x_click / img.shape[1])), int(center[1] / (y_click / img.shape[0])))
-    #######################
     cv2.circle(img, center, radius=250, color=(255, 0, 0), thickness=5)
     cv2.imwrite(draw_image_path, img)
-    # cv2.namedWindow('img', cv2.WINDOW_NORMAL)
-    # cv2.imshow('img', img)
-    # cv2.waitKey(0)
-    center = center  # + tuple(center1)
+    center = center
 
     return center
 
@@ -410,19 +379,10 @@ def get_frame(frame, width, height):
 
 def contract_detacting(path, save_path):
     img = cv2.imread(path)
-    print("img_shape:", img.shape)
     degree = Correct_Image(img).calc_degree()
     rotate = Correct_Image(img).rotate_image(degree)
-    print("rotate_shape:", rotate.shape)
-    cv2.namedWindow("rotate_image:", cv2.WINDOW_NORMAL)
-    cv2.imshow("rotate_image:", rotate)
-    cv2.waitKey(0)
-
     center, _ = Recognition(img, save_path).calculate_center()
-    print('center_shape[0]:', center[0])
-    print('center_shape[1]:', center[1])
-    final_center, region = offset_of_image_and_a4(img, center)
-    # final_center, region = offset_of_image_and_a4(rotate, center)
+    final_center, region = offset_of_image_and_a4(rotate, center)
     coordinate_and_region = {"final_center": final_center, "region": region}
     return coordinate_and_region
 

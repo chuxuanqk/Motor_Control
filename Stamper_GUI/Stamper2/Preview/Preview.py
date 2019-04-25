@@ -7,7 +7,7 @@ import cv2
 from PyQt5.QtWidgets import QWidget, QStyle, QStyleOption
 from PyQt5.QtCore import QRect, pyqtSignal, QThread, QObject, QTimer
 from PyQt5.QtGui import QPainter, QPixmap, QImage
-
+from math import *
 from Stamper2.Wait_Form.Wait_Form import Shadow_Form, Wait_Form
 from .UI_Preview import Ui_preview
 from Common.utils import Timer
@@ -120,8 +120,21 @@ class Preview_Form(QWidget, Ui_preview):
         """
         if self.device.isOpened():
             ret, frame = self.device.read()
+            # print("frame_shape:", frame.shape)
+            ########################################
+            degree = 90
+            height, width = frame.shape[:2]
+            height_rotating = int(width * fabs(sin(radians(degree))) + height * fabs(cos(radians(degree))))
+            width_rotating = int(height * fabs(sin(radians(degree))) + width * fabs(cos(radians(degree))))
+            Rotation = cv2.getRotationMatrix2D((width / 2, height / 2), degree, 1)
+            Rotation[0, 2] += (width_rotating - width) / 2
+            Rotation[1, 2] += (height_rotating - height) / 2
+            frame = cv2.warpAffine(frame, Rotation, (width_rotating, height_rotating),
+                                         borderValue=(255, 255, 255))
+
+            #########################################
             # frame = get_frame(frame, 420, 600)
-            cv2.flip(frame, 90)
+            # cv2.flip(frame, -1)
 
             # 当关掉摄像头的信号发出后，还有5个左右的定时任务在执行，所以会抛出异常
             try:
