@@ -215,9 +215,10 @@ void Paper_Move_In(void)
 		if(FLAG == PTE1)
 		{
 				FLAG = 0;
-				delay_s(4);
+				delay_s(3);
 				printf("Y1停止\r\n");
 				Y1_TIM_DisableOC;
+				EXTIX_ENABLE(EXTI9_5_IRQn);
 		}
 		while(K2==1);
 		if(K2 == 0) Y2_TIM_DisableOC;
@@ -254,7 +255,7 @@ void Cover_Seal(int32_t X_mm, int32_t Z_mm)
 		int32_t z_rad = MM2Step(Z_mm);
 	
 		// 电机速度参数
-		int16_t x_maxfre = 800*14;
+		int16_t x_maxfre = 800*10;
 		int16_t x_minfre = 800;
 		int16_t z_maxfre = 800*4;
 		int16_t z_minfre = 800;
@@ -353,7 +354,7 @@ void Reset_Seal(int32_t Z_mm, int32_t Seal_id)
 *********************************************/
 void Stamper_Ctr(void)
 {	
-		int32_t z_mm = 22;
+		int32_t z_mm = 15;                  // 设置取印章的行程
 		int32_t seal_id = SEAL_ID[2];
 		
 		//delay_s(2);
@@ -386,6 +387,7 @@ void Stamper_Ctr(void)
 					
 						// 1.5 出纸
 						Paper_Move_Out();
+						FLAG = 0;
 						printf("finish\r\n");
 				}
 				

@@ -259,9 +259,11 @@ void EXTI9_5_IRQHandler()
 				EXTI_ClearITPendingBit(EXTI_Line9);
 				if(K1==0)
 				{
-						EXTI_ClearITPendingBit(EXTI_Line5);
+						EXTI_ClearITPendingBit(EXTI_Line9);
+						//LED = ~LED;
 						FLAG = PTE1;
 						printf("K1\r\n");
+						EXTIX_DISABLE(EXTI9_5_IRQn);
 				}
 		}
 		
