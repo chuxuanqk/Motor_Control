@@ -17,6 +17,7 @@ from Stamper2.Serial.Serial import SerialWork
 from setting import welcome, drawn_img_path, contract_path
 from Common.new_contract import contract_detacting
 
+
 # 主控制界面
 class MainForm(QMainWindow, Ui_Main):
     """
@@ -38,7 +39,7 @@ class MainForm(QMainWindow, Ui_Main):
         self.Preview.cancel_btn.clicked.connect(self.show_self)
 
         self.Hand = Hand_movement_Form(self.Preview)
-        self.Hand.img_signal.connect(self.HandData)
+        self.Hand.ensure_btn.clicked.connect(self.HandData)
         self.Hand.close()
 
         self.close_signal.connect(self.Show_Preview)
@@ -83,16 +84,37 @@ class MainForm(QMainWindow, Ui_Main):
         自动识别盖章
         :return:
         """
-        self.coord_dict = contract_detacting(contract_path, contract_path)
-        self.Hand.show_self()
+        try:
+            if self.Preview.device.isOpened():
+                self.Preview.Currentframe_Save(contract_path)
+                self.coord_dict = contract_detacting(contract_path, drawn_img_path)
+                self.Hand.Set_label_image(drawn_img_path)
+                self.Hand.show_self()
+            else:
+                self.Preview.Open_capture()
+
+                timer_sleep = QTimer()
+                timer_sleep.setSingleShot(True)
+                timer_sleep.timeout.connect(lambda :self.Preview.Currentframe_Save(contract_path))
+                timer_sleep.start(1000)
+                self.coord_dict = contract_detacting(contract_path, drawn_img_path)
+                self.Hand.Set_label_image(drawn_img_path)
+                self.Hand.show_self()
+        except Exception as e:
+            print("RcMode:", str(e))
 
     def HandMode(self):
         """
         手动设置盖章位置
         :return:
         """
-        self.Preview.Currentframe_Save(contract_path)
-        self.Hand.show_self()
+        try:
+            self.Preview.Currentframe_Save(contract_path)
+            self.Preview.Device_Release()
+            self.Hand.Set_label_image(contract_path)
+            self.Hand.show_self()
+        except Exception as e:
+            print("HandMode:", str(e))
 
     def HandData(self, info):
         """
@@ -100,25 +122,24 @@ class MainForm(QMainWindow, Ui_Main):
         :param info: 位置坐标信息
         :return:
         """
-        self.coo_info = info
+        self.coo_info = self.Hand.Get_img_info()
         print("coo_info:", self.coo_info)
         self.Preview.Device_Release()
 
         self.timer = QTimer()
         self.timer.setSingleShot(1000)
         self.Set_preview_lab()
+        self.Hand.close()
         # self.Preview.repaint()
 
     def Set_preview_lab(self):
         """
-        设置预览图片
+        重新设置预览图片
         """
         pixmap = QPixmap(drawn_img_path)
 
         self.Preview.preview_lab.setScaledContents(True)
         self.Preview.preview_lab.setPixmap(pixmap)
-        # self.Preview.preview_lab.setPixmap(QPixmap.fromImage(image))
-        # self.Preview.preview_lab.setStyleSheet("#preview_lab{border-image:url(" + drawn_img_path + ");}")
 
     def mousePressEvent(self, event):
         """

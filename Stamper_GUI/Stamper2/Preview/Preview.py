@@ -61,6 +61,10 @@ class Preview_Form(QWidget, Ui_preview):
         显示页面
         :return:
         """
+        self.Open_capture()
+        self.show()
+
+    def Open_capture(self):
         try:
             self.device = cv2.VideoCapture(camera)
             # 设置摄像头获得的像素大小, CV的宽高和正常显示是反的
@@ -70,8 +74,6 @@ class Preview_Form(QWidget, Ui_preview):
             self.playTimer.start()
         except:
             self.cap_signal.emit()
-
-        self.show()
 
     def close_self(self):
         """

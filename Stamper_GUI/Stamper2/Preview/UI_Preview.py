@@ -47,7 +47,7 @@ class Ui_preview(object):
         self.Seal_type.setMaximumHeight(100)
 
         self.Seal_label = QLabel(Form)
-        self.Seal_label.setGeometry(QRect(920, 480, 100, 100))
+        self.Seal_label.setGeometry(QRect(920, 520, 100, 40))
         self.Seal_label.setObjectName("Seal_label")
 
         self.Rc_btn = QPushButton(Form)
