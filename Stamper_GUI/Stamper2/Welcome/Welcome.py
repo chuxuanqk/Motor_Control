@@ -79,7 +79,11 @@ class MainForm(QMainWindow, Ui_Main):
         self.serialthread.start()
 
         # 设置发送数据
-        self.serialwork.Set_sendData(self.senddata)
+        timer_sleep = QTimer()
+        timer_sleep.setSingleShot(True)
+        timer_sleep.timeout.connect(lambda: self.serialwork.Set_sendData(self.senddata))
+        timer_sleep.start(1000)
+
 
     def RcMode(self):
         """
@@ -132,6 +136,7 @@ class MainForm(QMainWindow, Ui_Main):
         Seal_id = str(Seal_id)
 
         self.senddata = X_+Y_1_MM+Y_2_MM+Seal_id
+        print("senddata:", self.senddata)
 
     def HandMode(self):
         """
