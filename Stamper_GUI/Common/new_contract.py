@@ -108,6 +108,11 @@ class Recognition:
         return: The lists of all information about words
         """
         m = 0
+        tops = []
+        text = []
+        lefts = []
+        widths = []
+        heights = []
         temporary_top = []
         temporary_left = []
         temporary_lines = []

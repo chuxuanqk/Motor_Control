@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d9d76a12-edf3-469c-b50a-85e84d485fae" name="Default Changelist" comment="Add degree for camera!">
-      <change afterPath="$PROJECT_DIR$/.idea/Saber.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stamper_GUI/Common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/Common/config.py" afterDir="false" />
+    <list default="true" id="d9d76a12-edf3-469c-b50a-85e84d485fae" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/contract.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/contract.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/drawn_img.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/drawn_img.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/Preview.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/Preview.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/UI_Preview.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/UI_Preview.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stamper_GUI/Stamper2/Welcome/Welcome.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/Stamper2/Welcome/Welcome.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Stamper_GUI/setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/setting.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,93 +12,62 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5156463">
-      <split-first>
-        <leaf>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/run.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="308">
-                  <caret line="14" selection-start-line="14" selection-end-line="14" />
-                  <folding>
-                    <element signature="e#0#10#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/Preview.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="198">
-                  <caret line="119" column="11" selection-start-line="119" selection-start-column="11" selection-end-line="119" selection-end-column="11" />
-                  <folding>
-                    <element signature="e#74#84#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/UI_Preview.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="770">
-                  <caret line="40" column="57" selection-start-line="40" selection-start-column="57" selection-end-line="40" selection-end-column="57" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/setting.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="572">
-                  <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/config.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="308">
-                  <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/drawn_img.jpg">
-              <provider selected="true" editor-type-id="images" />
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="374">
-                  <caret line="80" column="9" lean-forward="true" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
-                  <folding>
-                    <element signature="e#25#34#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/Stamper2/Welcome/Welcome.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="418">
-                  <caret line="85" column="73" selection-start-line="85" selection-start-column="73" selection-end-line="85" selection-end-column="73" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Stamper_GUI/run.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/Preview.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3168">
+              <caret line="154" column="40" selection-start-line="154" selection-start-column="40" selection-end-line="154" selection-end-column="40" />
+              <folding>
+                <element signature="e#74#84#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Stamper_GUI/setting.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="572">
+              <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="13" column="41" lean-forward="true" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="594">
+              <caret line="114" column="20" selection-start-line="114" selection-start-column="20" selection-end-line="114" selection-end-column="20" />
+              <folding>
+                <element signature="e#25#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -118,6 +80,7 @@
         <option value="$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/UI_Preview.py" />
         <option value="$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/Preview.py" />
         <option value="$PROJECT_DIR$/Stamper_GUI/Common/config.py" />
+        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py" />
       </list>
     </option>
@@ -143,62 +106,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Saber" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Saber" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Saber" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Saber" type="462c0819:PsiDirectoryNode" />
-              <item name="Stamper_GUI" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Saber" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Saber" type="462c0819:PsiDirectoryNode" />
-              <item name="Stamper_GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="Common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Saber" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Saber" type="462c0819:PsiDirectoryNode" />
-              <item name="Stamper_GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="Resource" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Saber" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Saber" type="462c0819:PsiDirectoryNode" />
-              <item name="Stamper_GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="Resource" type="462c0819:PsiDirectoryNode" />
-              <item name="Temp_img" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Saber" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Saber" type="462c0819:PsiDirectoryNode" />
-              <item name="Stamper_GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="Stamper2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Saber" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Saber" type="462c0819:PsiDirectoryNode" />
-              <item name="Stamper_GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="Stamper2" type="462c0819:PsiDirectoryNode" />
-              <item name="Preview" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Saber" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Saber" type="462c0819:PsiDirectoryNode" />
-              <item name="Stamper_GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="Stamper2" type="462c0819:PsiDirectoryNode" />
-              <item name="Welcome" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="RunDashboard">
@@ -252,6 +161,21 @@
       <option name="presentableId" value="Default" />
       <updated>1556167349192</updated>
     </task>
+    <task id="LOCAL-00001" summary="Adjust rotate_image function!">
+      <created>1556414687312</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1556414687312</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Adjust rotate_image function!">
+      <created>1556414804330</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1556414804331</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -308,7 +232,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add degree for camera!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add degree for camera!" />
+    <MESSAGE value="Adjust rotate_image function!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adjust rotate_image function!" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Stamper_GUI/setting.py">
@@ -323,7 +248,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Stamper_GUI/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
+        <state relative-caret-position="176">
           <caret line="14" selection-start-line="14" selection-end-line="14" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
@@ -340,8 +265,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/Preview.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="119" column="11" selection-start-line="119" selection-start-column="11" selection-end-line="119" selection-end-column="11" />
+        <state relative-caret-position="3168">
+          <caret line="154" column="40" selection-start-line="154" selection-start-column="40" selection-end-line="154" selection-end-column="40" />
           <folding>
             <element signature="e#74#84#0" expanded="true" />
           </folding>
@@ -361,20 +286,20 @@
     <entry file="file://$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/contract.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py">
+    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="80" column="9" lean-forward="true" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
-          <folding>
-            <element signature="e#25#34#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="286">
+          <caret line="13" column="41" lean-forward="true" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/config.py">
+    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
+        <state relative-caret-position="594">
+          <caret line="114" column="20" selection-start-line="114" selection-start-column="20" selection-end-line="114" selection-end-column="20" />
+          <folding>
+            <element signature="e#25#34#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
