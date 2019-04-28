@@ -29,6 +29,7 @@ class MainForm(QMainWindow, Ui_Main):
     def __init__(self, parent=None):
         super(MainForm, self).__init__(parent=parent)
 
+        self.senddata = ''
         self.welcome = welcome
         self.setupUi(self)
 
@@ -70,13 +71,14 @@ class MainForm(QMainWindow, Ui_Main):
         设置串口，并发送指令
         :return:
         """
-        Seal_num = self.Preview.Seal_type.currentData()
-        print("Seal_num:", Seal_num)
         self.serialthread = QThread()
         self.serialwork = SerialWork()
         self.serialwork.moveToThread(self.serialthread)
         self.serialthread.started.connect(self.serialwork.init)
         self.serialthread.start()
+
+        # 设置发送数据
+        self.serialwork.Set_sendData(self.senddata)
 
     def RcMode(self):
         """
@@ -97,10 +99,38 @@ class MainForm(QMainWindow, Ui_Main):
                 timer_sleep.timeout.connect(lambda :self.Preview.Currentframe_Save(contract_path))
                 timer_sleep.start(1000)
                 self.coord_dict = contract_detecting(contract_path, drawn_img_path)
+                # 设置要发送的数据
+                self.SetData(self.coord_dict)
+
                 self.Hand.Set_label_image(drawn_img_path)
                 self.Hand.show_self()
         except Exception as e:
             print("RcMode:", str(e))
+
+    def SetData(self, coord_info):
+        """
+        设置要发送的数据
+        :param coord_info:
+        :return:
+        """
+        center = coord_info["final_center"]
+        region = coord_info["region"]
+        # 设置X轴的行程
+        X_ = center[0]
+        if(len(X_)!=3):
+            zero_str = '0'*(3-len(X_))
+            X_ = zero_str + str(X_)
+
+        # 目前Y轴2个电机带动纸行走的距离无法确定，先设置默认值0
+        Y_ = center[1]
+        Y_1_MM = '000'
+        Y_2_MM = '000'
+
+        # 设置印章ID
+        Seal_id = self.Preview.Seal_type.currentData()
+        Seal_id = str(Seal_id)
+
+        self.senddata = X_+Y_1_MM+Y_2_MM+Seal_id
 
     def HandMode(self):
         """
