@@ -10,8 +10,14 @@ from .config import Config
 
 
 class RaiseError:
+    """
+    Log日志文件，将识别模块的错误，以及警告日志，全部写入到recognition.log文件中
+    """
 
     def logger(self):
+        """
+        定义logger函数，明确错误等级，写入文件的名称，时间，以及写入日至的内容
+        """
         logging.basicConfig(level=logging.DEBUG,
                             filename='recognition.log',
                             filemode='a',
@@ -38,36 +44,57 @@ def rotate_image(frame1):
     height, width = frame.shape[:2]
     height_rotating = int(width * fabs(sin(radians(degree))) + height * fabs(cos(radians(degree))))
     width_rotating = int(height * fabs(sin(radians(degree))) + width * fabs(cos(radians(degree))))
-    Rotation = cv2.getRotationMatrix2D((width / 2, height / 2), degree, 1)
-    Rotation[0, 2] += (width_rotating - width) / 2
-    Rotation[1, 2] += (height_rotating - height) / 2
-    imgRotation = cv2.warpAffine(frame, Rotation, (width_rotating, height_rotating), borderValue=(255, 255, 255))
+    rotation = cv2.getRotationMatrix2D((width / 2, height / 2), degree, 1)
+    rotation[0, 2] += (width_rotating - width) / 2
+    rotation[1, 2] += (height_rotating - height) / 2
+    img_rotation = cv2.warpAffine(frame, rotation, (width_rotating, height_rotating), borderValue=(255, 255, 255))
 
-    return imgRotation
+    return img_rotation
 
 
-class Correct_Image:
+class CorrectImage:
+    """
+    用于矫正拍照后图片上文字倾斜
+    """
 
     def __init__(self, image):
         self.image = image
 
     def degree_trans(self, theta):
+        """
+        角度转换函数
+        param theta: 角度数
+        return: 转换后的角度
+        """
         res = theta / np.pi * 180
         return res
 
     def rotate_image(self, degree):
+        """
+        对图片内倾斜的文字内容，进行倾斜矫正
+        param degree: 倾斜的角度
+        return:
+        """
         h, w = self.image.shape[: 2]
-        RotateMatrix = cv2.getRotationMatrix2D((w/2.0, h/2.0), degree, 1)
-        rotate = cv2.warpAffine(self.image, RotateMatrix, (w, h), borderValue=(255, 255, 255))
+        rotate_matrix = cv2.getRotationMatrix2D((w/2.0, h/2.0), degree, 1)
+        rotate = cv2.warpAffine(self.image, rotate_matrix, (w, h), borderValue=(255, 255, 255))
         return rotate
 
     def calc_degree(self):
+        """
+        计算文字倾斜的角度数
+        return: 倾斜的角度
+        """
         mid_image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         dst_image = cv2.Canny(mid_image, 50, 200, 3)
         line_image = self.image.copy()
         lines = cv2.HoughLines(dst_image, 1, np.pi / 180, 200)
 
         sum = 0
+        x1 = 0
+        x2 = 0
+        y1 = 0
+        y2 = 0
         for i in range(len(lines)):
             for rho, theta in lines[i]:
                 a = np.cos(theta)
@@ -97,14 +124,14 @@ class Recognition:
     @staticmethod
     def pick_out_text(lines, texts, top, left, width, height):
         """
-        Pick out text from Ocr result
-        param lines: the line number of each word
-        param texts: each word
-        param top: the top distance of each word
-        param left: the left distance of each word
-        param width: the width of each word
-        param height: the height of each word
-        return: The lists of all information about words
+        从OCR识别结果中，挑选出目标文本
+        param lines: 每个字所对应的行号
+        param texts: 单个文字
+        param top: 每个文字的top距离
+        param left: 每个文字的left距离
+        param width: 每个文字的宽度
+        param height: 每个文字的高度
+        return: 包含以上全部文字信息的lists
         """
         m = 0
         tops = []
@@ -184,9 +211,9 @@ class Recognition:
 
     def contract_recognition(self):
         """
-        Process image, and get all information of text
-        param img: image frame
-        return: dict of processing result
+        处理并识别图片，获取文本相关的所有信息
+        param img: 图片矩阵
+        return: 识别后的结果放入字典中
         """
         img_gray = cv2.cvtColor(self.img, cv2.COLOR_RGB2GRAY)
         result = pytesseract.image_to_data(img_gray, lang='chi_sim', config='--psm 3',
@@ -196,11 +223,11 @@ class Recognition:
 
     def get_key_words(self):
         """
-        Pick out the words we need
-        param img: image frame
-        return: indexes: the index of every needed word
-                strings: the string type of all words
-                location: the dict of words' location
+        挑选出所需要的文本
+        param img: 图片像素矩阵
+        return: indexes: 每一个所需的文字的索引
+                strings: 所有文字的字符串集
+                location: 记录文字对应在图片中的位置信息
         """
         strings = ''
         indexes = []
@@ -227,12 +254,12 @@ class Recognition:
 
     def locate_key_words(self):
         """
-        Locate the location of every key word
-        param img: image frame
-        param key_list: the list of key words
-        return: index_str: the index of strings
-                indexes: the index of every needed word
-                location: the dict of words' location
+        定位每一个文字的位置信息
+        param img: 图片像素矩阵
+        param key_list: 包含关键字的数组
+        return: index_str: 文字字符串的索引
+                indexes: 每一个所需的索引
+                location: 记录文字对应在图片中的位置信息
         """
         index_str = []
         key_list = self.key_lsit
@@ -248,10 +275,10 @@ class Recognition:
 
     def calculate_center(self):
         """
-        Calculate circle center of the target
-        param img: image frame
-        param key_list: list of key words
-        return: the coordinate of center
+        计算盖章位置圆形的圆心坐标
+        param img: 图片像素矩阵
+        param key_list: 包含关键字的数组
+        return: 盖章位置圆心坐标
         """
         h, w, _ = self.img.shape
         index_str, indexes, location = self.locate_key_words()
@@ -280,14 +307,22 @@ class Recognition:
 
 
 def offset_of_image_and_a4(img, center):
+    """
+    换算图片和A4纸的偏移量，将图片上的圆心坐标换算到A4纸上，并计算所在的区域。
+    区域划分规则： 按照A4纸的高（297mm）等分为五个区域（1～5），区域1～5从
+                 纸张的底部开始到顶部依次增大。
+    param img: 图片像素矩阵
+    param center: 图片上盖章位置的圆心坐标
+    return: 换算到A4纸上的坐标，以及该坐标所在的区域
+    """
     ih = img.shape[0]
     iw = img.shape[1]
     a4 = Config.A4
     deltas = [Config.DELTAS_HEIGHT, Config.DELTAS_WIDTH]
-    isize = Config.IMAGE_REAL_SIZE
+    i_size = Config.IMAGE_REAL_SIZE
     dis_origin = Config.DISTANCE_TO_ORIGIN
-    y_ = int((center[1] / ih) * isize[0] + deltas[0])
-    x = int((center[0] / iw) * isize[1] + deltas[1])
+    y_ = int((center[1] / ih) * i_size[0] + deltas[0])
+    x = int((center[0] / iw) * i_size[1] + deltas[1])
     y = a4[0] - y_
     real_center = (int(dis_origin - x), y)
     region_width = Config.REGION_WIDTH
@@ -298,6 +333,13 @@ def offset_of_image_and_a4(img, center):
 
 
 def draw_img(center, contract_path, draw_image_path):
+    """
+    通过Opencv画圆显示，盖章位置
+    param center: 所画圆形的圆心坐标（相对显示窗口而言，鼠标的点击位置坐标）
+    param contract_path: 拍照后合同图片的路径
+    param draw_image_path: 画完圆后的图片的保存路径
+    return: 圆形在图片上的圆心坐标（相对于图片而言）
+    """
     """
     绘制盖章图
     return:
@@ -317,14 +359,27 @@ def draw_img(center, contract_path, draw_image_path):
 
 
 def get_frame(frame, width, height):
+    """
+    对相机所获取的frame流，进行resize，得到想要的固定宽高比
+    param frame: 相机的frame
+    param width: 图片的宽
+    param height: 图片的高
+    return: 经过resize后的，frame流
+    """
     frame1 = cv2.resize(frame, (width, height))
     return frame1
 
 
 def contract_detecting(path, save_path):
+    """
+    识别主函数
+    param path: 待识别图片的路径
+    :param save_path: 识别后的保存路径
+    :return: 包含A4纸上的圆心坐标，和圆心所在的区域的字典
+    """
     img = cv2.imread(path)
-    degree = Correct_Image(img).calc_degree()
-    rotate = Correct_Image(img).rotate_image(degree)
+    degree = CorrectImage(img).calc_degree()
+    rotate = CorrectImage(img).rotate_image(degree)
     center, _ = Recognition(img, save_path).calculate_center()
     final_center, region = offset_of_image_and_a4(rotate, center)
     coordinate_and_region = {"final_center": final_center, "region": region}
@@ -332,6 +387,11 @@ def contract_detecting(path, save_path):
 
 
 def image_saver(img_path, save_path):
+    """
+    识别后，或手动选择盖章位置后的图片按照时间命名保存留底
+    param img_path: 画完盖章圆形的图片的路径
+    param save_path: 最终保存图片的位置路径
+    """
     img = cv2.imread(img_path)
     date = time.strftime("%Y%m%d%H%M%S")
     cv2.imwrite(save_path + date + '.jpg', img)
