@@ -15,7 +15,7 @@ from Stamper2.Hand_Mode.HandMode import Hand_movement_Form
 from Stamper2.Serial.Serial import SerialWork
 
 from setting import welcome, drawn_img_path, contract_path
-from Common.new_contract import contract_detacting
+from Common.new_contract import contract_detecting
 
 
 # 主控制界面
@@ -61,7 +61,6 @@ class MainForm(QMainWindow, Ui_Main):
         显示文件预览页面
         :return:
         """
-
         # self.Preview.show_Repaint()
         self.Preview.show_self()
         self.hide()
@@ -87,7 +86,7 @@ class MainForm(QMainWindow, Ui_Main):
         try:
             if self.Preview.device.isOpened():
                 self.Preview.Currentframe_Save(contract_path)
-                self.coord_dict = contract_detacting(contract_path, drawn_img_path)
+                self.coord_dict = contract_detecting(contract_path, drawn_img_path)
                 self.Hand.Set_label_image(drawn_img_path)
                 self.Hand.show_self()
             else:
@@ -97,7 +96,7 @@ class MainForm(QMainWindow, Ui_Main):
                 timer_sleep.setSingleShot(True)
                 timer_sleep.timeout.connect(lambda :self.Preview.Currentframe_Save(contract_path))
                 timer_sleep.start(1000)
-                self.coord_dict = contract_detacting(contract_path, drawn_img_path)
+                self.coord_dict = contract_detecting(contract_path, drawn_img_path)
                 self.Hand.Set_label_image(drawn_img_path)
                 self.Hand.show_self()
         except Exception as e:
