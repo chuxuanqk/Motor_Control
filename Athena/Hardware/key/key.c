@@ -202,7 +202,6 @@ void EXTI4_IRQHandler(void)
 }
 
 
-
 void EXTI9_5_IRQHandler()
 {
 		delay_ms(10);       //软件消抖
@@ -260,7 +259,6 @@ void EXTI9_5_IRQHandler()
 				if(K1==0)
 				{
 						EXTI_ClearITPendingBit(EXTI_Line9);
-						//LED = ~LED;
 						FLAG = PTE1;
 						printf("K1\r\n");
 						EXTIX_DISABLE(EXTI9_5_IRQn);

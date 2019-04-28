@@ -17,7 +17,6 @@
 
 
 void KEY_Init(void);
-
 void NVIC2_Init(void);
 void NVIC3_Init(void);
 void NVIC4_Init(void);

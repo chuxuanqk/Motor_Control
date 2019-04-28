@@ -451,6 +451,9 @@ void Motor_Y1_Init(uint16_t arr, uint16_t ccr, Motor_Status Dir)
 		TIM3_CC  = ccr; 
 
 		srd.MotorX = Y1_MOTOR;                           // 设置电机型号
+		TIM_PrescalerConfig(Y1_TIMx, TIM_PRESCALER, TIM_PSCReloadMode_Immediate);  // 重新设置定时器预分频系数
+
+	
 		if(CW == Dir) Y1_DIR_SET;
 		else if(CCW == Dir) Y1_DIR_RESET; 
 	
