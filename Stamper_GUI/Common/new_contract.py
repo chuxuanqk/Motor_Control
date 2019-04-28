@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 
-import os
 import cv2
 import time
 from math import *
@@ -8,6 +7,7 @@ import logging
 import numpy as np
 import pytesseract
 from .config import Config
+
 
 class RaiseError:
 
@@ -42,8 +42,6 @@ def rotate_image(frame1):
     Rotation[0, 2] += (width_rotating - width) / 2
     Rotation[1, 2] += (height_rotating - height) / 2
     imgRotation = cv2.warpAffine(frame, Rotation, (width_rotating, height_rotating), borderValue=(255, 255, 255))
-
-    # cv2.imwrite('/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/contract_r.jpg', imgRotation)
 
     return imgRotation
 
@@ -87,6 +85,7 @@ class Correct_Image:
         average = sum / len(lines)
         angle = self.degree_trans(average) - 90
         return angle
+
 
 class Recognition:
 
@@ -256,21 +255,25 @@ class Recognition:
         """
         h, w, _ = self.img.shape
         index_str, indexes, location = self.locate_key_words()
-        index_list = min(index_str)
-        temp_index = indexes[index_list]
-        x1 = location['Left'][temp_index]
-        y1 = location['Top'][temp_index]
-        x2 = x1 + location['Width'][temp_index]
-        y2 = y1 + location['Height'][temp_index]
-        center = (x2 + 5*location['Width'][temp_index], y2)
-        ratio = 0.0
-        if w > 0 and h > 0:
-            ratio = (center[0]/w, center[1]/h)
-        else:
-            pass
-        cv2.circle(self.img, center, 150, (255, 0, 0), thickness=5)
-        cv2.imwrite(self.save_path, self.img)
-        return center, ratio
+        try:
+            index_list = min(index_str)
+            temp_index = indexes[index_list]
+            x1 = location['Left'][temp_index]
+            y1 = location['Top'][temp_index]
+            x2 = x1 + location['Width'][temp_index]
+            y2 = y1 + location['Height'][temp_index]
+            center = (x2 + 5*location['Width'][temp_index], y2)
+            ratio = 0.0
+            if w > 0 and h > 0:
+                ratio = (center[0]/w, center[1]/h)
+            else:
+                pass
+            cv2.circle(self.img, center, 150, (255, 0, 0), thickness=5)
+            cv2.imwrite(self.save_path, self.img)
+            return center, ratio
+        except Exception as e:
+            RaiseError().logger()
+            logging.exception(e)
 
     def __repr__(self):
         return 'Recognition'
@@ -318,7 +321,7 @@ def get_frame(frame, width, height):
     return frame1
 
 
-def contract_detacting(path, save_path):
+def contract_detecting(path, save_path):
     img = cv2.imread(path)
     degree = Correct_Image(img).calc_degree()
     rotate = Correct_Image(img).rotate_image(degree)
@@ -328,10 +331,19 @@ def contract_detacting(path, save_path):
     return coordinate_and_region
 
 
+def image_saver(img_path, save_path):
+    img = cv2.imread(img_path)
+    date = time.strftime("%Y%m%d%H%M%S")
+    cv2.imwrite(save_path + date + '.jpg', img)
+
+
 if __name__ == "__main__":
     camera = 2
     # path = "/home/devin/Documents/qianhai_devin/stamp_machinery/ocr/jpg/loan/3.jpg"
-    # save_path = "/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/save.jpg"
+    # save_path = "/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/"
     
     # location = contract_detacting(path, save_path)
     # print("location:", location)
+    # img = cv2.imread(path)
+    # image_saver(img, save_path)
+
