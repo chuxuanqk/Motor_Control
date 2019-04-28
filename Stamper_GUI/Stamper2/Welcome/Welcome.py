@@ -30,6 +30,7 @@ class MainForm(QMainWindow, Ui_Main):
         super(MainForm, self).__init__(parent=parent)
 
         self.senddata = ''
+        self.coord_dict = {}
         self.welcome = welcome
         self.setupUi(self)
 
@@ -96,7 +97,7 @@ class MainForm(QMainWindow, Ui_Main):
 
                 timer_sleep = QTimer()
                 timer_sleep.setSingleShot(True)
-                timer_sleep.timeout.connect(lambda :self.Preview.Currentframe_Save(contract_path))
+                timer_sleep.timeout.connect(lambda: self.Preview.Currentframe_Save(contract_path))
                 timer_sleep.start(1000)
                 self.coord_dict = contract_detecting(contract_path, drawn_img_path)
                 # 设置要发送的数据
@@ -151,8 +152,10 @@ class MainForm(QMainWindow, Ui_Main):
         :param info: 位置坐标信息
         :return:
         """
-        self.coo_info = self.Hand.Get_img_info()
-        print("coo_info:", self.coo_info)
+        coord_img = self.Hand.Get_img_info()
+        if len(coord_img) != 0:
+            self.coord_dict = coord_img
+        print("coo_info:", self.coord_dict)
         self.Preview.Device_Release()
 
         self.timer = QTimer()

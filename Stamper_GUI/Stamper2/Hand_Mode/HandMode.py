@@ -89,10 +89,12 @@ class Hand_movement_Form(QDialog, Ui_hand_movement):
         center = self.draw_img(pos_tuple)
 
         drawn_img = cv2.imread(drawn_img_path)
-        center2 = offset_of_image_and_a4(drawn_img, center)
-        print("Center2:", center2)
+        real_center, region_ = offset_of_image_and_a4(drawn_img, center)
+        print("real_center:", real_center)
 
-        self.img_info['center'] = [center[0], center[1]]
+        self.img_info["final_center"] = real_center
+        self.img_info["region"] = region_
+
         self.label.setStyleSheet("#show_lab{border-image:url("+drawn_img_path+");}")
         self.repaint()
 
