@@ -324,9 +324,9 @@ def contract_detacting(path, save_path):
 
 
 if __name__ == "__main__":
-    # camera = 2
+    camera = 2
     # path = "/home/devin/Documents/qianhai_devin/stamp_machinery/ocr/jpg/loan/3.jpg"
     # save_path = "/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/save.jpg"
     
-    location = contract_detacting(path, save_path)
-    print("location:", location)
+    # location = contract_detacting(path, save_path)
+    # print("location:", location)
