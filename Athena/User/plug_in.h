@@ -29,13 +29,10 @@ extern float FRE_MAX;
 extern float FRE_MIN;
 
 typedef struct Command{
-    int32_t X_STEP;         
-    int32_t Y_STEP;        
-    int32_t X_1_STEP;      
-    int32_t Y_1_STEP;       
-    int16_t Z_STEP;         
-    uint8_t state;          
-    uint8_t flag;           
+    int32_t X_MM;               
+    int32_t Y_1_MM;      
+    int32_t Y_2_MM;       
+    int16_t SEAL_ID;                   
 }Command; 
 
 

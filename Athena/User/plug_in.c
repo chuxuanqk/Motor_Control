@@ -64,11 +64,16 @@ int32_t Recv_Int(void)
     {
         for(; i<(USART_RX_STA&0x3FFF); ++i)
         {   
-						printf("Buf:%d\r\n", USART_RX_BUF[i]);
+						//printf("Buf:%d\r\n", USART_RX_BUF[i]);
             temp = (USART_RX_BUF[i] - 48)*Power(10, i);
             Value += temp;
         }
+				if(12 == i)
+				{
+						printf("Recv finish\r\n");
+				}
 				USART_RX_STA=0;
+				i=0;
     }
     
     return Value;
@@ -86,22 +91,24 @@ int16_t Decode(void)
 
     if(USART_RX_STA&0x8000)
     {
-        if((USART_RX_STA&0x3FFF) != 12){
+        if((USART_RX_STA&0x3FFF) != 10){
             return -1;
         }else{
-            cmd.X_STEP =  (USART_RX_BUF[0]-48)*100+(USART_RX_BUF[1]-48)*10+(USART_RX_BUF[2]-48);
-            cmd.Y_STEP =  (USART_RX_BUF[3]-48)*100+(USART_RX_BUF[4]-48)*10+(USART_RX_BUF[5]-48);
-            cmd.X_STEP =  (USART_RX_BUF[6]-48)*100+(USART_RX_BUF[7]-48)*10+(USART_RX_BUF[8]-48);
-            cmd.Y_STEP =  (USART_RX_BUF[9]-48)*100+(USART_RX_BUF[10]-48)*10+(USART_RX_BUF[11]-48);
-            cmd.Z_STEP =  (USART_RX_BUF[12]-48)*100+(USART_RX_BUF[13]-48)*10+(USART_RX_BUF[14]-48);
-            cmd.state  =  USART_RX_BUF[15];
-            cmd.flag   =  USART_RX_BUF[16];
-        }
+						//printf("usart:%d\r\n", (USART_RX_STA&0x3FFF));
+						cmd.X_MM =  (USART_RX_BUF[0]-48)*100+(USART_RX_BUF[1]-48)*10+(USART_RX_BUF[2]-48);
+						cmd.Y_1_MM =  (USART_RX_BUF[3]-48)*100+(USART_RX_BUF[4]-48)*10+(USART_RX_BUF[5]-48);
+						cmd.Y_2_MM=  (USART_RX_BUF[6]-48)*100+(USART_RX_BUF[7]-48)*10+(USART_RX_BUF[8]-48);
+						cmd.SEAL_ID =  (USART_RX_BUF[9]-48);
+          }
+//				printf("X_mm:%d\r\n", cmd.X_MM);
+//				printf("Y_1_mm:%d\r\n", cmd.Y_1_MM);
+//				printf("Y_2_mm:%d\r\n", cmd.Y_2_MM);
+//				printf("Z_mm:%d\r\n", cmd.Z_MM);
+					
         USART_RX_STA=0;
     }
     return 0;
 }
-
 
 
 /*************************************
@@ -165,33 +172,33 @@ void SimpleTest(void)
 *********************************************/
 void Motor_Reset(void)
 {
-		int32_t x_rad = 800*4;
+		int32_t x_rad = 800*8;
 		int32_t z_rad = 800*3;
 		int16_t x_maxfre = 800*5;
 		int16_t x_minfre = 800;
 		int16_t z_maxfre = 800*4;
 		int16_t z_minfre = 800;
         
-
+		FLAG = 0;
 		// X轴复位
-		EXTIX_DISABLE(EXTI2_IRQn);
+		EXTIX_DISABLE(EXTI9_5_IRQn);
 		Motor_Move(-x_rad, x_maxfre, x_minfre, X_MOTOR);       	// X向左运动
 		while(Status != 0);
-	
-		Motor_Move((8*x_rad), x_maxfre, x_minfre, X_MOTOR);     // X向右运动
-		while(Status != 0);
-		EXTIX_ENABLE(EXTI2_IRQn);
 	
 		// Z轴复位动作
 		Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);				
 		while(Status != 0);
 		Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
 		while(Status != 0);
+	
+		EXTIX_ENABLE(EXTI9_5_IRQn);
+		Motor_Move((8*x_rad), x_maxfre, x_minfre, X_MOTOR);     // X向右运动
+		while(Status != 0);
 
+	
 		// 舵机抓手复位
 		Servo_Config();
 		delay_s(1);
-		
 		TIM_Cmd(Servo_TIMx, DISABLE);
 		Servo_TIM_DisableOC;
 }	
@@ -205,17 +212,19 @@ void Motor_Reset(void)
 *********************************************/
 void Paper_Move_In(void)
 {
-		uint16_t Y1_arr = 4999;     // 9999
-		uint16_t Y2_arr = 4999;
-	
+		uint16_t Y1_arr = 19999;     // 9999/ (8*10^6)/10^4 = 800
+		uint16_t Y2_arr = 9999;
+		
+		
 		Motor_Y1_Init(Y1_arr, (Y1_arr/2), CCW);
 		Motor_Y2_Init(Y2_arr, (Y2_arr/2), CCW);
 	
 		while(K1==1);
+
 		if(FLAG == PTE1)
 		{
 				FLAG = 0;
-				delay_s(3);
+				delay_s(2);
 				printf("Y1停止\r\n");
 				Y1_TIM_DisableOC;
 				EXTIX_ENABLE(EXTI9_5_IRQn);
@@ -236,6 +245,7 @@ void Paper_Move_Out(void)
 		uint16_t Y2_arr = 4999;
 		FLAG = 0;
 		Motor_Y2_Init(Y2_arr, (Y2_arr/2), CCW);
+		delay_s(1);
 		while(K2 == 0);
 		Y2_TIM_DisableOC;
 }
@@ -281,7 +291,8 @@ void Cover_Seal(int32_t X_mm, int32_t Z_mm)
 /***********************************************
 * 函数名: 		Exchange_Seal
 * 函数功能:	更换印章
-* 输入:			Z_mm:Z轴坐标
+* 输入:			Z_mm:Z轴坐标(下降的高度)
+						Seal_id:印章id
 * 输出:			无
 ************************************************/
 void Exchange_Seal(int32_t Z_mm, int32_t Seal_id)
@@ -294,11 +305,9 @@ void Exchange_Seal(int32_t Z_mm, int32_t Seal_id)
 		int16_t tp_maxfre = 800*4;
 		int16_t tp_minfre = 800;
 
-	
 		// 更换印章
 		Motor_Move(Seal_id, tp_maxfre, tp_minfre, TP_MOTOR);
 		while(Status != 0);
-	
 
 		Servo_Open();
 	
@@ -309,7 +318,6 @@ void Exchange_Seal(int32_t Z_mm, int32_t Seal_id)
 
 		Servo_Close();
 	
-		
 		printf("向上运动\r\n");
 		// Z轴向上运动
 		Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
@@ -317,6 +325,13 @@ void Exchange_Seal(int32_t Z_mm, int32_t Seal_id)
 }
 
 
+/***********************************************
+* 函数名: 		Reset_Seal
+* 函数功能:	复位印章
+* 输入:			Z_mm:Z轴坐标(下降的高度)
+						Seal_id:印章id
+* 输出:			无
+************************************************/
 void Reset_Seal(int32_t Z_mm, int32_t Seal_id)
 {
 		int32_t z_rad = MM2Step(Z_mm);
@@ -354,18 +369,44 @@ void Reset_Seal(int32_t Z_mm, int32_t Seal_id)
 *********************************************/
 void Stamper_Ctr(void)
 {	
-		int32_t z_mm = 15;                  // 设置取印章的行程
+		int32_t ret = 0;									
+		int32_t z_mm = 23;                  // 设置取印章的行程
+		int32_t z_down_mm = 40;							// 盖章z轴行程
 		int32_t seal_id = SEAL_ID[2];
-		
-		//delay_s(2);
 
 		// 1.电机复位初始化
-		Motor_Reset(); 
+		//Motor_Reset(); 
 	
-		//Servo_Config();
 
 		while(1)
 		{
+				
+				if(USART_RX_STA&0x8000)
+				{
+						ret = Decode();
+						if(ret !=-1)
+						{
+								FLAG = 0;
+					
+								// 1.1 进纸
+								Paper_Move_In();
+								EXTIX_DISABLE(EXTI9_5_IRQn);
+							
+								// 1.2 选取印章
+								Exchange_Seal(z_mm, cmd.SEAL_ID);	
+								// 1.3 设置盖章坐标
+								Cover_Seal(cmd.X_MM, z_down_mm);   
+								// 1.4 印章复位
+								Reset_Seal(z_mm, cmd.SEAL_ID);
+								EXTIX_ENABLE(EXTI9_5_IRQn);
+							
+								// 1.5 出纸
+								Paper_Move_Out();
+								FLAG = 0;
+								printf("finish\r\n");
+						}
+				}
+			
 				// 1.开启盖章
 				if(FLAG == Start)
 				{
@@ -373,16 +414,14 @@ void Stamper_Ctr(void)
 					
 						// 1.1 进纸
 						Paper_Move_In();
-					
 						EXTIX_DISABLE(EXTI9_5_IRQn);
 					
 						// 1.2 选取印章
 						Exchange_Seal(z_mm, seal_id);	
 						// 1.3 设置盖章坐标
-						Cover_Seal(190, 40);   
+						Cover_Seal(190, z_down_mm);   
 						// 1.4 印章复位
 						Reset_Seal(z_mm, seal_id);
-					
 						EXTIX_ENABLE(EXTI9_5_IRQn);
 					
 						// 1.5 出纸
@@ -391,19 +430,20 @@ void Stamper_Ctr(void)
 						printf("finish\r\n");
 				}
 				
-				// 2. 更换印章 
+				// 2. 启动复位(更换印章) 
 				if(FLAG == S2_KEY)
 				{
-						FLAG = 0;
-					
-						EXTIX_DISABLE(EXTI9_5_IRQn);
-						// 1.2 选取印章
-						Exchange_Seal(z_mm, seal_id);	
-						// 1.4 印章复位
-						Reset_Seal(z_mm, seal_id);
-						EXTIX_ENABLE(EXTI9_5_IRQn);
-						Paper_Move_In();
-						FLAG = 0;
+							Motor_Reset();
+//						FLAG = 0;
+//					
+//						EXTIX_DISABLE(EXTI9_5_IRQn);
+//						// 1.2 选取印章
+//						Exchange_Seal(z_mm, seal_id);	
+//						// 1.4 印章复位
+//						Reset_Seal(z_mm, seal_id);
+//						EXTIX_ENABLE(EXTI9_5_IRQn);
+//						Paper_Move_In();
+//						FLAG = 0;
 				}
 		}
 }
