@@ -79,10 +79,13 @@ class MainForm(QMainWindow, Ui_Main):
         self.serialthread.start()
 
         # 设置发送数据
-        timer_sleep = QTimer()
-        timer_sleep.setSingleShot(True)
-        timer_sleep.timeout.connect(lambda: self.serialwork.Set_sendData(self.senddata))
-        timer_sleep.start(1000)
+        # timer_sleep = QTimer()
+        # timer_sleep.setSingleShot(True)
+        # timer_sleep.timeout.connect(lambda: self.serialwork.Set_sendData(self.senddata))
+        # timer_sleep.start(1000)
+        self.serialwork.Set_sendData(self.senddata)
+        self.serialwork.writeData()
+        print("serial:", self.senddata)
 
 
     def RcMode(self):

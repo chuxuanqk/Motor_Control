@@ -22,12 +22,13 @@ class SerialWork(QObject):
     """
     def __init__(self):
         super(SerialWork, self).__init__()
-
-    def init(self):
         self.serianame = ''
         self.com = QSerialPort()
         self.cominfo = QSerialPortInfo()
         self.infos = self.cominfo.availablePorts()
+
+    def init(self):
+
 
         for info in self.infos:
             print("Name:", info.portName())
