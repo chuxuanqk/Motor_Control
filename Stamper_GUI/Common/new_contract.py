@@ -43,7 +43,7 @@ def rotate_image(self, frame1):
     Rotation[1, 2] += (height_rotating - height) / 2
     imgRotation = cv2.warpAffine(frame, Rotation, (width_rotating, height_rotating), borderValue=(255, 255, 255))
 
-    cv2.imwrite('/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/contract_r.jpg', imgRotation)
+    # cv2.imwrite('/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/contract_r.jpg', imgRotation)
 
     return imgRotation
 
