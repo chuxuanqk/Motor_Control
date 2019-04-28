@@ -26,26 +26,90 @@ class RaiseError:
         return 'RaiseError'
 
 
-def rotate_image(self, frame1):
-    """
-    对拍照获取的合同图片进行旋转
-    param frame: 拍照获得的图片的矩阵信息
-    param degree: 旋转角度
-    return: 旋转之后图片的矩阵信息
-    """
-    self.degree = Config.DEGREE
-    frame = frame1
-    height, width = frame.shape[:2]
-    height_rotating = int(width * fabs(sin(radians(self.degree))) + height * fabs(cos(radians(self.degree))))
-    width_rotating = int(height * fabs(sin(radians(self.degree))) + width * fabs(cos(radians(self.degree))))
-    Rotation = cv2.getRotationMatrix2D((width / 2, height / 2), self.degree, 1)
-    Rotation[0, 2] += (width_rotating - width) / 2
-    Rotation[1, 2] += (height_rotating - height) / 2
-    imgRotation = cv2.warpAffine(frame, Rotation, (width_rotating, height_rotating), borderValue=(255, 255, 255))
+class GetAndRotateImage:
 
-    # cv2.imwrite('/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/contract_r.jpg', imgRotation)
+    def __init__(self):
+        """
+        初始化参数
+        """
+        self.camera = None
+        self.degree = None
+        self.frame = None
 
-    return imgRotation
+    # def warm_camera(self, camera):
+    #     """
+    #     摄像头自己调整对焦
+    #     param camera: d对应摄像头id
+    #     """
+    #     cap = cv2.VideoCapture(camera)
+    #     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1960)
+    #     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1372)
+    #     fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+    #     output = cv2.VideoWriter('person.avi', fourcc, 10.0, (480, 640))
+    #     try:
+    #         while (cap.isOpened()):
+    #             ret, frame = cap.read()
+    #             if ret:
+    #                 time.sleep(1.5)
+    #                 break
+    #             else:
+    #                 break
+    #         cap.release()
+    #         output.release()
+    #         cv2.destroyAllWindows()
+    #     except Exception as e:
+    #         RaiseError().logger()
+    #         logging.exception(e)
+
+    # def take_picture(self, camera):
+    #     """
+    #     对盖章台上的合同拍照
+    #     param camera: 对应摄像头id
+    #     return: 经过旋转之后的图片的array
+    #     """
+    #     self.camera = camera
+    #     cap = cv2.VideoCapture(camera)
+    #     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1372)
+    #     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1960)
+    # 
+    #     try:
+    #         if cap.isOpened():
+    #             while (1):
+    #                 ret, frame = cap.read()
+    #                 break
+    #     except Exception as e:
+    #         RaiseError().logger()
+    #         logging.exception(e)
+    #     cv2.namedWindow('img', cv2.WINDOW_NORMAL)
+    #     # cv2.imwrite('images/test.jpg', frame)
+    #     cv2.imshow('img', frame)
+    #     cv2.waitKey(0)
+    # 
+    #     return frame
+
+    def rotate_image(self, frame1):
+        """
+        对拍照获取的合同图片进行旋转
+        param frame: 拍照获得的图片的矩阵信息
+        param degree: 旋转角度
+        return: 旋转之后图片的矩阵信息
+        """
+        self.degree = Config.DEGREE
+        frame = frame1
+        height, width = frame.shape[:2]
+        height_rotating = int(width * fabs(sin(radians(self.degree))) + height * fabs(cos(radians(self.degree))))
+        width_rotating = int(height * fabs(sin(radians(self.degree))) + width * fabs(cos(radians(self.degree))))
+        Rotation = cv2.getRotationMatrix2D((width / 2, height / 2), self.degree, 1)
+        Rotation[0, 2] += (width_rotating - width) / 2
+        Rotation[1, 2] += (height_rotating - height) / 2
+        imgRotation = cv2.warpAffine(frame, Rotation, (width_rotating, height_rotating), borderValue=(255, 255, 255))
+
+        # cv2.imwrite('/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/contract_r.jpg', imgRotation)
+
+        return imgRotation
+
+    def __repr__(self):
+        return 'GetAndRotateImage()'
 
 
 class Correct_Image:
@@ -324,9 +388,9 @@ def contract_detacting(path, save_path):
 
 
 if __name__ == "__main__":
-    camera = 2
+    # camera = 2
     # path = "/home/devin/Documents/qianhai_devin/stamp_machinery/ocr/jpg/loan/3.jpg"
     # save_path = "/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/save.jpg"
     
-    # location = contract_detacting(path, save_path)
-    # print("location:", location)
+    location = contract_detacting(path, save_path)
+    print("location:", location)

@@ -12,6 +12,7 @@ from .UI_HnadMode import Ui_hand_movement
 from setting import contract_path, drawn_img_path
 from Common.new_contract import offset_of_image_and_a4
 
+
 class Hand_movement_Form(QDialog, Ui_hand_movement):
     """
     手动盖章功能
@@ -27,12 +28,11 @@ class Hand_movement_Form(QDialog, Ui_hand_movement):
 
         # 位置坐标信息
         self.img_info = {}
+        self.label_imag = ''
         self.postion = {'x': 0, 'y': 0}
 
         self.mouse_signal.connect(self.stamper_coordinate)
-
         self.cancel_btn.clicked.connect(self.cancel_btn_released)
-        self.ensure_btn.clicked.connect(self.ensure_btn_released)
 
     def show_self(self):
         """
@@ -41,8 +41,15 @@ class Hand_movement_Form(QDialog, Ui_hand_movement):
         :return:
         """
         # 设置label图片
-        self.label.setStyleSheet("#show_lab{border-image:url("+contract_path+");}")
+        self.label.setStyleSheet("#show_lab{border-image:url("+self.label_imag+");}")
         self.show()
+
+    def Set_label_image(self, path):
+        """
+        设置label图片
+        :return:
+        """
+        self.label_imag = path
 
     def cancel_btn_released(self):
         """
@@ -58,6 +65,13 @@ class Hand_movement_Form(QDialog, Ui_hand_movement):
         """
         self.img_signal.emit(self.img_info)
         self.close()
+
+    def Get_img_info(self):
+        """
+        获取img_info
+        :return:
+        """
+        return self.img_info
 
     def stamper_coordinate(self, pos):
         """
