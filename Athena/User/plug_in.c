@@ -99,11 +99,14 @@ int16_t Decode(void)
 						cmd.Y_1_MM =  (USART_RX_BUF[3]-48)*100+(USART_RX_BUF[4]-48)*10+(USART_RX_BUF[5]-48);
 						cmd.Y_2_MM=  (USART_RX_BUF[6]-48)*100+(USART_RX_BUF[7]-48)*10+(USART_RX_BUF[8]-48);
 						cmd.SEAL_ID =  (USART_RX_BUF[9]-48);
+						
+						printf("X_mm:%d\r\n", cmd.X_MM);
+						printf("Y_1_mm:%d\r\n", cmd.Y_1_MM);
+						printf("Y_2_mm:%d\r\n", cmd.Y_2_MM);
+						printf("Z_mm:%d\r\n", cmd.SEAL_ID);
           }
-//				printf("X_mm:%d\r\n", cmd.X_MM);
-//				printf("Y_1_mm:%d\r\n", cmd.Y_1_MM);
-//				printf("Y_2_mm:%d\r\n", cmd.Y_2_MM);
-//				printf("Z_mm:%d\r\n", cmd.Z_MM);
+				printf("usart:%d\r\n", (USART_RX_STA&0x3FFF));
+
 					
         USART_RX_STA=0;
     }
@@ -369,7 +372,7 @@ void Reset_Seal(int32_t Z_mm, int32_t Seal_id)
 *********************************************/
 void Stamper_Ctr(void)
 {	
-		int32_t ret = 0;									
+		int16_t ret = 0;									
 		int32_t z_mm = 23;                  // 设置取印章的行程
 		int32_t z_down_mm = 40;							// 盖章z轴行程
 		int32_t seal_id = SEAL_ID[2];
@@ -389,6 +392,7 @@ void Stamper_Ctr(void)
 								FLAG = 0;
 					
 								// 1.1 进纸
+								printf("usrat start\r\n");
 								Paper_Move_In();
 								EXTIX_DISABLE(EXTI9_5_IRQn);
 							
