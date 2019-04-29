@@ -79,6 +79,7 @@ class MainForm(QMainWindow, Ui_Main):
         """
         # 设置发送数据
         self.serialwork.Set_sendData(self.senddata)
+        self.serialwork.writeData()
 
     def RcMode(self):
         """
@@ -103,7 +104,7 @@ class MainForm(QMainWindow, Ui_Main):
                 self.Hand.Set_label_image(drawn_img_path)
                 self.Hand.show_self()
 
-            print("coord_info:", self.coord_dict)
+
         except Exception as e:
             print("RcMode:", str(e))
 
@@ -113,8 +114,11 @@ class MainForm(QMainWindow, Ui_Main):
         :return:
         """
         coo_info = self.Hand.Get_img_info()
-        if coo_info != '':
+        print("coo_info:", len(coo_info))
+        if len(coo_info) != 0:
             self.coord_dict = coo_info
+
+        print("coord_info:", self.coord_dict)
         self.SetData(self.coord_dict)
 
         self.Preview.Device_Release()        # 释放资源
@@ -134,7 +138,7 @@ class MainForm(QMainWindow, Ui_Main):
         center = coord_info["final_center"]
         region = coord_info["region"]
         # 设置X轴的行程
-        X_ = center[0]
+        X_ = str(center[0])
         if(len(X_)!=3):
             zero_str = '0'*(3-len(X_))
             X_ = zero_str + str(X_)
