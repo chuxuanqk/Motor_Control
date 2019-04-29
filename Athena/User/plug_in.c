@@ -87,10 +87,11 @@ int32_t Recv_Int(void)
  **************************************/
 int16_t Decode(void)
 {
-    //uint16_t i=0;
+    //int16_t i=0;
 
     if(USART_RX_STA&0x8000)
     {
+				//LED = ~LED;
         if((USART_RX_STA&0x3FFF) != 10){
             return -1;
         }else{
@@ -105,6 +106,7 @@ int16_t Decode(void)
 						printf("Y_2_mm:%d\r\n", cmd.Y_2_MM);
 						printf("Z_mm:%d\r\n", cmd.SEAL_ID);
           }
+
 				printf("usart:%d\r\n", (USART_RX_STA&0x3FFF));
 
 					
@@ -177,12 +179,23 @@ void Motor_Reset(void)
 {
 		int32_t x_rad = 800*8;
 		int32_t z_rad = 800*3;
+		int32_t tp_rad = 200;
 		int16_t x_maxfre = 800*5;
 		int16_t x_minfre = 800;
 		int16_t z_maxfre = 800*4;
 		int16_t z_minfre = 800;
-        
+		int16_t tp_maxfre = 800*2;
+		int16_t tp_minfre = 800;
+	
 		FLAG = 0;
+		
+		// 转盘复位
+		Motor_Move(tp_rad, tp_maxfre, tp_minfre, TP_MOTOR);
+		while(Status != 0);
+
+		Motor_Move(tp_rad*4, tp_maxfre, tp_minfre, TP_MOTOR);
+		while(Status != 0);
+			
 		// X轴复位
 		EXTIX_DISABLE(EXTI9_5_IRQn);
 		Motor_Move(-x_rad, x_maxfre, x_minfre, X_MOTOR);       	// X向左运动
@@ -224,16 +237,21 @@ void Paper_Move_In(void)
 	
 		while(K1==1);
 
+		printf("In FLAG:%d\r\n", FLAG);
 		if(FLAG == PTE1)
 		{
 				FLAG = 0;
-				delay_s(2);
+				delay_s(1);
 				printf("Y1停止\r\n");
 				Y1_TIM_DisableOC;
 				EXTIX_ENABLE(EXTI9_5_IRQn);
 		}
 		while(K2==1);
-		if(K2 == 0) Y2_TIM_DisableOC;
+		if(K2 == 0) 
+		{
+			delay_ms(300);
+			Y2_TIM_DisableOC;
+		}
 }
 	
 
@@ -248,8 +266,9 @@ void Paper_Move_Out(void)
 		uint16_t Y2_arr = 4999;
 		FLAG = 0;
 		Motor_Y2_Init(Y2_arr, (Y2_arr/2), CCW);
-		delay_s(1);
+
 		while(K2 == 0);
+		delay_s(2);
 		Y2_TIM_DisableOC;
 }
 
@@ -373,7 +392,7 @@ void Reset_Seal(int32_t Z_mm, int32_t Seal_id)
 void Stamper_Ctr(void)
 {	
 		int16_t ret = 0;									
-		int32_t z_mm = 23;                  // 设置取印章的行程
+		int32_t z_mm = 20;                  // 设置取印章的行程
 		int32_t z_down_mm = 40;							// 盖章z轴行程
 		int32_t seal_id = SEAL_ID[2];
 
@@ -383,7 +402,10 @@ void Stamper_Ctr(void)
 
 		while(1)
 		{
-				
+			
+//				delay_s(1);
+//				printf("Hello world");
+			
 				if(USART_RX_STA&0x8000)
 				{
 						ret = Decode();
@@ -406,6 +428,7 @@ void Stamper_Ctr(void)
 							
 								// 1.5 出纸
 								Paper_Move_Out();
+							
 								FLAG = 0;
 								printf("finish\r\n");
 						}

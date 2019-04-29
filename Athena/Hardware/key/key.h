@@ -12,7 +12,7 @@
 #define K1 PEin(9)          // 光电开关Y1
 #define K2 PEin(6)          // 光电开关Y2
 #define LX PEin(7)          // X轴限位开关
-//#define ZU PEin(8)        // Z轴上限开关
+#define TP PEin(8)        	// 转盘限位开关
 //#define ZD PEin(9)          // Z轴下限开关
 
 
@@ -42,7 +42,8 @@ enum K_State{
     X_Limit,    // X轴限位开关
     Z_UP,       // Z上限位
     Z_DOWN,     // Z下限位
-		S2_KEY			// S2按键
+		S2_KEY,			// S2按键
+		TP_Limit,   // TP限位
 };
 
 extern uint32_t STEP;

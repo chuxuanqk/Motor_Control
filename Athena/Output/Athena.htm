@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\Output\Athena.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Output\Athena.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Sun Apr 28 15:58:08 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Mon Apr 29 14:50:27 2019
 <BR><P>
 <H3>Maximum Stack Usage =        296 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-main &rArr; Stamper_Ctr &rArr; Cover_Seal &rArr; Motor_Move &rArr; CalculateSModelLine &rArr; exp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+main &rArr; Stamper_Ctr &rArr; Motor_Reset &rArr; Motor_Move &rArr; CalculateSModelLine &rArr; exp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 <P>
 <H3>
 Mutually Recursive functions
@@ -666,7 +666,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f10x_hd.o(RESET)
 </UL>
-<P><STRONG><a name="[21]"></a>EXTI9_5_IRQHandler</STRONG> (Thumb, 166 bytes, Stack size 8 bytes, key.o(i.EXTI9_5_IRQHandler))
+<P><STRONG><a name="[21]"></a>EXTI9_5_IRQHandler</STRONG> (Thumb, 192 bytes, Stack size 8 bytes, key.o(i.EXTI9_5_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = EXTI9_5_IRQHandler &rArr; EXTIX_DISABLE &rArr; NVIC_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI_GetITStatus
@@ -844,8 +844,8 @@ Global Symbols
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cover_Seal
 </UL>
 
-<P><STRONG><a name="[92]"></a>Motor_Reset</STRONG> (Thumb, 226 bytes, Stack size 40 bytes, plug_in.o(i.Motor_Reset))
-<BR><BR>[Stack]<UL><LI>Max Depth = 280<LI>Call Chain = Motor_Reset &rArr; Motor_Move &rArr; CalculateSModelLine &rArr; exp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<P><STRONG><a name="[92]"></a>Motor_Reset</STRONG> (Thumb, 314 bytes, Stack size 48 bytes, plug_in.o(i.Motor_Reset))
+<BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = Motor_Reset &rArr; Motor_Move &rArr; CalculateSModelLine &rArr; exp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_s
@@ -962,11 +962,12 @@ Global Symbols
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Configuration
 </UL>
 
-<P><STRONG><a name="[9a]"></a>Paper_Move_In</STRONG> (Thumb, 120 bytes, Stack size 16 bytes, plug_in.o(i.Paper_Move_In))
+<P><STRONG><a name="[9a]"></a>Paper_Move_In</STRONG> (Thumb, 138 bytes, Stack size 16 bytes, plug_in.o(i.Paper_Move_In))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = Paper_Move_In &rArr; Motor_Y2_Init &rArr; Enable_TIMX_OCXInit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_s
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Y2_Init
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Y1_Init
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTIX_ENABLE
@@ -1068,7 +1069,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[9f]"></a>Stamper_Ctr</STRONG> (Thumb, 196 bytes, Stack size 0 bytes, plug_in.o(i.Stamper_Ctr))
-<BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = Stamper_Ctr &rArr; Cover_Seal &rArr; Motor_Move &rArr; CalculateSModelLine &rArr; exp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = Stamper_Ctr &rArr; Motor_Reset &rArr; Motor_Move &rArr; CalculateSModelLine &rArr; exp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTIX_ENABLE
@@ -1429,6 +1430,7 @@ Global Symbols
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Servo_Open
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Servo_Config
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Servo_Close
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Paper_Move_In
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Cover_Seal
 </UL>
 
@@ -1447,7 +1449,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> printf1.o(i.__0printf$1)
 </UL>
 <P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 296<LI>Call Chain = main &rArr; Stamper_Ctr &rArr; Cover_Seal &rArr; Motor_Move &rArr; CalculateSModelLine &rArr; exp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 296<LI>Call Chain = main &rArr; Stamper_Ctr &rArr; Motor_Reset &rArr; Motor_Move &rArr; CalculateSModelLine &rArr; exp &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stamper_Init
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Stamper_Ctr
