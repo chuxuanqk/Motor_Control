@@ -39,7 +39,7 @@ class SerialWork(QObject):
             print("Serial Number:", info.serialNumber())
             print("System Location:", info.systemLocation())
             print("vendoridentifier:", info.vendorIdentifier())
-            print(type(info.vendorIdentifier()))
+            # print(type(info.vendorIdentifier()))
 
             # 串口信息认证
             if info.vendorIdentifier() == 6790:
@@ -51,11 +51,13 @@ class SerialWork(QObject):
 
         # 打开串口
         if self.com.open(QSerialPort.ReadWrite) == False:
+            print("open fault")
             return
 
+        # 设置定时函数
         self.readtimer = QTimer()
         self.readtimer.timeout.connect(self.readData)     # 读信号
-        self.readtimer.start(200)
+        self.readtimer.start(200)                         # 每200ms读一次数据
 
     def Set_sendData(self, s_data):
         """
@@ -82,11 +84,12 @@ class SerialWork(QObject):
         :return:
         """
 
-        print(self.com.isOpen())
-        if self.com.isOpen():
-            print("send:", self.sendData, len(self.sendData))
-            # self.com.writeData(bytes('helloworld\r\n', encoding='utf8'))
-            self.com.writeData(self.sendData)
+        try:
+            if self.com.isOpen():
+                print("send:", self.sendData, len(self.sendData))
+                self.com.writeData(self.sendData)
+        except Exception as e:
+            print("Write:", str(e))
 
     def SerialClsoe(self):
         """
@@ -97,6 +100,7 @@ class SerialWork(QObject):
             self.com.close()
 
 
+
 class PyQt_Serial(QWidget):
     """
     串口测试模块
@@ -104,20 +108,49 @@ class PyQt_Serial(QWidget):
     def __init__(self):
         super(PyQt_Serial, self).__init__()
 
+        self.resize(600, 400)
+
         self.btn = QPushButton(self)
         self.btn.setObjectName('btn')
-        self.btn.setGeometry(QRect(100, 100, 40, 40))
+        self.btn.setText("Send_Data")
+        self.btn.setGeometry(QRect(100, 100, 80, 40))
 
-        self.serialthread = QThread()
+        self.Start_btn = QPushButton(self)
+        self.Start_btn.setObjectName('start')
+        self.Start_btn.setText("Start")
+        self.Start_btn.setGeometry(QRect(200, 100, 60, 40))
+
+        self.Stop_btn = QPushButton(self)
+        self.Stop_btn.setObjectName('stop')
+        self.Stop_btn.setText("Stop")
+        self.Stop_btn.setGeometry(QRect(300, 100, 60, 40))
+
         self.serialwork = SerialWork()
-        self.serialwork.moveToThread(self.serialthread)
-
+        self.serialthread = QThread()
+        self.serialwork.moveToThread(self.serialthread)                   # 将耗时操作放到QObjecgt的子类中实现
         self.serialthread.started.connect(self.serialwork.init)
-        self.serialthread.start()
 
         self.serialwork.Set_sendData('1000000002\r\n')
         self.btn.clicked.connect(self.serialwork.writeData)
+        self.Start_btn.clicked.connect(self.Start)
+        self.Stop_btn.clicked.connect(self.Stop)
 
+    def Start(self):
+        """
+        开启定时器,打开串口
+        :return:
+        """
+        self.serialthread.start()
+
+    def Stop(self):
+        """
+        关闭定时器, 关闭串口
+        :return:
+        """
+        try:
+            self.serialthread.quit()
+        except Exception as e:
+            print(str(e))
 
 
 # class Serial_Form(QWidget, Ui_Serial):
