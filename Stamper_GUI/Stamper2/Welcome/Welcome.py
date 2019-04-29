@@ -102,6 +102,8 @@ class MainForm(QMainWindow, Ui_Main):
                 self.coord_dict = contract_detecting(contract_path, drawn_img_path)
                 self.Hand.Set_label_image(drawn_img_path)
                 self.Hand.show_self()
+
+            print("coord_info:", self.coord_dict)
         except Exception as e:
             print("RcMode:", str(e))
 
@@ -128,6 +130,7 @@ class MainForm(QMainWindow, Ui_Main):
         :param coord_info:
         :return:
         """
+
         center = coord_info["final_center"]
         region = coord_info["region"]
         # 设置X轴的行程
