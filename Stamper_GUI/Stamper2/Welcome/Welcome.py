@@ -30,7 +30,6 @@ class MainForm(QMainWindow, Ui_Main):
         super(MainForm, self).__init__(parent=parent)
 
         self.senddata = ''
-        self.coord_dict = {}
         self.welcome = welcome
         self.setupUi(self)
 
@@ -79,14 +78,7 @@ class MainForm(QMainWindow, Ui_Main):
         self.serialthread.start()
 
         # 设置发送数据
-        # timer_sleep = QTimer()
-        # timer_sleep.setSingleShot(True)
-        # timer_sleep.timeout.connect(lambda: self.serialwork.Set_sendData(self.senddata))
-        # timer_sleep.start(1000)
         self.serialwork.Set_sendData(self.senddata)
-        self.serialwork.writeData()
-        print("serial:", self.senddata)
-
 
     def RcMode(self):
         """
@@ -104,7 +96,7 @@ class MainForm(QMainWindow, Ui_Main):
 
                 timer_sleep = QTimer()
                 timer_sleep.setSingleShot(True)
-                timer_sleep.timeout.connect(lambda: self.Preview.Currentframe_Save(contract_path))
+                timer_sleep.timeout.connect(lambda :self.Preview.Currentframe_Save(contract_path))
                 timer_sleep.start(1000)
                 self.coord_dict = contract_detecting(contract_path, drawn_img_path)
                 # 设置要发送的数据
@@ -138,12 +130,8 @@ class MainForm(QMainWindow, Ui_Main):
         Seal_id = self.Preview.Seal_type.currentData()
         Seal_id = str(Seal_id)
 
-        self.senddata = X_+Y_1_MM+Y_2_MM+Seal_id
-        print("senddata:", self.senddata)
-
     def HandMode(self):
         """
-        手动设置盖章位置
         :return:
         """
         try:
@@ -160,10 +148,8 @@ class MainForm(QMainWindow, Ui_Main):
         :param info: 位置坐标信息
         :return:
         """
-        coord_img = self.Hand.Get_img_info()
-        if len(coord_img) != 0:
-            self.coord_dict = coord_img
-        print("coo_info:", self.coord_dict)
+        self.coo_info = self.Hand.Get_img_info()
+        print("coo_info:", self.coo_info)
         self.Preview.Device_Release()
 
         self.timer = QTimer()

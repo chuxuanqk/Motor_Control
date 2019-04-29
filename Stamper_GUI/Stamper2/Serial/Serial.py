@@ -22,14 +22,13 @@ class SerialWork(QObject):
     """
     def __init__(self):
         super(SerialWork, self).__init__()
+
+    def init(self):
+
         self.serianame = ''
         self.com = QSerialPort()
         self.cominfo = QSerialPortInfo()
         self.infos = self.cominfo.availablePorts()
-
-    def init(self):
-
-
         for info in self.infos:
             print("Name:", info.portName())
             print("Description:", info.description())
@@ -37,10 +36,12 @@ class SerialWork(QObject):
             print("Serial Number:", info.serialNumber())
             print("System Location:", info.systemLocation())
             print("vendoridentifier:", info.vendorIdentifier())
+            print(type(info.vendorIdentifier()))
 
             # 串口信息认证
             if info.vendorIdentifier() == 6790:
                 self.serianame = info.portName()
+
 
         self.com.setPortName(self.serianame)
         self.com.setBaudRate(9600)
@@ -76,7 +77,10 @@ class SerialWork(QObject):
         写数据b
         :return:
         """
+
+        print(self.com.isOpen())
         if self.com.isOpen():
+            print("send:", self.sendData, len(self.sendData))
             # self.com.writeData(bytes('helloworld\r\n', encoding='utf8'))
             self.com.writeData(self.sendData)
 
