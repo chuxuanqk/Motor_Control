@@ -354,7 +354,7 @@ def offset_of_image_and_a4(img, center):
 
 def draw_img(center, contract_path, draw_image_path):
     """
-    通过Opencv画圆显示，盖章位置
+    通过OpenCV画圆显示，盖章位置
     param center: 所画圆形的圆心坐标（相对显示窗口而言，鼠标的点击位置坐标）
     param contract_path: 拍照后合同图片的路径
     param draw_image_path: 画完圆后的图片的保存路径
@@ -403,6 +403,7 @@ def contract_detecting(path, save_path):
     center, _ = Recognition(img, save_path).calculate_center()
     final_center, region = offset_of_image_and_a4(rotate, center)
     coordinate_and_region = {"final_center": final_center, "region": region}
+    print("final_center:", final_center)
     return coordinate_and_region
 
 
