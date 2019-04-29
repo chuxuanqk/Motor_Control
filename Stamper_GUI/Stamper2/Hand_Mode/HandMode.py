@@ -83,7 +83,7 @@ class Hand_movement_Form(QDialog, Ui_hand_movement):
         # y = int(pos['y']*(1960/600))
         x = int(pos['x'])
         y = int(pos['y'])
-        print("x:{}, y:{}".format(x, y))
+        # print("x:{}, y:{}".format(x, y))
 
         pos_tuple = tuple((x, y))
         center = self.draw_img(pos_tuple)
@@ -112,7 +112,7 @@ class Hand_movement_Form(QDialog, Ui_hand_movement):
 
         cv2.circle(img, center, radius=250, color=(255, 0, 0), thickness=5)
         cv2.imwrite(drawn_img_path, img)
-        center = center # + tuple(center1)
+        center = center         # + tuple(center1)
 
         return center
 

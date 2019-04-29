@@ -5,6 +5,9 @@ __date__ = '21/4/19 下午7:07'
 import sys
 # import cv2
 
+
+import serial
+import serial.tools.list_ports
 from PyQt5.QtWidgets import QWidget, QStyle, QApplication, QStyleOption, QPushButton
 from PyQt5.QtCore import QRect, pyqtSignal, QThread, QObject, QTimer
 from PyQt5.QtGui import QPainter, QPixmap, QImage
@@ -46,6 +49,7 @@ class SerialWork(QObject):
         self.com.setPortName(self.serianame)
         self.com.setBaudRate(9600)
 
+        # 打开串口
         if self.com.open(QSerialPort.ReadWrite) == False:
             return
 
@@ -91,7 +95,6 @@ class SerialWork(QObject):
         """
         if self.com.isOpen():
             self.com.close()
-
 
 
 class PyQt_Serial(QWidget):

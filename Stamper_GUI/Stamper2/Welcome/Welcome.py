@@ -33,6 +33,12 @@ class MainForm(QMainWindow, Ui_Main):
         self.welcome = welcome
         self.setupUi(self)
 
+        self.serialthread = QThread()
+        self.serialwork = SerialWork()
+        self.serialwork.moveToThread(self.serialthread)
+        self.serialthread.started.connect(self.serialwork.init)
+        self.serialthread.start()
+
         self.Preview = Preview_Form()
         self.Preview.Rc_btn.clicked.connect(self.RcMode)
         self.Preview.Hand_btn.clicked.connect(self.HandMode)
@@ -40,7 +46,8 @@ class MainForm(QMainWindow, Ui_Main):
         self.Preview.cancel_btn.clicked.connect(self.show_self)
 
         self.Hand = Hand_movement_Form(self.Preview)
-        self.Hand.ensure_btn.clicked.connect(self.HandData)
+        # self.Hand.ensure_btn.clicked.connect(self.HandData)
+        self.Hand.ensure_btn.clicked.connect(self.SetCoord)
         self.Hand.close()
 
         self.close_signal.connect(self.Show_Preview)
@@ -52,7 +59,6 @@ class MainForm(QMainWindow, Ui_Main):
         """
         try:
             self.Preview.close_self()
-
             self.show()
         except Exception as e:
             print("Exception:", e)
@@ -71,12 +77,6 @@ class MainForm(QMainWindow, Ui_Main):
         设置串口，并发送指令
         :return:
         """
-        self.serialthread = QThread()
-        self.serialwork = SerialWork()
-        self.serialwork.moveToThread(self.serialthread)
-        self.serialthread.started.connect(self.serialwork.init)
-        self.serialthread.start()
-
         # 设置发送数据
         self.serialwork.Set_sendData(self.senddata)
 
@@ -87,8 +87,8 @@ class MainForm(QMainWindow, Ui_Main):
         """
         try:
             if self.Preview.device.isOpened():
-                self.Preview.Currentframe_Save(contract_path)
-                self.coord_dict = contract_detecting(contract_path, drawn_img_path)
+                self.Preview.Currentframe_Save(contract_path)                            # 保存当前照片
+                self.coord_dict = contract_detecting(contract_path, drawn_img_path)       # 返回已识别的位置
                 self.Hand.Set_label_image(drawn_img_path)
                 self.Hand.show_self()
             else:
@@ -96,16 +96,31 @@ class MainForm(QMainWindow, Ui_Main):
 
                 timer_sleep = QTimer()
                 timer_sleep.setSingleShot(True)
-                timer_sleep.timeout.connect(lambda :self.Preview.Currentframe_Save(contract_path))
+                timer_sleep.timeout.connect(lambda: self.Preview.Currentframe_Save(contract_path))
                 timer_sleep.start(1000)
-                self.coord_dict = contract_detecting(contract_path, drawn_img_path)
-                # 设置要发送的数据
-                self.SetData(self.coord_dict)
 
+                self.coord_dict = contract_detecting(contract_path, drawn_img_path)
                 self.Hand.Set_label_image(drawn_img_path)
                 self.Hand.show_self()
         except Exception as e:
             print("RcMode:", str(e))
+
+    def SetCoord(self):
+        """
+        确认坐标
+        :return:
+        """
+        coo_info = self.Hand.Get_img_info()
+        if coo_info != '':
+            self.coord_dict = coo_info
+        self.SetData(self.coord_dict)
+
+        self.Preview.Device_Release()        # 释放资源
+
+        self.timer = QTimer()
+        self.timer.setSingleShot(1000)
+        self.Set_preview_lab()
+        self.Hand.close()
 
     def SetData(self, coord_info):
         """
@@ -130,8 +145,11 @@ class MainForm(QMainWindow, Ui_Main):
         Seal_id = self.Preview.Seal_type.currentData()
         Seal_id = str(Seal_id)
 
+        self.senddata = X_ + Y_1_MM + Y_2_MM + Seal_id + '\r\n'
+
     def HandMode(self):
         """
+        手动盖章模式
         :return:
         """
         try:
@@ -150,7 +168,7 @@ class MainForm(QMainWindow, Ui_Main):
         """
         self.coo_info = self.Hand.Get_img_info()
         print("coo_info:", self.coo_info)
-        self.Preview.Device_Release()
+        self.Preview.Device_Release()        # 释放资源
 
         self.timer = QTimer()
         self.timer.setSingleShot(1000)
