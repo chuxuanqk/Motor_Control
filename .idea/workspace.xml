@@ -4,6 +4,8 @@
     <list default="true" id="d9d76a12-edf3-469c-b50a-85e84d485fae" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/contract.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/contract.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/drawn_img.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/drawn_img.jpg" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,59 +14,55 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6605442">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/run.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="308">
-                  <caret line="16" selection-start-line="16" selection-end-line="16" />
-                  <folding>
-                    <element signature="e#0#10#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/config.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="286">
-                  <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="290">
-                  <caret line="372" column="23" selection-start-line="372" selection-start-column="23" selection-end-line="372" selection-end-column="23" />
-                  <folding>
-                    <element signature="e#25#35#0" expanded="true" />
-                    <element signature="e#10453#10486#1" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/../ocr/main.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="2904">
-                  <caret line="164" column="13" selection-start-line="164" selection-start-column="8" selection-end-line="164" selection-end-column="13" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Stamper_GUI/run.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="352">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/utils.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Stamper_GUI/setting.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="23" lean-forward="true" selection-start-column="23" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="9372">
+              <caret line="426" column="5" lean-forward="true" selection-start-line="426" selection-start-column="5" selection-end-line="426" selection-end-column="5" />
+              <folding>
+                <element signature="e#25#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -72,12 +70,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Stamper_GUI/setting.py" />
         <option value="$PROJECT_DIR$/Stamper_GUI/Stamper2/Welcome/Welcome.py" />
         <option value="$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/UI_Preview.py" />
         <option value="$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/Preview.py" />
         <option value="$PROJECT_DIR$/Stamper_GUI/Common/config.py" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/Stamper_GUI/setting.py" />
         <option value="$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py" />
       </list>
     </option>
@@ -139,7 +137,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.new_contract">
+  <component name="RunManager" selected="Python.run">
     <configuration name="new_contract" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Saber" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -184,8 +182,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.new_contract" />
         <item itemvalue="Python.run" />
+        <item itemvalue="Python.new_contract" />
       </list>
     </recent_temporary>
   </component>
@@ -228,12 +226,18 @@
       <option name="project" value="LOCAL" />
       <updated>1556431694713</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add notes!">
+      <created>1556442759318</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1556442759318</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1954023" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -288,7 +292,8 @@
     <MESSAGE value="Adjust rotate_image function!" />
     <MESSAGE value="Adjust pick_out_text function!" />
     <MESSAGE value="Add image_saver function!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add image_saver function!" />
+    <MESSAGE value="Add notes!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add notes!" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Stamper_GUI/Resource/Temp_img/WechatIMG94.jpeg">
@@ -364,16 +369,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/recognition.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper_GUI/setting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="26" column="10" selection-start-line="26" selection-start-column="10" selection-end-line="26" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Stamper_GUI/Stamper2/Preview/Preview.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="827">
@@ -384,9 +379,15 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/Stamper.db">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/utils.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/Stamper_GUI/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
+        <state relative-caret-position="352">
           <caret line="16" selection-start-line="16" selection-end-line="16" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
@@ -394,23 +395,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/Stamper.db">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/config.py">
+    <entry file="file://$PROJECT_DIR$/Stamper_GUI/setting.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
+        <state relative-caret-position="264">
+          <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="23" lean-forward="true" selection-start-column="23" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/recognition.log">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="LogFileEditorProvider" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Stamper_GUI/recognition.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/Stamper_GUI/Common/new_contract.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="372" column="23" selection-start-line="372" selection-start-column="23" selection-end-line="372" selection-end-column="23" />
+        <state relative-caret-position="9372">
+          <caret line="426" column="5" lean-forward="true" selection-start-line="426" selection-start-column="5" selection-end-line="426" selection-end-column="5" />
           <folding>
             <element signature="e#25#35#0" expanded="true" />
-            <element signature="e#10453#10486#1" />
           </folding>
         </state>
       </provider>

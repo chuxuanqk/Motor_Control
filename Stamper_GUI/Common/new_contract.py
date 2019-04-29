@@ -1,4 +1,24 @@
 # -*- coding: UTF-8 -*-
+"""
+智能盖章机：
+实现功能：通过相机对放在入纸托盘中的合同进行拍照，对照片作降噪矫正处理后，进行Ocr文字识别
+        从识别的文本信息中挑选出特定的目标关键字，并获取关键字的位置信息，宽高信息。将位
+        置信息转化到实际物理世界中A4纸上面的相对坐标，再将位置信息返回。
+RaiseError: 该类主要用于识别模块的错误捕捉，并将错误报告按照给定的格式写入到log日志文件
+            便于调试过程使用。
+CorrectImage: 该类主要解决放入合同时，有一定的倾斜，导致拍照后的图片中文字也以倾斜的样式
+              呈现，为了不影响，识别的精度，在每一次识别前，对图片作矫正是很有必要的。
+Recognition: 识别主类，实现对图片文本识别转化，对识别后的文本信息进行二次过滤，再从过滤
+             后的文本中找到目标关键字，并定位关键字在图片中的位置坐标，将位置坐标作一定
+             修正后传出，便于后续盖章动作使用。
+全局函数：
+    offset_of_image_and_a4：图片上坐标和对应的A4纸合同上的相应位置进行转换，得到物理
+        世界的真实坐标，传给盖章抓手；
+    draw_img：对定位到的盖章位置进行可视化显示，以圆形代表章，圆形为修正后的盖章位置坐标；
+    get_frame：对摄像头获取窗口的分辨率进行固化设置；
+    contract_detecting：实现了对识别过程接口函数的封装，便于外部调用；
+    image_saver：对最终要盖章的图片进行记录保存便于后期校对核查。
+"""
 
 import cv2
 import time
@@ -401,8 +421,8 @@ if __name__ == "__main__":
     camera = 2
     # path = "/home/devin/Documents/qianhai_devin/stamp_machinery/ocr/jpg/loan/3.jpg"
     # save_path = "/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/"
-    
-    # location = contract_detacting(path, save_path)
+
+    # location = contract_detecting(path, save_path)
     # print("location:", location)
     # img = cv2.imread(path)
     # image_saver(img, save_path)
