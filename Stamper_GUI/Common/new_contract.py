@@ -26,7 +26,7 @@ from math import *
 import logging
 import numpy as np
 import pytesseract
-from config import Config
+from .config import Config
 
 
 class RaiseError:
