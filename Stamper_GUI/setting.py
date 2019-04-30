@@ -19,8 +19,8 @@ Preview_QSS = './Resource/QSS/preview_style.qss'
 Hand_QSS = './Resource/QSS/hand_style.qss'
 
 # Temp_img资源
-contract_path = './Resource/Temp_img/contract.jpg'
-drawn_img_path = './Resource/Temp_img/drawn_img.jpg'
+contract_path = father_path+'/Resource/Temp_img/contract.jpg'
+drawn_img_path = father_path+'/Resource/Temp_img/drawn_img.jpg'
 
 # 摄像头
 face_camera = 0

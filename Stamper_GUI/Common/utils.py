@@ -9,8 +9,8 @@ from PyQt5.QtGui import QPixmap, QBitmap
 from PyQt5.QtCore import QThread, pyqtSignal, QMutex, QMutexLocker
 
 
-from setting import face_img
-
+from setting import face_img, drawn_img_path, contract_path
+from Common.new_contract import contract_detecting
 
 class CommonHelper:
     def __init__(self):
@@ -118,7 +118,7 @@ class Timer(QThread):
             if self.stoped:
                 return
             self.Camer.emit()
-            #40毫秒发送一次信号
+            #10HZ发送一次信号
             time.sleep(0.1)
 
     def stop(self):
@@ -128,6 +128,46 @@ class Timer(QThread):
     def isStoped(self):
         with QMutexLocker(self.mutex):
             return self.stoped
+
+
+class Rc_Timer(QThread):
+    """
+    图像识别线程
+    """
+    Rc_signal = pyqtSignal(dict)
+
+    def __init__(self, parent=None):
+        super(Rc_Timer, self).__init__(parent)
+        self.stoped = False
+
+        self.mutex = QMutex()
+
+    def run(self):
+        with QMutexLocker(self.mutex):
+            self.stoped = False
+        print("开始", contract_path, drawn_img_path)
+
+        coord_dict = contract_detecting(contract_path, drawn_img_path)
+        print("coord:", coord_dict)
+        self.Rc_signal.emit(coord_dict)
+
+        return
+
+    def stop(self):
+        with QMutexLocker(self.mutex):
+            self.stoped = True
+
+    def isStoped(self):
+        with QMutexLocker(self.mutex):
+            return self.stoped
+
+
+if __name__ == '__main__':
+    rc_time = Rc_Timer()
+    rc_time.start()
+    time.sleep(2)
+    while True:
+        pass
 
 
 

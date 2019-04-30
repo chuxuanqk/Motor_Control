@@ -16,7 +16,7 @@ from Stamper2.Serial.Serial import SerialWork
 
 from setting import welcome, drawn_img_path, contract_path
 from Common.new_contract import contract_detecting
-
+from Common.utils import Rc_Timer
 
 # 主控制界面
 class MainForm(QMainWindow, Ui_Main):
@@ -30,6 +30,7 @@ class MainForm(QMainWindow, Ui_Main):
         super(MainForm, self).__init__(parent=parent)
 
         self.senddata = ''
+        self.rc_time = Rc_Timer()
         self.welcome = welcome
         self.setupUi(self)
 
@@ -51,6 +52,7 @@ class MainForm(QMainWindow, Ui_Main):
         self.Hand.close()
 
         self.close_signal.connect(self.Show_Preview)
+        self.rc_time.connect(self.Setcoord_dict)
 
     def show_self(self):
         """
@@ -89,24 +91,35 @@ class MainForm(QMainWindow, Ui_Main):
         try:
             if self.Preview.device.isOpened():
                 self.Preview.Currentframe_Save(contract_path)                            # 保存当前照片
-                self.coord_dict = contract_detecting(contract_path, drawn_img_path)       # 返回已识别的位置
-                self.Hand.Set_label_image(drawn_img_path)
-                self.Hand.show_self()
+                # self.coord_dict = contract_detecting(contract_path, drawn_img_path)       # 返回已识别的位置
+                # self.Hand.Set_label_image(drawn_img_path)
+                # self.Hand.show_self()
+                self.rc_time.start()
             else:
-                self.Preview.Open_capture()
+                self.Preview.Open_capture()      # 重新打开摄像头
 
                 timer_sleep = QTimer()
                 timer_sleep.setSingleShot(True)
                 timer_sleep.timeout.connect(lambda: self.Preview.Currentframe_Save(contract_path))
                 timer_sleep.start(1000)
 
-                self.coord_dict = contract_detecting(contract_path, drawn_img_path)
-                self.Hand.Set_label_image(drawn_img_path)
-                self.Hand.show_self()
-
+                # self.coord_dict = contract_detecting(contract_path, drawn_img_path)
+                # self.Hand.Set_label_image(drawn_img_path)
+                # self.Hand.show_self()
+                self.rc_time.start()
 
         except Exception as e:
             print("RcMode:", str(e))
+
+    def Setcoord_dict(self, coord_info):
+        """
+        设置识别的坐标
+        :param coord_info:
+        :return:
+        """
+        self.coord_dict = coord_info
+        self.Hand.Set_label_image(drawn_img_path)
+        self.Hand.show_self()
 
     def SetCoord(self):
         """
@@ -181,7 +194,6 @@ class MainForm(QMainWindow, Ui_Main):
         self.timer.setSingleShot(1000)
         self.Set_preview_lab()
         self.Hand.close()
-        # self.Preview.repaint()
 
     def Set_preview_lab(self):
         """
