@@ -6,6 +6,7 @@ __date__ = '26/3/19 下午4:09'
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QPainter, QPixmap, QImage
 from PyQt5.QtCore import pyqtSignal, QThread, QTimer, Qt
+from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
 
 from .UI_Welcome import Ui_Main
 from Stamper2.Face_Rc.Face_Rc import Rc_Form
@@ -35,11 +36,11 @@ class MainForm(QMainWindow, Ui_Main):
         self.welcome = welcome
         self.setupUi(self)
 
-        self.serialthread = QThread()
-        self.serialwork = SerialWork()
-        self.serialwork.moveToThread(self.serialthread)
-        self.serialthread.started.connect(self.serialwork.init)
-
+        # self.serialthread = QThread()
+        # self.serialwork = SerialWork()
+        # self.serialwork.moveToThread(self.serialthread)
+        # self.serialthread.started.connect(self.serialwork.init)
+        # self.serialthread.start()
 
         self.Preview = Preview_Form()
         self.Preview.Rc_btn.clicked.connect(self.RcMode)
@@ -81,14 +82,30 @@ class MainForm(QMainWindow, Ui_Main):
         :return:
         """
         # 设置发送数据
-        self.serialthread.start()
-        self.serialwork.Set_sendData(self.senddata)
-        self.serialwork.writeData()
-        while self.serialwork.readData() == 0:
-            pass
+        # self.serialwork.Set_sendData(self.senddata)
+        # self.serialwork.writeData()
 
-        self.serialthread.quit()
-        print("关闭串口线程")
+        self.serianame = ''
+        self.com = QSerialPort()
+        self.cominfo = QSerialPortInfo()
+        self.infos = self.cominfo.availablePorts()
+        for info in self.infos:
+            print("Name:", info.portName())
+            print("vendoridentifier:", info.vendorIdentifier())
+
+            # 串口信息认证
+            if info.vendorIdentifier() == 6790:
+                self.serianame = info.portName()
+
+        self.com.setPortName(self.serianame)
+        self.com.setBaudRate(9600)
+        ret = self.com.open(QSerialPort.ReadWrite)
+        # 打开串口
+        if ret == True:
+            self.com.writeData(bytes(self.senddata, encoding='utf8'))
+        else:
+            print("open fault")
+
 
     def RcMode(self):
         """

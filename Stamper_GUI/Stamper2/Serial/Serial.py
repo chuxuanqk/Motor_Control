@@ -6,8 +6,6 @@ import sys
 # import cv2
 
 
-# import serial
-# import serial.tools.list_ports
 from PyQt5.QtWidgets import QWidget, QStyle, QApplication, QStyleOption, QPushButton
 from PyQt5.QtCore import QRect, pyqtSignal, QThread, QObject, QTimer
 from PyQt5.QtGui import QPainter, QPixmap, QImage
@@ -34,12 +32,7 @@ class SerialWork(QObject):
         self.infos = self.cominfo.availablePorts()
         for info in self.infos:
             print("Name:", info.portName())
-            # print("Description:", info.description())
-            # print("Manufacturer:", info.manufacturer())
-            # print("Serial Number:", info.serialNumber())
-            # print("System Location:", info.systemLocation())
             print("vendoridentifier:", info.vendorIdentifier())
-            # print(type(info.vendorIdentifier()))
 
             # 串口信息认证
             if info.vendorIdentifier() == 6790:
