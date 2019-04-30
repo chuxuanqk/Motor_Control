@@ -148,9 +148,10 @@ class Rc_Timer(QThread):
         try:
             coord_dict = contract_detecting(contract_path, drawn_img_path)
             print("coord:", coord_dict)
+            self.Rc_signal.emit(coord_dict)
         except Exception as e:
             print("Rc_Timer:", str(e))
-        self.Rc_signal.emit(coord_dict)
+
 
         return
 
