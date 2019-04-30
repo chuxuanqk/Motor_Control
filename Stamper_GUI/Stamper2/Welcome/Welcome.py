@@ -52,7 +52,7 @@ class MainForm(QMainWindow, Ui_Main):
         self.Hand.close()
 
         self.close_signal.connect(self.Show_Preview)
-        self.rc_time.connect(self.Setcoord_dict)
+        self.rc_time.Rc_signal.connect(self.Setcoord_dict)
 
     def show_self(self):
         """
