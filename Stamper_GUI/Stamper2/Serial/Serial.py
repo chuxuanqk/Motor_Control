@@ -72,11 +72,14 @@ class SerialWork(QObject):
         读数据
         :return:
         """
+        revData = ''
         revData = self.com.readAll()
         revData = bytes(revData)
         if revData.__len__() != 0:
             print('%d read:' % len(revData))
             print(revData)
+
+        return len(revData)
 
     def writeData(self):
         """
@@ -97,7 +100,6 @@ class SerialWork(QObject):
         """
         if self.com.isOpen():
             self.com.close()
-
 
 
 class PyQt_Serial(QWidget):

@@ -84,7 +84,11 @@ class MainForm(QMainWindow, Ui_Main):
         self.serialthread.start()
         self.serialwork.Set_sendData(self.senddata)
         self.serialwork.writeData()
+        while self.serialwork.readData() == 0:
+            pass
+
         self.serialthread.quit()
+        print("关闭串口线程")
 
     def RcMode(self):
         """

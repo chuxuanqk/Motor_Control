@@ -24,7 +24,7 @@ drawn_img_path = father_path+'/Resource/Temp_img/drawn_img.jpg'
 
 # 摄像头
 face_camera = 0
-camera = 2
+camera = 0
 
 # 全局变量
 Seal_enum = {"Seal_1": 0,
