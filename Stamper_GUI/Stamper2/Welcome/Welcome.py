@@ -18,6 +18,7 @@ from setting import welcome, drawn_img_path, contract_path
 from Common.new_contract import contract_detecting
 from Common.utils import Rc_Timer
 
+
 # 主控制界面
 class MainForm(QMainWindow, Ui_Main):
     """
@@ -38,7 +39,7 @@ class MainForm(QMainWindow, Ui_Main):
         self.serialwork = SerialWork()
         self.serialwork.moveToThread(self.serialthread)
         self.serialthread.started.connect(self.serialwork.init)
-        self.serialthread.start()
+
 
         self.Preview = Preview_Form()
         self.Preview.Rc_btn.clicked.connect(self.RcMode)
@@ -80,8 +81,10 @@ class MainForm(QMainWindow, Ui_Main):
         :return:
         """
         # 设置发送数据
+        self.serialthread.start()
         self.serialwork.Set_sendData(self.senddata)
         self.serialwork.writeData()
+        self.serialthread.quit()
 
     def RcMode(self):
         """
@@ -127,11 +130,10 @@ class MainForm(QMainWindow, Ui_Main):
         :return:
         """
         coo_info = self.Hand.Get_img_info()
-        print("coo_info:", len(coo_info))
+
         if len(coo_info) != 0:
             self.coord_dict = coo_info
 
-        print("coord_info:", self.coord_dict)
         self.SetData(self.coord_dict)
 
         self.Preview.Device_Release()        # 释放资源
@@ -147,7 +149,6 @@ class MainForm(QMainWindow, Ui_Main):
         :param coord_info:
         :return:
         """
-
         center = coord_info["final_center"]
         region = coord_info["region"]
         # 设置X轴的行程
@@ -187,7 +188,6 @@ class MainForm(QMainWindow, Ui_Main):
         :return:
         """
         self.coo_info = self.Hand.Get_img_info()
-        print("coo_info:", self.coo_info)
         self.Preview.Device_Release()        # 释放资源
 
         self.timer = QTimer()

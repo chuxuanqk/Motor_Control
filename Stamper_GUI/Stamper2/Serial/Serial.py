@@ -34,10 +34,10 @@ class SerialWork(QObject):
         self.infos = self.cominfo.availablePorts()
         for info in self.infos:
             print("Name:", info.portName())
-            print("Description:", info.description())
-            print("Manufacturer:", info.manufacturer())
-            print("Serial Number:", info.serialNumber())
-            print("System Location:", info.systemLocation())
+            # print("Description:", info.description())
+            # print("Manufacturer:", info.manufacturer())
+            # print("Serial Number:", info.serialNumber())
+            # print("System Location:", info.systemLocation())
             print("vendoridentifier:", info.vendorIdentifier())
             # print(type(info.vendorIdentifier()))
 
@@ -83,7 +83,6 @@ class SerialWork(QObject):
         写数据b
         :return:
         """
-
         try:
             if self.com.isOpen():
                 print("send:", self.sendData, len(self.sendData))
