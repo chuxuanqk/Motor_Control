@@ -6,8 +6,8 @@ import sys
 # import cv2
 
 
-import serial
-import serial.tools.list_ports
+# import serial
+# import serial.tools.list_ports
 from PyQt5.QtWidgets import QWidget, QStyle, QApplication, QStyleOption, QPushButton
 from PyQt5.QtCore import QRect, pyqtSignal, QThread, QObject, QTimer
 from PyQt5.QtGui import QPainter, QPixmap, QImage

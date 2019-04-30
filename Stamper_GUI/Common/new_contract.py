@@ -26,7 +26,7 @@ from math import *
 import logging
 import numpy as np
 import pytesseract
-from .config import Config
+from config import Config
 
 
 class RaiseError:
@@ -302,6 +302,9 @@ class Recognition:
         """
         h, w, _ = self.img.shape
         index_str, indexes, location = self.locate_key_words()
+        # print("location:", location)
+        # print("index_str:", index_str)
+        # print("indexes:", indexes)
         try:
             index_list = min(index_str)
             temp_index = indexes[index_list]
@@ -310,6 +313,7 @@ class Recognition:
             x2 = x1 + location['Width'][temp_index]
             y2 = y1 + location['Height'][temp_index]
             center = (x2 + 5*location['Width'][temp_index], y2)
+            print("center:", center)
             ratio = 0.0
             if w > 0 and h > 0:
                 ratio = (center[0]/w, center[1]/h)
@@ -317,7 +321,10 @@ class Recognition:
                 pass
             cv2.circle(self.img, center, 150, (255, 0, 0), thickness=5)
             cv2.imwrite(self.save_path, self.img)
+            print("center", center)
+            print("ratio:", ratio)
             return center, ratio
+
         except Exception as e:
             RaiseError().logger()
             logging.exception(e)
@@ -420,11 +427,12 @@ def image_saver(img_path, save_path):
 
 if __name__ == "__main__":
     camera = 2
-    # path = "/home/devin/Documents/qianhai_devin/stamp_machinery/ocr/jpg/loan/3.jpg"
-    # save_path = "/home/devin/Documents/qianhai_devin/stamp_machinery/stamp01/"
+    path = "/home/devin/Documents/qianhai_devin/stamp_machinery/ocr/jpg/loan/3.jpg"
+    # path = '/home/devin/Documents/qianhai_devin/stamp_machinery/Saber/Stamper_GUI/Resource/Temp_img/contract.jpg'
+    save_path = "/home/devin/Documents/qianhai_devin/stamp_machinery/Saber/Stamper_GUI/Resource/Temp_img/drawn_img.jpg"
 
-    # location = contract_detecting(path, save_path)
-    # print("location:", location)
+    location = contract_detecting(path, save_path)
+    print("location:", location)
     # img = cv2.imread(path)
     # image_saver(img, save_path)
 
