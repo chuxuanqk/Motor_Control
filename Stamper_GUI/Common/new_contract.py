@@ -302,7 +302,7 @@ class Recognition:
         """
         h, w, _ = self.img.shape
         index_str, indexes, location = self.locate_key_words()
-        # print("location:", location)
+        print("location:", location)
         # print("index_str:", index_str)
         # print("indexes:", indexes)
         try:
