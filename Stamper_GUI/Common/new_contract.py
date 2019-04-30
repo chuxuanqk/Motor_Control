@@ -322,7 +322,7 @@ class Recognition:
             cv2.circle(self.img, center, 150, (255, 0, 0), thickness=5)
             cv2.imwrite(self.save_path, self.img)
             print("center", center)
-            print("ratio:", ratio)
+            # print("ratio:", ratio)
             return center, ratio
 
         except Exception as e:
