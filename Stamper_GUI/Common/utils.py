@@ -145,10 +145,11 @@ class Rc_Timer(QThread):
     def run(self):
         with QMutexLocker(self.mutex):
             self.stoped = False
-        print("开始", contract_path, drawn_img_path)
-
-        coord_dict = contract_detecting(contract_path, drawn_img_path)
-        print("coord:", coord_dict)
+        try:
+            coord_dict = contract_detecting(contract_path, drawn_img_path)
+            print("coord:", coord_dict)
+        except Exception as e:
+            print("Rc_Timer:", str(e))
         self.Rc_signal.emit(coord_dict)
 
         return

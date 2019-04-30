@@ -302,7 +302,7 @@ class Recognition:
         """
         h, w, _ = self.img.shape
         index_str, indexes, location = self.locate_key_words()
-        print("location:", location)
+        # print("location:", location)
         # print("index_str:", index_str)
         # print("indexes:", indexes)
         try:
@@ -322,7 +322,7 @@ class Recognition:
             cv2.circle(self.img, center, 150, (255, 0, 0), thickness=5)
             cv2.imwrite(self.save_path, self.img)
             print("center", center)
-            # print("ratio:", ratio)
+            print("ratio:", ratio)
             return center, ratio
 
         except Exception as e:
