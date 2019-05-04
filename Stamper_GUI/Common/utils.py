@@ -21,7 +21,7 @@ class CommonHelper:
         with open(style, 'r', encoding='utf-8') as f:
             return f.read()
 
-
+# 人脸识别
 # def face_recog(known_face_encodings, known_face_names, frame):
 #     """
 #     :param known_face_encodings:
