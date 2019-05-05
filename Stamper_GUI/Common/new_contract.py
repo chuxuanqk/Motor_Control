@@ -139,7 +139,7 @@ class Recognition:
     def __init__(self, img, save_path):
         self.img = img
         self.save_path = save_path
-        self.key_lsit = Config.KEY_LIST
+        self.key_list = Config.KEY_LIST
 
     @staticmethod
     def pick_out_text(lines, texts, top, left, width, height):
@@ -282,7 +282,7 @@ class Recognition:
                 location: 记录文字对应在图片中的位置信息
         """
         index_str = []
-        key_list = self.key_lsit
+        key_list = self.key_list
         indexes, strings, location = self.get_key_words()
         for key in key_list:
             index_keys = strings.find(key)
@@ -401,8 +401,8 @@ def contract_detecting(path, save_path):
     """
     识别主函数
     param path: 待识别图片的路径
-    :param save_path: 识别后的保存路径
-    :return: 包含A4纸上的圆心坐标，和圆心所在的区域的字典
+    param save_path: 识别后的保存路径
+    return: 包含A4纸上的圆心坐标，和圆心所在的区域的字典
     """
     img = cv2.imread(path)
     degree = CorrectImage(img).calc_degree()
