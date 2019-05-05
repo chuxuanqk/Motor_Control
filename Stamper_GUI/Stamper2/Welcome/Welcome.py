@@ -185,9 +185,12 @@ class MainForm(QMainWindow, Ui_Main):
             X_ = zero_str + str(X_)
 
         # 目前Y轴2个电机带动纸行走的距离无法确定，先设置默认值0
-        Y_ = center[1]
-        Y_1_MM = '000'
-        Y_2_MM = '000'
+        Y_ = str(center[1])
+        if(len(Y_)!=3):
+            zero_str = '0'*(3-len(Y_))
+            Y_ = zero_str + str(Y_)
+        Y_1_MM = '060'
+        Y_2_MM = Y_
 
         # 设置印章ID
         Seal_id = self.Preview.Seal_type.currentData()
