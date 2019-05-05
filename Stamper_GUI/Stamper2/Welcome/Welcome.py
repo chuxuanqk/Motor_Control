@@ -3,20 +3,21 @@ __author__ = 'Saber'
 __date__ = '26/3/19 下午4:09'
 
 
+import time
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QPainter, QPixmap, QImage
 from PyQt5.QtCore import pyqtSignal, QThread, QTimer, Qt
 from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
 
 from .UI_Welcome import Ui_Main
-from Stamper2.Face_Rc.Face_Rc import Rc_Form
+# from Stamper2.Face_Rc.Face_Rc import Rc_Form
 from Stamper2.Preview.Preview import Preview_Form
-from Stamper2.Wait_Form.Wait_Form import Shadow_Form, Wait_Form
+# from Stamper2.Wait_Form.Wait_Form import Shadow_Form, Wait_Form
 from Stamper2.Hand_Mode.HandMode import Hand_movement_Form
-from Stamper2.Serial.Serial import SerialWork
+# from Stamper2.Serial.Serial import SerialWork
 
-from setting import welcome, drawn_img_path, contract_path
-from Common.new_contract import contract_detecting
+from setting import welcome, drawn_img_path, contract_path, save_img_path
+from Common.new_contract import contract_detecting, image_saver
 from Common.utils import Rc_Timer
 
 
@@ -81,7 +82,12 @@ class MainForm(QMainWindow, Ui_Main):
         设置串口，并发送指令
         :return:
         """
-        # 设置发送数据
+        # 1.保存盖章图片，历史留底
+        loacltime = time.strftime("%Y%m%d%H%M%S", time.localtime())
+        save_img_name = save_img_path+loacltime+'.jpg'
+        image_saver(contract_path, save_img_name)
+
+        # 2.设置发送数据
         # self.serialwork.Set_sendData(self.senddata)
         # self.serialwork.writeData()
 
@@ -106,7 +112,6 @@ class MainForm(QMainWindow, Ui_Main):
         else:
             print("open fault")
 
-
     def RcMode(self):
         """
         自动识别盖章
@@ -118,6 +123,7 @@ class MainForm(QMainWindow, Ui_Main):
                 # self.coord_dict = contract_detecting(contract_path, drawn_img_path)       # 返回已识别的位置
                 # self.Hand.Set_label_image(drawn_img_path)
                 # self.Hand.show_self()
+                # 开启识别线程
                 self.rc_time.start()
             else:
                 self.Preview.Open_capture()      # 重新打开摄像头
