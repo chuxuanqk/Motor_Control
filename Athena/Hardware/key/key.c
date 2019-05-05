@@ -222,7 +222,7 @@ void EXTI9_5_IRQHandler()
 				if(K2==0)
 				{
 						FLAG = PTE2;
-						Y2_TIM_DisableOC;															// 停止Y2电机
+						//Y2_TIM_DisableOC;															// 停止Y2电机
 						printf("EXTI_Y2\r\n");
 						//Disable_TIMX_OCXInit(Y2_TIMx, TIM_OC2Init);
 				}
@@ -248,7 +248,7 @@ void EXTI9_5_IRQHandler()
 				if(TP==0)
 				{
 						srd.run_state = STOP;					// 停止运动
-						FLAG = TP_Limit;      				// 转盘限位
+						//FLAG = TP_Limit;      				// 转盘限位
 						printf("TP_Limit\r\n");
 				}
 		}

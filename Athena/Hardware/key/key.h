@@ -7,12 +7,12 @@
 #define S1 PEin(4)         
 #define S2 PEin(3)         
 //#define S3 PEin(2) 
-#define ZU PEin(2)					// Z轴上限开关
+#define ZU PEin(2)						// Z轴上限开关
 //#define K1 PEin(5)          // 光电开关Y1, PE5无法使用,可能是引脚资源的问题
-#define K1 PEin(9)          // 光电开关Y1
-#define K2 PEin(6)          // 光电开关Y2
-#define LX PEin(7)          // X轴限位开关
-#define TP PEin(8)        	// 转盘限位开关
+#define K1 PEin(9)          	// 光电开关Y1
+#define K2 PEin(6)          	// 光电开关Y2
+#define LX PEin(7)          	// X轴限位开关
+#define TP PEin(8)        		// 转盘限位开关
 //#define ZD PEin(9)          // Z轴下限开关
 
 

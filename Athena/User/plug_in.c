@@ -188,12 +188,11 @@ void Motor_Reset(void)
 		int16_t tp_minfre = 800;
 	
 		FLAG = 0;
-		
 		// 转盘复位
 		Motor_Move(tp_rad, tp_maxfre, tp_minfre, TP_MOTOR);
 		while(Status != 0);
 
-		Motor_Move(tp_rad*4, tp_maxfre, tp_minfre, TP_MOTOR);
+		Motor_Move(-(tp_rad*4), tp_maxfre, tp_minfre, TP_MOTOR);
 		while(Status != 0);
 			
 		// X轴复位
@@ -228,9 +227,8 @@ void Motor_Reset(void)
 *********************************************/
 void Paper_Move_In(void)
 {
-		uint16_t Y1_arr = 19999;     // 9999/ (8*10^6)/10^4 = 800
-		uint16_t Y2_arr = 9999;
-		
+		uint16_t Y1_arr = 39999;    	 // 9999/   (8*10^6)/2*10^4 = 200    
+		uint16_t Y2_arr = 19999;      	 // 19999/   (8*10^6)/10^4 = 400	Y2周长:78.5mm, (78.5/2)=39.25mm/s		
 		
 		Motor_Y1_Init(Y1_arr, (Y1_arr/2), CCW);
 		Motor_Y2_Init(Y2_arr, (Y2_arr/2), CCW);
@@ -252,6 +250,42 @@ void Paper_Move_In(void)
 			delay_ms(300);
 			Y2_TIM_DisableOC;
 		}
+}
+
+
+/********************************************
+* 函数名: 			Paper_Move_In2
+* 函数功能: 		走纸第一阶段Y1和Y2走纸距离控制, Y1:Y2 = 1:1.68
+* 输入: 			Y1_speed  Y1轴速度  			(mm/s)
+*             Y2_speed  Y2轴速度  			(mm/s)
+*							y_coord   Y轴盖章标点		(mm)
+* 输出: 			无
+*********************************************/
+void Paper_Move_In2(uint16_t Y1_speed, uint16_t Y2_speed,uint16_t Y1_coord, uint16_t Y2_coord)
+{
+		uint16_t Y1_arr = (PI*Y1_speed*T1_FREQ)/(R_Y1*400*100);    	 			// 9999/   (8*10^6)/2*10^4 = 200    
+		uint16_t Y2_arr = (PI*Y1_speed*T1_FREQ)/(R_Y2*400*100);      	 		// 19999/  (8*10^6)/10^4 = 400	Y2周长:78.5mm, (78.5/2)=39.25mm/s		
+		uint16_t Y1_delay_time = (Y1_coord*1000)/Y1_speed;								// 延时 Y1_delay_time ms
+		uint16_t Y2_delay_time = (Y2_coord*1000)/Y2_speed;   							// 延时 Y2_delay_time ms
+		
+		Motor_Y1_Init(Y1_arr, (Y1_arr/2), CCW);
+		Motor_Y2_Init(Y2_arr, (Y2_arr/2), CCW);
+
+		while(K1==1);
+
+		printf("In FLAG:%d\r\n", FLAG);
+		if(FLAG == PTE1)
+		{
+				FLAG = 0;
+				delay_ms(Y1_delay_time);
+				Y1_TIM_DisableOC;
+				printf("Y1停止\r\n");
+				EXTIX_ENABLE(EXTI9_5_IRQn);
+		}
+		
+		delay_ms(Y2_delay_time);
+		Y2_TIM_DisableOC;
+		FLAG = 0;
 }
 	
 
@@ -402,10 +436,6 @@ void Stamper_Ctr(void)
 
 		while(1)
 		{
-			
-//				delay_s(1);
-//				printf("Hello world");
-			
 				if(USART_RX_STA&0x8000)
 				{
 						ret = Decode();
@@ -415,7 +445,9 @@ void Stamper_Ctr(void)
 					
 								// 1.1 进纸
 								printf("usrat start\r\n");
-								Paper_Move_In();
+								//Paper_Move_In();
+								Paper_Move_In2(Y1_SPEED, Y2_SPEED, cmd.Y_1_MM, cmd.Y_2_MM);
+							
 								EXTIX_DISABLE(EXTI9_5_IRQn);
 							
 								// 1.2 选取印章
