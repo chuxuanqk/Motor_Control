@@ -127,7 +127,6 @@ class CorrectImage:
                 y2 = int(round(y0 - 1000 * a))
 
                 sum += theta
-
             cv2.line(line_image, (x1, y1), (x2, y2), (0, 0, 255), 1, cv2.LINE_AA)
         average = sum / len(lines)
         angle = self.degree_trans(average) - 90
@@ -302,9 +301,6 @@ class Recognition:
         """
         h, w, _ = self.img.shape
         index_str, indexes, location = self.locate_key_words()
-        # print("location:", location)
-        # print("index_str:", index_str)
-        # print("indexes:", indexes)
         try:
             index_list = min(index_str)
             temp_index = indexes[index_list]
@@ -313,7 +309,6 @@ class Recognition:
             x2 = x1 + location['Width'][temp_index]
             y2 = y1 + location['Height'][temp_index]
             center = (x2 + 5*location['Width'][temp_index], y2)
-            print("center:", center)
             ratio = 0.0
             if w > 0 and h > 0:
                 ratio = (center[0]/w, center[1]/h)
@@ -321,8 +316,6 @@ class Recognition:
                 pass
             cv2.circle(self.img, center, 150, (255, 0, 0), thickness=5)
             cv2.imwrite(self.save_path, self.img)
-            print("center", center)
-            print("ratio:", ratio)
             return center, ratio
 
         except Exception as e:
@@ -410,7 +403,6 @@ def contract_detecting(path, save_path):
     center, _ = Recognition(img, save_path).calculate_center()
     final_center, region = offset_of_image_and_a4(rotate, center)
     coordinate_and_region = {"final_center": final_center, "region": region}
-    print("final_center:", final_center)
     return coordinate_and_region
 
 
