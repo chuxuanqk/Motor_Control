@@ -2,16 +2,16 @@
 
 class Config:
     """
-    Parameters should be measured.
-    DEGREE:              The degree need to be rotating
-    A4:                  The height, and the width of A4 paper(mm)
-    DELTAS_HEIGHT:       The distance between the left side of image and the left side of A4 paper
-    DELTAS_WIDTH:        The distance between top side of image and top side of A4 paper
-    IMAGE_REAL_SIZE:     The height, and the width of image(mm)
-    DISTANCE_TO_ORIGIN:  The distance between the left side of A4 paper and the origin point.
-    REGION_WIDTH:        The height of each region
-    CLICK_WINDOW:        The size of click window
-    KEY_LIST:            The key words need to be found out
+    需要手动测量的参数.
+    DEGREE:              拍照后图片需要旋转的角度（通常为90度，可根据视野中图片的方向调整）
+    A4:                  A4纸的宽高，宽为：210mm，高为：297mm
+    DELTAS_HEIGHT:       图片的左边缘离A4纸的左边缘的实际距离（单位：mm）
+    DELTAS_WIDTH:        图片的上边缘离A4纸的上边缘的实际距离（单位：mm）
+    IMAGE_REAL_SIZE:     图片的宽高（实际测量值，单位：mm）
+    DISTANCE_TO_ORIGIN:  A4纸的左边缘距离坐标原点的距离.
+    REGION_WIDTH:        将A4纸分区后，对应每个区域的高度
+    CLICK_WINDOW:        手动点击的桌面窗口的大小
+    KEY_LIST:            需要从合同中找出的关键字
     """
     DEGREE = 90
     A4 = [297, 210]
