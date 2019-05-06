@@ -184,8 +184,8 @@ void Motor_Reset(void)
 		int16_t x_minfre = 800;
 		int16_t z_maxfre = 800*4;
 		int16_t z_minfre = 800;
-		int16_t tp_maxfre = 800*2;
-		int16_t tp_minfre = 800;
+		int16_t tp_maxfre = 800;
+		int16_t tp_minfre = 400;
 	
 		FLAG = 0;
 		// 转盘复位
@@ -239,7 +239,7 @@ void Paper_Move_In(void)
 		if(FLAG == PTE1)
 		{
 				FLAG = 0;
-				delay_s(1);
+				delay_s(2);
 				printf("Y1停止\r\n");
 				Y1_TIM_DisableOC;
 				EXTIX_ENABLE(EXTI9_5_IRQn);
@@ -263,8 +263,8 @@ void Paper_Move_In(void)
 *********************************************/
 void Paper_Move_In2(uint16_t Y1_speed, uint16_t Y2_speed,uint16_t Y1_coord, uint16_t Y2_coord)
 {
-		uint16_t Y1_arr = (PI*Y1_speed*T1_FREQ)/(R_Y1*400*100);    	 			// 9999/   (8*10^6)/2*10^4 = 200    
-		uint16_t Y2_arr = (PI*Y1_speed*T1_FREQ)/(R_Y2*400*100);      	 		// 19999/  (8*10^6)/10^4 = 400	Y2周长:78.5mm, (78.5/2)=39.25mm/s		
+		uint16_t Y1_arr = ARR_Y1;    	 									//  9999/   (8*10^6)/2*10^4 = 200    
+		uint16_t Y2_arr = ARR_Y2;      	 								// 19999/  (8*10^6)/10^4 = 400	Y2周长:78.5mm, (78.5/2)=39.25mm/s		
 		uint16_t Y1_delay_time = (Y1_coord*1000)/Y1_speed;								// 延时 Y1_delay_time ms
 		uint16_t Y2_delay_time = (Y2_coord*1000)/Y2_speed;   							// 延时 Y2_delay_time ms
 		
@@ -277,6 +277,7 @@ void Paper_Move_In2(uint16_t Y1_speed, uint16_t Y2_speed,uint16_t Y1_coord, uint
 		if(FLAG == PTE1)
 		{
 				FLAG = 0;
+				printf("delay_time:%d\r\n", Y1_delay_time);
 				delay_ms(Y1_delay_time);
 				Y1_TIM_DisableOC;
 				printf("Y1停止\r\n");
@@ -358,26 +359,43 @@ void Exchange_Seal(int32_t Z_mm, int32_t Seal_id)
 		// 电机速度参数
 		int16_t z_maxfre = 800*4;
 		int16_t z_minfre = 800;
-		int16_t tp_maxfre = 800*4;
-		int16_t tp_minfre = 800;
+		int16_t tp_maxfre = 800;
+		int16_t tp_minfre = 400;
 
 		// 更换印章
-		Motor_Move(Seal_id, tp_maxfre, tp_minfre, TP_MOTOR);
-		while(Status != 0);
+		if(Seal_id != 0)
+		{
+				Motor_Move(Seal_id, tp_maxfre, tp_minfre, TP_MOTOR);
+				while(Status != 0);
+			
+				Servo_Open();
+			
+				printf("向下运动\r\n");
+				// Z轴向下运动
+				Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
+				while(Status != 0);
 
-		Servo_Open();
-	
-		printf("向下运动\r\n");
-		// Z轴向下运动
-		Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
-		while(Status != 0);
+				Servo_Close();
+			
+				printf("向上运动\r\n");
+				// Z轴向上运动
+				Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
+				while(Status != 0);	
+		}else{
+				Servo_Open();
+			
+				printf("向下运动\r\n");
+				// Z轴向下运动
+				Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
+				while(Status != 0);
 
-		Servo_Close();
-	
-		printf("向上运动\r\n");
-		// Z轴向上运动
-		Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
-		while(Status != 0);	
+				Servo_Close();
+			
+				printf("向上运动\r\n");
+				// Z轴向上运动
+				Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
+				while(Status != 0);	
+		}
 }
 
 
@@ -395,24 +413,38 @@ void Reset_Seal(int32_t Z_mm, int32_t Seal_id)
 		// 电机速度参数
 		int16_t z_maxfre = 800*4;
 		int16_t z_minfre = 800;
-		int16_t tp_maxfre = 800*4;
-		int16_t tp_minfre = 800;
+		int16_t tp_maxfre = 800;
+		int16_t tp_minfre = 400;
 	
-		// Z轴向下运动
-		Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
-		while(Status != 0);
+		if(Seal_id != 0)
+		{
+				// Z轴向下运动
+				Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
+				while(Status != 0);
 
-		Servo_Open();
-		
-		// Z轴向上运动
-		Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
-		while(Status != 0);	
-	
-		Servo_Close();
-	
-		// 复位印章位置
-		Motor_Move(-Seal_id, tp_maxfre, tp_minfre, TP_MOTOR);
-		while(Status != 0);
+				Servo_Open();
+				
+				// Z轴向上运动
+				Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
+				while(Status != 0);	
+			
+				Servo_Close();
+		}else{
+				// Z轴向下运动
+				Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
+				while(Status != 0);
+
+				Servo_Open();
+				
+				// Z轴向上运动
+				Motor_Move(z_rad, z_maxfre, z_minfre, Z_MOTOR);
+				while(Status != 0);	
+			
+				Servo_Close();
+				// 复位印章位置
+				Motor_Move(-Seal_id, tp_maxfre, tp_minfre, TP_MOTOR);
+				while(Status != 0);
+		}
 }	
 
 
@@ -432,8 +464,6 @@ void Stamper_Ctr(void)
 
 		// 1.电机复位初始化
 		//Motor_Reset(); 
-	
-
 		while(1)
 		{
 				if(USART_RX_STA&0x8000)
@@ -445,17 +475,17 @@ void Stamper_Ctr(void)
 					
 								// 1.1 进纸
 								printf("usrat start\r\n");
-								//Paper_Move_In();
-								Paper_Move_In2(Y1_SPEED, Y2_SPEED, cmd.Y_1_MM, cmd.Y_2_MM);
+								Paper_Move_In();
+								//Paper_Move_In2(Y1_SPEED, Y2_SPEED, cmd.Y_1_MM, cmd.Y_2_MM);
 							
 								EXTIX_DISABLE(EXTI9_5_IRQn);
 							
 								// 1.2 选取印章
-								Exchange_Seal(z_mm, cmd.SEAL_ID);	
+								Exchange_Seal(z_mm, SEAL_ID[cmd.SEAL_ID]);	
 								// 1.3 设置盖章坐标
 								Cover_Seal(cmd.X_MM, z_down_mm);   
 								// 1.4 印章复位
-								Reset_Seal(z_mm, cmd.SEAL_ID);
+								Reset_Seal(z_mm, SEAL_ID[cmd.SEAL_ID]);
 								EXTIX_ENABLE(EXTI9_5_IRQn);
 							
 								// 1.5 出纸

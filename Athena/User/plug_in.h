@@ -11,9 +11,12 @@
 
 #define R_Y1  			22
 #define R_Y2  			13
-#define PI	 				314
-#define Y1_SPEED    20
-#define Y2_SPEED    34
+#define L_Y1 				138
+#define L_Y2				82
+#define Y1_SPEED    60
+#define Y2_SPEED    100
+#define ARR_Y1			((L_Y1*10000)/Y1_SPEED)
+#define ARR_Y2			((L_Y2*10000)/Y2_SPEED)
 
 extern float FRE_MAX;
 extern float FRE_MIN;
