@@ -362,7 +362,7 @@ def draw_img(center, contract_path, draw_image_path):
     """
     """
     绘制盖章图
-    return:
+    return: 盖章位置圆心坐标
     """
     x_click = Config.CLICK_WINDOW[0]
     y_click = Config.CLICK_WINDOW[1]
