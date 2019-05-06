@@ -109,6 +109,7 @@ class MainForm(QMainWindow, Ui_Main):
         # 打开串口
         if ret == True:
             self.com.writeData(bytes(self.senddata, encoding='utf8'))
+            print("senddata:", self.senddata)
         else:
             print("open fault")
 
