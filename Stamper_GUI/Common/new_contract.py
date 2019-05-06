@@ -344,7 +344,8 @@ def offset_of_image_and_a4(img, center):
     y_ = int((center[1] / ih) * i_size[0] + deltas[0])
     x = int((center[0] / iw) * i_size[1] + deltas[1])
     y = a4[0] - y_
-    real_center = (int(dis_origin - x), y)
+    y_dis = Config.STAMP_REGION
+    real_center = (int(dis_origin - x), y+y_dis)
     region_width = Config.REGION_WIDTH
     region_ = 0
     if (y % region_width) > 0:

@@ -21,4 +21,5 @@ class Config:
     DISTANCE_TO_ORIGIN = 246
     REGION_WIDTH = 59
     CLICK_WINDOW = [600, 420]
+    STAMP_REGION = 45
     KEY_LIST = ['借款方', '贷款方', '出借方', '甲方', '借款人', '盖章']
