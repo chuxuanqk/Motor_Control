@@ -99,6 +99,7 @@ int16_t Decode(void)
 						cmd.X_MM =  (USART_RX_BUF[0]-48)*100+(USART_RX_BUF[1]-48)*10+(USART_RX_BUF[2]-48);
 						cmd.Y_1_MM =  (USART_RX_BUF[3]-48)*100+(USART_RX_BUF[4]-48)*10+(USART_RX_BUF[5]-48);
 						cmd.Y_2_MM=  (USART_RX_BUF[6]-48)*100+(USART_RX_BUF[7]-48)*10+(USART_RX_BUF[8]-48);
+						//cmd.Y_2_MM = cmd.Y_2_MM*1.5;
 						cmd.SEAL_ID =  (USART_RX_BUF[9]-48);
 						
 						printf("X_mm:%d\r\n", cmd.X_MM);
@@ -265,28 +266,28 @@ void Paper_Move_In2(uint16_t Y1_speed, uint16_t Y2_speed,uint16_t Y1_coord, uint
 {
 		uint16_t Y1_arr = ARR_Y1;    	 									//  9999/   (8*10^6)/2*10^4 = 200    
 		uint16_t Y2_arr = ARR_Y2;      	 								// 19999/  (8*10^6)/10^4 = 400	Y2周长:78.5mm, (78.5/2)=39.25mm/s		
-		uint16_t Y1_delay_time = (Y1_coord*1000)/Y1_speed;								// 延时 Y1_delay_time ms
-		uint16_t Y2_delay_time = (Y2_coord*1000)/Y2_speed;   							// 延时 Y2_delay_time ms
-		
+		uint16_t Y1_delay_time = ((Y1_coord)/Y1_speed);								// 延时 Y1_delay_time ms
+		uint16_t Y2_delay_time = ((Y2_coord*500)/Y2_speed);   							// 延时 Y2_delay_time ms
+
+		EXTIX_DISABLE(EXTI9_5_IRQn);
 		Motor_Y1_Init(Y1_arr, (Y1_arr/2), CCW);
 		Motor_Y2_Init(Y2_arr, (Y2_arr/2), CCW);
 
 		while(K1==1);
 
-		printf("In FLAG:%d\r\n", FLAG);
-		if(FLAG == PTE1)
-		{
-				FLAG = 0;
-				printf("delay_time:%d\r\n", Y1_delay_time);
-				delay_ms(Y1_delay_time);
-				Y1_TIM_DisableOC;
-				printf("Y1停止\r\n");
-				EXTIX_ENABLE(EXTI9_5_IRQn);
-		}
+		printf("delay_time:%d\r\n", Y1_delay_time);
+		delay_s(Y1_delay_time);
+		delay_ms(100);
+		Y1_TIM_DisableOC;
+		printf("Y1停止\r\n");
 		
+		printf("delay_time:%d\r\n", Y2_delay_time);
 		delay_ms(Y2_delay_time);
+		delay_ms(Y2_delay_time);
+	
 		Y2_TIM_DisableOC;
 		FLAG = 0;
+		EXTIX_ENABLE(EXTI9_5_IRQn);
 }
 	
 
@@ -429,6 +430,10 @@ void Reset_Seal(int32_t Z_mm, int32_t Seal_id)
 				while(Status != 0);	
 			
 				Servo_Close();
+				
+				// 复位印章位置
+				Motor_Move(-Seal_id, tp_maxfre, tp_minfre, TP_MOTOR);
+				while(Status != 0);
 		}else{
 				// Z轴向下运动
 				Motor_Move(-z_rad, z_maxfre, z_minfre, Z_MOTOR);
@@ -441,9 +446,6 @@ void Reset_Seal(int32_t Z_mm, int32_t Seal_id)
 				while(Status != 0);	
 			
 				Servo_Close();
-				// 复位印章位置
-				Motor_Move(-Seal_id, tp_maxfre, tp_minfre, TP_MOTOR);
-				while(Status != 0);
 		}
 }	
 
@@ -475,8 +477,8 @@ void Stamper_Ctr(void)
 					
 								// 1.1 进纸
 								printf("usrat start\r\n");
-								Paper_Move_In();
-								//Paper_Move_In2(Y1_SPEED, Y2_SPEED, cmd.Y_1_MM, cmd.Y_2_MM);
+								//Paper_Move_In();
+								Paper_Move_In2(Y1_SPEED, Y2_SPEED, cmd.Y_1_MM, cmd.Y_2_MM);
 							
 								EXTIX_DISABLE(EXTI9_5_IRQn);
 							
@@ -523,6 +525,8 @@ void Stamper_Ctr(void)
 				if(FLAG == S2_KEY)
 				{
 							Motor_Reset();
+							//Paper_Move_In2(Y1_SPEED, Y2_SPEED, 60, 270);
+					
 //						FLAG = 0;
 //					
 //						EXTIX_DISABLE(EXTI9_5_IRQn);

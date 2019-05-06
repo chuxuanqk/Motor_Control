@@ -247,8 +247,8 @@ void EXTI9_5_IRQHandler()
 				EXTI_ClearITPendingBit(EXTI_Line8);	
 				if(TP==0)
 				{
-						srd.run_state = STOP;					// 停止运动
-						//FLAG = TP_Limit;      				// 转盘限位
+						srd.run_state = STOP;							// 停止运动
+						//FLAG = TP_Limit;      					// 转盘限位
 						printf("TP_Limit\r\n");
 				}
 		}
