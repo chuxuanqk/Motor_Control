@@ -372,7 +372,7 @@ def draw_img(center, contract_path, draw_image_path):
         raise IOError("Please put image!")
     else:
         center = (int(center[0] / (x_click / img.shape[1])), int(center[1] / (y_click / img.shape[0])))
-    cv2.circle(img, center, radius=250, color=(255, 0, 0), thickness=5)
+    cv2.circle(img, center, radius=150, color=(255, 0, 0), thickness=5)
     cv2.imwrite(draw_image_path, img)
     center = center
 
