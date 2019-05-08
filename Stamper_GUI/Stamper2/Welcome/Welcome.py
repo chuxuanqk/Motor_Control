@@ -43,11 +43,12 @@ class MainForm(QMainWindow, Ui_Main):
         # self.serialthread.started.connect(self.serialwork.init)
         # self.serialthread.start()
 
-        self.Preview = Preview_Form()
+        self.Preview = Preview_Form(self)
         self.Preview.Rc_btn.clicked.connect(self.RcMode)
         self.Preview.Hand_btn.clicked.connect(self.HandMode)
         self.Preview.ensure_btn.clicked.connect(self.SerialMode)
         self.Preview.cancel_btn.clicked.connect(self.show_self)
+        self.Preview.close()
 
         self.Hand = Hand_movement_Form(self.Preview)
         # self.Hand.ensure_btn.clicked.connect(self.HandData)
@@ -75,7 +76,7 @@ class MainForm(QMainWindow, Ui_Main):
         """
         # self.Preview.show_Repaint()
         self.Preview.show_self()
-        self.hide()
+        #self.hide()
 
     def SerialMode(self):
         """
