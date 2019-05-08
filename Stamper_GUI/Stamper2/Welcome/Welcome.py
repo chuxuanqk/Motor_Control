@@ -163,19 +163,22 @@ class MainForm(QMainWindow, Ui_Main):
         确认坐标
         :return:
         """
-        coo_info = self.Hand.Get_img_info()
+        try:
+            coo_info = self.Hand.Get_img_info()
 
-        if len(coo_info) != 0:
-            self.coord_dict = coo_info
+            if len(coo_info) != 0:
+                self.coord_dict = coo_info
 
-        self.SetData(self.coord_dict)
+            self.SetData(self.coord_dict)
 
-        self.Preview.Device_Release()        # 释放资源
+            self.Preview.Device_Release()        # 释放资源
 
-        self.timer = QTimer()
-        self.timer.setSingleShot(1000)
-        self.Set_preview_lab()
-        self.Hand.close()
+            self.timer = QTimer()
+            self.timer.setSingleShot(1000)
+            self.Set_preview_lab()
+            self.Hand.close()
+        except Exception as e:
+            print("setCoord:", str(e))
 
     def SetData(self, coord_info):
         """
