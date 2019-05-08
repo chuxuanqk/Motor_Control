@@ -84,35 +84,40 @@ class MainForm(QMainWindow, Ui_Main):
         :return:
         """
         # 1.保存盖章图片，历史留底
-        loacltime = time.strftime("%Y%m%d%H%M%S", time.localtime())
-        save_img_name = save_img_path+loacltime+'.jpg'
+        # loacltime = time.strftime("%Y%m%d%H%M%S", time.localtime())
+        save_img_name = save_img_path
         image_saver(contract_path, save_img_name)
 
         # 2.设置发送数据
         # self.serialwork.Set_sendData(self.senddata)
         # self.serialwork.writeData()
 
-        self.serianame = ''
-        self.com = QSerialPort()
-        self.cominfo = QSerialPortInfo()
-        self.infos = self.cominfo.availablePorts()
-        for info in self.infos:
-            print("Name:", info.portName())
-            print("vendoridentifier:", info.vendorIdentifier())
 
-            # 串口信息认证
-            if info.vendorIdentifier() == 6790:
-                self.serianame = info.portName()
+        try:
+            self.serianame = ''
+            self.com = QSerialPort()
+            self.cominfo = QSerialPortInfo()
+            self.infos = self.cominfo.availablePorts()
+            for info in self.infos:
+                print("Name:", info.portName())
+                print("vendoridentifier:", info.vendorIdentifier())
 
-        self.com.setPortName(self.serianame)
-        self.com.setBaudRate(9600)
-        ret = self.com.open(QSerialPort.ReadWrite)
-        # 打开串口
-        if ret == True:
-            self.com.writeData(bytes(self.senddata, encoding='utf8'))
-            print("senddata:", self.senddata)
-        else:
-            print("open fault")
+                # 串口信息认证
+                if info.vendorIdentifier() == 6790:
+                    self.serianame = info.portName()
+
+            self.com.setPortName(self.serianame)
+            self.com.setBaudRate(9600)
+            ret = self.com.open(QSerialPort.ReadWrite)
+            # 打开串口
+            if ret == True:
+                self.com.writeData(bytes(self.senddata, encoding='utf8'))
+                print("senddata:", self.senddata)
+            else:
+                print("open fault")
+        except Exception as e:
+            print("Except", str(e))
+
 
     def RcMode(self):
         """
