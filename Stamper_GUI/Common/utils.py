@@ -119,7 +119,7 @@ class Timer(QThread):
                 return
             self.Camer.emit()
             #10HZ发送一次信号
-            time.sleep(0.1)
+            time.sleep(0.3)
 
     def stop(self):
         with QMutexLocker(self.mutex):
