@@ -12,7 +12,7 @@ from PyQt5.QtSerialPort import QSerialPort, QSerialPortInfo
 from .UI_Welcome import Ui_Main
 # from Stamper2.Face_Rc.Face_Rc import Rc_Form
 from Stamper2.Preview.Preview import Preview_Form
-# from Stamper2.Wait_Form.Wait_Form import Shadow_Form, Wait_Form
+from Stamper2.Wait_Form.Wait_Form import Shadow_Form, Wait_Form
 from Stamper2.Hand_Mode.HandMode import Hand_movement_Form
 # from Stamper2.Serial.Serial import SerialWork
 
@@ -118,12 +118,16 @@ class MainForm(QMainWindow, Ui_Main):
         except Exception as e:
             print("Except", str(e))
 
-
     def RcMode(self):
         """
         自动识别盖章
         :return:
         """
+        self.wait = Wait_Form(self)
+        self.wait.move(0, 0)
+        self.wait.raise_()
+        self.wait.show()
+
         try:
             if self.Preview.device.isOpened():
                 self.Preview.Currentframe_Save(contract_path)                            # 保存当前照片
@@ -143,6 +147,7 @@ class MainForm(QMainWindow, Ui_Main):
                 # self.coord_dict = contract_detecting(contract_path, drawn_img_path)
                 # self.Hand.Set_label_image(drawn_img_path)
                 # self.Hand.show_self()
+
                 self.rc_time.start()
 
         except Exception as e:
@@ -156,6 +161,7 @@ class MainForm(QMainWindow, Ui_Main):
         """
         self.coord_dict = coord_info
         self.Hand.Set_label_image(drawn_img_path)
+        self.wait.close_self()
         self.Hand.show_self()
 
     def SetCoord(self):

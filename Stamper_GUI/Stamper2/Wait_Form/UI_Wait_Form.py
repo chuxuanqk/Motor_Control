@@ -31,7 +31,10 @@ class Ui_Wait(object):
     """
     def setupUi(self, Form):
         Form.setObjectName("wait")
-        Form.resize(450, 140)
+        # Form.resize(450, 140)
+        Form.resize(1024, 768)
+        # Form.move(0, 0)
+        Form.setWindowOpacity(0.6)    # 虚化 0.7
         Form.raise_()
 
         screenResolution = QApplication.desktop()
@@ -45,13 +48,13 @@ class Ui_Wait(object):
         self.setWindowOpacity(1)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
-        self.setStyleSheet("#wait{\
+        self.setStyleSheet('#wait{\
                                 background-color: rgba(0, 0, 0, 0);\
-                                border-image:url(" + wait_img +");}")
+                                border-image:url('+back_img+');}')
 
         self.wait_lab = QLabel(Form)
         self.wait_lab.setObjectName("wait_lab")
-        self.wait_lab.setGeometry(QRect(10, 10, 440, 130))
+        self.wait_lab.setGeometry(QRect(300, 300, 440, 130))
         self.wait_lab.setStyleSheet("#wait_lab{\
                                         background-color: rgba(0, 0, 0, 0);\
                                         font-weight:Regular; \
@@ -60,13 +63,14 @@ class Ui_Wait(object):
                                         line-height:7px;\
                                         color:#FFFFFF;\
                                         text-align:center; \
+                                        border-image:url(" + wait_img + ")\
                                         }")
         self.wait_lab.setWordWrap(True)
 
         # 该AlignCenter标志不属于该PyQt5.Qt模块，而属于PyQt5.QtCore.Qt该类。设置文字水平垂直居中
         self.wait_lab.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
-        self.wait_lab.setText("打印中，请稍候...")
+        self.wait_lab.setText("识别中，请稍候...")
 
         self.retranslateUi(Form)
         QMetaObject.connectSlotsByName(Form)

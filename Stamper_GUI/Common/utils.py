@@ -143,6 +143,7 @@ class Rc_Timer(QThread):
         self.mutex = QMutex()
 
     def run(self):
+        coord_dict = {}
         with QMutexLocker(self.mutex):
             self.stoped = False
         try:
@@ -150,9 +151,8 @@ class Rc_Timer(QThread):
             print("coord:", coord_dict)
             self.Rc_signal.emit(coord_dict)
         except Exception as e:
+            # self.Rc_signal.emit(coord_dict)
             print("Rc_Timer:", str(e))
-
-
         return
 
     def stop(self):

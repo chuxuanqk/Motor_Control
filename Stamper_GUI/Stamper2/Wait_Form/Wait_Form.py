@@ -51,6 +51,14 @@ class Wait_Form(QDialog, Ui_Wait):
         painter.setRenderHint(QPainter.Antialiasing)
         self.style().drawPrimitive(QStyle.PE_Widget, opt, painter, self)
 
+    def mousePressEvent(self, event):
+        """
+        重写鼠标点击事件,隐藏主界面
+        :param event:
+        :return:
+        """
+        pass
+
 
 class Seal_Form(QDialog, Ui_seal):
     """
@@ -76,5 +84,8 @@ class Seal_Form(QDialog, Ui_seal):
         # 反锯齿
         painter.setRenderHint(QPainter.Antialiasing)
         self.style().drawPrimitive(QStyle.PE_Widget, opt, painter, self)
+
+
+
 
 
